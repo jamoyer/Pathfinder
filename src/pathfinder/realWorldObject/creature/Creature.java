@@ -4,6 +4,8 @@ import java.util.List;
 
 import pathfinder.realWorldObject.RealWorldObject;
 import pathfinder.realWorldObject.SizeCategory;
+import pathfinder.realWorldObject.creature.baseAttackBonus.BaseAttackBonusProgression;
+import pathfinder.realWorldObject.creature.classes.CharacterClass;
 
 /**
  * This is a template for any creature to implement. A creature would be
@@ -16,9 +18,9 @@ import pathfinder.realWorldObject.SizeCategory;
  */
 public class Creature extends RealWorldObject
 {
+    private CreatureClass creatureType;
     private int level;
     private int hitDie;
-    private String creatureType;
     private List<CharacterClass> classes;
     private CreatureDescription description;
     private AbilityScores abilityScores;
@@ -38,7 +40,7 @@ public class Creature extends RealWorldObject
      * Offensive Properties
      */
     private int initiative;
-    private int baseAttackBonus;
+    private BaseAttackBonusProgression baseAttackBonus;
     private int combatManueverBonus;
 
     /*
