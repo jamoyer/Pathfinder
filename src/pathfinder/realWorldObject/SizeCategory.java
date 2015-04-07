@@ -7,13 +7,15 @@ public enum SizeCategory
     Tiny(2, 4),
     Small(1, 2),
     Medium(0, 0),
-    Large(-1, -1),
+    Large(-1, -2),
     Huge(-2, -4),
     Gargantuan(-4, -6),
     Colossal(-8, -8);
 
     private int sizeModifier;
     private int flyModifier;
+    private int specialSizeModifier;
+    private int stealthModifier;
 
     // TODO add the other static information about size categories in here.
 
@@ -21,6 +23,8 @@ public enum SizeCategory
     {
         this.sizeModifier = sizeModifier;
         this.flyModifier = flyModifier;
+        this.specialSizeModifier = -1 * sizeModifier;
+        this.stealthModifier = 2 * flyModifier;
     }
 
     public int getSizeModifier()
@@ -30,7 +34,7 @@ public enum SizeCategory
 
     public int getSpecialSizeModifier()
     {
-        return -1 * sizeModifier;
+        return specialSizeModifier;
     }
 
     public int getFlyModifier()
@@ -40,6 +44,6 @@ public enum SizeCategory
 
     public int getStealthModifier()
     {
-        return 2 * flyModifier;
+        return stealthModifier;
     }
 }
