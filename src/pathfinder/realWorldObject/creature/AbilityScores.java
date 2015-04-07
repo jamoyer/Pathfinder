@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class AbilityScores
 {
 
-    private final ArrayList<AbilityScore> scores = new ArrayList<AbilityScore>(6);
+    private final ArrayList<AbilityScoreInstance> scores = new ArrayList<AbilityScoreInstance>(6);
     private static final int strIndex = 0;
     private static final int dexIndex = 1;
     private static final int conIndex = 2;
@@ -15,12 +15,12 @@ public class AbilityScores
 
     public AbilityScores(int str, int dex, int con, int intel, int wis, int cha)
     {
-        scores.add(strIndex, new AbilityScore("Strength", str));
-        scores.add(dexIndex, new AbilityScore("Dexterity", dex));
-        scores.add(conIndex, new AbilityScore("Constitution", con));
-        scores.add(intelIndex, new AbilityScore("Intelligence", intel));
-        scores.add(wisIndex, new AbilityScore("Wisdom", wis));
-        scores.add(chaIndex, new AbilityScore("Charisma", cha));
+        scores.add(strIndex, new AbilityScoreInstance(AbilityScore.Strength, str));
+        scores.add(dexIndex, new AbilityScoreInstance(AbilityScore.Dexterity, dex));
+        scores.add(conIndex, new AbilityScoreInstance(AbilityScore.Constitution, con));
+        scores.add(intelIndex, new AbilityScoreInstance(AbilityScore.Intelligence, intel));
+        scores.add(wisIndex, new AbilityScoreInstance(AbilityScore.Wisdom, wis));
+        scores.add(chaIndex, new AbilityScoreInstance(AbilityScore.Charisma, cha));
     }
 
     public int getStrengthScore()

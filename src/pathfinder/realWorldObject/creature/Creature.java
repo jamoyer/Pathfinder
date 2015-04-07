@@ -24,10 +24,10 @@ public class Creature extends RealWorldObject
     private List<CharacterClass> classes;
     private CreatureDescription description;
     private AbilityScores abilityScores;
-    // TODO skills and such
+    private List<Skill> skills;
     private List<EquipmentSlot> equippedItems;
     private Inventory inventory;
-    // TODO spells and such
+    private List<Spell> spells;
     // TODO feats and such
     private boolean carryable; // maybe we could just determine this property by
                                // creature weight?
