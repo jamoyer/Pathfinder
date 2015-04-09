@@ -1,4 +1,4 @@
-package pathfinder.realWorldObject.creature.savingThrow;
+package pathfinder.characters.savingThrow;
 
 /**
  * An interface for base saves. This allows for both good saving throws and bad

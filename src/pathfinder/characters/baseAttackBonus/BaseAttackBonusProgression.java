@@ -1,4 +1,4 @@
-package pathfinder.realWorldObject.creature.baseAttackBonus;
+package pathfinder.characters.baseAttackBonus;
 
 /**
  * Provides an interface for the different base attack bonus progressions so one

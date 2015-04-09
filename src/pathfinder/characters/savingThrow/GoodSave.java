@@ -1,4 +1,4 @@
-package pathfinder.realWorldObject.creature.savingThrow;
+package pathfinder.characters.savingThrow;
 
 /**
  * Gets the good saving throw for a particular level.

@@ -1,4 +1,4 @@
-package pathfinder.realWorldObject.creature.savingThrow;
+package pathfinder.characters.savingThrow;
 
 /**
  * Allows good and bad saves to be grouped together into a coherent saving throw

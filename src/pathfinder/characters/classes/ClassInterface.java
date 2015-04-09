@@ -1,9 +1,10 @@
-package pathfinder.realWorldObject.creature;
+package pathfinder.characters.classes;
 
 import java.util.List;
 
-import pathfinder.realWorldObject.creature.baseAttackBonus.BaseAttackBonusProgression;
-import pathfinder.realWorldObject.creature.savingThrow.BaseSavingThrowSet;
+import pathfinder.characters.baseAttackBonus.BaseAttackBonusProgression;
+import pathfinder.characters.savingThrow.BaseSavingThrowSet;
+import pathfinder.characters.skill.Skill;
 
 /**
  * Both Character class and creature types should inherit this interface since
@@ -13,7 +14,7 @@ import pathfinder.realWorldObject.creature.savingThrow.BaseSavingThrowSet;
  * @author jacob
  *
  */
-public interface CreatureClass
+public interface ClassInterface
 {
     public int getHitDieType();
 
@@ -23,7 +24,7 @@ public interface CreatureClass
 
     public int getSkillRanks();
 
-    public List<String> getClassSkills();
+    public List<Skill> getClassSkills();
 
     public String getProficiencies();
 

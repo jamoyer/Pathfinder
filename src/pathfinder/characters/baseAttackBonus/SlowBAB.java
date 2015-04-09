@@ -1,4 +1,4 @@
-package pathfinder.realWorldObject.creature.baseAttackBonus;
+package pathfinder.characters.baseAttackBonus;
 
 public class SlowBAB implements BaseAttackBonusProgression
 {

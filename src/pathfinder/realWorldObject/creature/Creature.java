@@ -2,11 +2,12 @@ package pathfinder.realWorldObject.creature;
 
 import java.util.List;
 
+import pathfinder.characters.baseAttackBonus.BaseAttackBonusProgression;
+import pathfinder.characters.classes.CharacterClass;
+import pathfinder.characters.classes.ClassInterface;
 import pathfinder.characters.skill.Skill;
 import pathfinder.realWorldObject.RealWorldObject;
 import pathfinder.realWorldObject.SizeCategory;
-import pathfinder.realWorldObject.creature.baseAttackBonus.BaseAttackBonusProgression;
-import pathfinder.realWorldObject.creature.classes.CharacterClass;
 
 /**
  * This is a template for any creature to implement. A creature would be
@@ -19,7 +20,7 @@ import pathfinder.realWorldObject.creature.classes.CharacterClass;
  */
 public class Creature extends RealWorldObject
 {
-    private CreatureClass creatureType;
+    private ClassInterface creatureType;
     private int level;
     private int hitDie;
     private List<CharacterClass> classes;
