@@ -2,7 +2,7 @@ package pathfinder.characters.skill.knowledge;
 
 public class Local extends Knowledge
 {
-    private static final String NAME = "Local";
+    public static final String NAME = "Local";
 
     @Override
     public String getName()

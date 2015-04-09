@@ -4,10 +4,10 @@ import pathfinder.realWorldObject.creature.AbilityScore;
 
 public class Acrobatics extends Skill
 {
-    private static final String NAME = "Acrobatics";
-    private static final boolean CAN_USE_UNTRAINED = true;
-    private static final boolean HAS_ARMOR_PENTALTY = true;
-    private static final AbilityScore KEY_ABILITY = AbilityScore.Dexterity;
+    public static final String NAME = "Acrobatics";
+    public static final boolean CAN_USE_UNTRAINED = true;
+    public static final boolean HAS_ARMOR_PENTALTY = true;
+    public static final AbilityScore KEY_ABILITY = AbilityScore.Dexterity;
 
     public Acrobatics()
     {

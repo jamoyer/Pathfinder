@@ -4,10 +4,10 @@ import pathfinder.realWorldObject.creature.AbilityScore;
 
 public class Stealth extends Skill
 {
-    private static final String NAME = "Stealth";
-    private static final boolean CAN_USE_UNTRAINED = true;
-    private static final boolean HAS_ARMOR_PENTALTY = true;
-    private static final AbilityScore KEY_ABILITY = AbilityScore.Dexterity;
+    public static final String NAME = "Stealth";
+    public static final boolean CAN_USE_UNTRAINED = true;
+    public static final boolean HAS_ARMOR_PENTALTY = true;
+    public static final AbilityScore KEY_ABILITY = AbilityScore.Dexterity;
 
     public Stealth()
     {

@@ -2,7 +2,7 @@ package pathfinder.characters.skill.knowledge;
 
 public class Nature extends Knowledge
 {
-    private static final String NAME = "Nature";
+    public static final String NAME = "Nature";
 
     @Override
     public String getName()

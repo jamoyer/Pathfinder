@@ -5,10 +5,10 @@ import pathfinder.realWorldObject.creature.AbilityScore;
 
 public abstract class Profession extends Skill
 {
-    private static final String NAME = "Profession";
-    private static final boolean CAN_USE_UNTRAINED = false;
-    private static final boolean HAS_ARMOR_PENTALTY = false;
-    private static final AbilityScore KEY_ABILITY = AbilityScore.Wisdom;
+    public static final String NAME = "Profession";
+    public static final boolean CAN_USE_UNTRAINED = false;
+    public static final boolean HAS_ARMOR_PENTALTY = false;
+    public static final AbilityScore KEY_ABILITY = AbilityScore.Wisdom;
 
     public Profession()
     {

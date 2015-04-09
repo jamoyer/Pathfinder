@@ -5,10 +5,10 @@ import pathfinder.realWorldObject.creature.AbilityScore;
 
 public abstract class Knowledge extends Skill
 {
-    private static final String NAME = "Knowledge";
-    private static final boolean CAN_USE_UNTRAINED = false;
-    private static final boolean HAS_ARMOR_PENTALTY = false;
-    private static final AbilityScore KEY_ABILITY = AbilityScore.Intelligence;
+    public static final String NAME = "Knowledge";
+    public static final boolean CAN_USE_UNTRAINED = false;
+    public static final boolean HAS_ARMOR_PENTALTY = false;
+    public static final AbilityScore KEY_ABILITY = AbilityScore.Intelligence;
 
     public Knowledge()
     {

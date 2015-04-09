@@ -4,10 +4,10 @@ import pathfinder.realWorldObject.creature.AbilityScore;
 
 public class Survival extends Skill
 {
-    private static final String NAME = "Survival";
-    private static final boolean CAN_USE_UNTRAINED = true;
-    private static final boolean HAS_ARMOR_PENTALTY = false;
-    private static final AbilityScore KEY_ABILITY = AbilityScore.Wisdom;
+    public static final String NAME = "Survival";
+    public static final boolean CAN_USE_UNTRAINED = true;
+    public static final boolean HAS_ARMOR_PENTALTY = false;
+    public static final AbilityScore KEY_ABILITY = AbilityScore.Wisdom;
 
     public Survival()
     {

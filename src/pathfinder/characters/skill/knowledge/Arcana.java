@@ -2,7 +2,7 @@ package pathfinder.characters.skill.knowledge;
 
 public class Arcana extends Knowledge
 {
-    private static final String NAME = "Arcana";
+    public static final String NAME = "Arcana";
 
     @Override
     public String getName()

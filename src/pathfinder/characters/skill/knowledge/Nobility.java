@@ -2,7 +2,7 @@ package pathfinder.characters.skill.knowledge;
 
 public class Nobility extends Knowledge
 {
-    private static final String NAME = "Nobility";
+    public static final String NAME = "Nobility";
 
     @Override
     public String getName()

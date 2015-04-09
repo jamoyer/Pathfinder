@@ -4,10 +4,10 @@ import pathfinder.realWorldObject.creature.AbilityScore;
 
 public class Swim extends Skill
 {
-    private static final String NAME = "Swim";
-    private static final boolean CAN_USE_UNTRAINED = true;
-    private static final boolean HAS_ARMOR_PENTALTY = true;
-    private static final AbilityScore KEY_ABILITY = AbilityScore.Strength;
+    public static final String NAME = "Swim";
+    public static final boolean CAN_USE_UNTRAINED = true;
+    public static final boolean HAS_ARMOR_PENTALTY = true;
+    public static final AbilityScore KEY_ABILITY = AbilityScore.Strength;
 
     public Swim()
     {

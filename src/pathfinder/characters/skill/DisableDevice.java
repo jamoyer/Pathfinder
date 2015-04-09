@@ -4,10 +4,10 @@ import pathfinder.realWorldObject.creature.AbilityScore;
 
 public class DisableDevice extends Skill
 {
-    private static final String NAME = "DisableDevice";
-    private static final boolean CAN_USE_UNTRAINED = false;
-    private static final boolean HAS_ARMOR_PENTALTY = true;
-    private static final AbilityScore KEY_ABILITY = AbilityScore.Dexterity;
+    public static final String NAME = "DisableDevice";
+    public static final boolean CAN_USE_UNTRAINED = false;
+    public static final boolean HAS_ARMOR_PENTALTY = true;
+    public static final AbilityScore KEY_ABILITY = AbilityScore.Dexterity;
 
     public DisableDevice()
     {

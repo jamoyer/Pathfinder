@@ -2,7 +2,7 @@ package pathfinder.characters.skill.knowledge;
 
 public class Geography extends Knowledge
 {
-    private static final String NAME = "Geography";
+    public static final String NAME = "Geography";
 
     @Override
     public String getName()

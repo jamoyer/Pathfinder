@@ -2,7 +2,7 @@ package pathfinder.characters.skill.knowledge;
 
 public class Engineering extends Knowledge
 {
-    private static final String NAME = "Engineering";
+    public static final String NAME = "Engineering";
 
     @Override
     public String getName()

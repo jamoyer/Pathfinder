@@ -2,7 +2,7 @@ package pathfinder.characters.skill.knowledge;
 
 public class Religion extends Knowledge
 {
-    private static final String NAME = "Religion";
+    public static final String NAME = "Religion";
 
     @Override
     public String getName()

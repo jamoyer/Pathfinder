@@ -2,7 +2,7 @@ package pathfinder.characters.skill.knowledge;
 
 public class History extends Knowledge
 {
-    private static final String NAME = "History";
+    public static final String NAME = "History";
 
     @Override
     public String getName()

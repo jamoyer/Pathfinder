@@ -2,7 +2,7 @@ package pathfinder.characters.skill.knowledge;
 
 public class Dungeoneering extends Knowledge
 {
-    private static final String NAME = "Dungeoneering";
+    public static final String NAME = "Dungeoneering";
 
     @Override
     public String getName()

@@ -4,7 +4,6 @@ import java.util.List;
 
 import pathfinder.characters.baseAttackBonus.BaseAttackBonusProgression;
 import pathfinder.characters.savingThrow.BaseSavingThrowSet;
-import pathfinder.characters.skill.Skill;
 
 /**
  * Both Character class and creature types should inherit this interface since
@@ -22,9 +21,9 @@ public interface ClassInterface
 
     public BaseSavingThrowSet getSavingThrowSet();
 
-    public int getSkillRanks();
+    public int getSkillRanksPerLevel();
 
-    public List<Skill> getClassSkills();
+    public List<String> getClassSkills();
 
     public String getProficiencies();
 

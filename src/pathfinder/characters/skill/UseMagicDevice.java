@@ -4,10 +4,10 @@ import pathfinder.realWorldObject.creature.AbilityScore;
 
 public class UseMagicDevice extends Skill
 {
-    private static final String NAME = "UseMagicDevice";
-    private static final boolean CAN_USE_UNTRAINED = false;
-    private static final boolean HAS_ARMOR_PENTALTY = false;
-    private static final AbilityScore KEY_ABILITY = AbilityScore.Charisma;
+    public static final String NAME = "UseMagicDevice";
+    public static final boolean CAN_USE_UNTRAINED = false;
+    public static final boolean HAS_ARMOR_PENTALTY = false;
+    public static final AbilityScore KEY_ABILITY = AbilityScore.Charisma;
 
     public UseMagicDevice()
     {
