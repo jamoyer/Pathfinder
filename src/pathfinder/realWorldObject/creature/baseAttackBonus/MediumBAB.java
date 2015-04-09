@@ -6,7 +6,7 @@ public class MediumBAB implements BaseAttackBonusProgression
     @Override
     public int getBAB(int level)
     {
-        return (int) (level * .75);
+        return (level * 3) / 4;
     }
 
 }

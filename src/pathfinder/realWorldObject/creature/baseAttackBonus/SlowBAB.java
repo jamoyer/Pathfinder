@@ -6,7 +6,7 @@ public class SlowBAB implements BaseAttackBonusProgression
     @Override
     public int getBAB(int level)
     {
-        return (int) (level * .5);
+        return level / 2;
     }
 
 }

@@ -12,7 +12,7 @@ public class GoodSave implements BaseSavingThrow
     @Override
     public int getBaseSave(int level)
     {
-        return 2 + (int) (.5 * level);
+        return 2 + (level / 2);
     }
 
 }

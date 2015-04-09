@@ -9,7 +9,7 @@ public class AbilityScoreInstance
     public AbilityScoreInstance(final AbilityScore type, final int score)
     {
         this.type = type;
-        this.setScore(score);
+        this.score = score;
         setModByScore(score);
     }
 
