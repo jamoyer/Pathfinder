@@ -2,6 +2,7 @@ package pathfinder.realWorldObject.creature;
 
 import java.util.List;
 
+import pathfinder.characters.skill.Skill;
 import pathfinder.realWorldObject.RealWorldObject;
 import pathfinder.realWorldObject.SizeCategory;
 import pathfinder.realWorldObject.creature.baseAttackBonus.BaseAttackBonusProgression;
