@@ -1,6 +1,7 @@
 package pathfinder.realWorldObject.creature;
 
-import pathfinder.realWorldObject.Item;
+import pathfinder.realWorldObject.SizeCategory;
+import pathfinder.realWorldObject.item.Item;
 
 /**
  * Interface for something that can be equipped.
@@ -16,4 +17,19 @@ public class EquipableItem extends Item
     {
         return slot;
     }
+
+    @Override
+    public int getCost()
+    {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public long getWeight()
+    {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
 }

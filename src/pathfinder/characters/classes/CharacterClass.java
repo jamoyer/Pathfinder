@@ -1,6 +1,5 @@
 package pathfinder.characters.classes;
 
-
 /**
  * Stub for NPC classes and PC classes. Just putting it here for now so I can
  * skeleton out the Creature class code.
@@ -8,7 +7,7 @@ package pathfinder.characters.classes;
  * @author jacob
  *
  */
-public abstract class CharacterClass implements ClassInterface
+public abstract class CharacterClass extends ClassInterface
 {
 
 }

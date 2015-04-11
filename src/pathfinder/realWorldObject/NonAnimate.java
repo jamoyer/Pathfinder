@@ -1,7 +1,7 @@
 package pathfinder.realWorldObject;
 
 
-public class NonAnimate extends RealWorldObject
+public abstract class NonAnimate extends RealWorldObject
 {
     private int hardness;
 

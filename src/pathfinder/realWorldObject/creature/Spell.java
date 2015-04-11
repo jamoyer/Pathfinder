@@ -1,7 +1,7 @@
 package pathfinder.realWorldObject.creature;
 import java.util.List;
 
-import pathfinder.realWorldObject.Item;
+import pathfinder.realWorldObject.item.Item;
 
 public class Spell {
 	

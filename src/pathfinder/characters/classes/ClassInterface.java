@@ -13,19 +13,36 @@ import pathfinder.characters.savingThrow.BaseSavingThrowSet;
  * @author jacob
  *
  */
-public interface ClassInterface
+public abstract class ClassInterface
 {
-    public int getHitDieType();
+    private int level;
 
-    public BaseAttackBonusProgression getBaseAttackBonusProgression();
+    public ClassInterface()
+    {
+        level = 0;
+    }
 
-    public BaseSavingThrowSet getSavingThrowSet();
+    public int getLevel()
+    {
+        return level;
+    }
 
-    public int getSkillRanksPerLevel();
+    public void setLevel(int level)
+    {
+        this.level = level;
+    }
 
-    public List<String> getClassSkills();
+    public abstract int getHitDieType();
 
-    public String getProficiencies();
+    public abstract BaseAttackBonusProgression getBaseAttackBonusProgression();
+
+    public abstract BaseSavingThrowSet getSavingThrowSet();
+
+    public abstract int getSkillRanksPerLevel();
+
+    public abstract List<String> getClassSkills();
+
+    public abstract String getProficiencies();
 
     // TODO special abilities and such, if we find that is needed in this
     // interface at all.

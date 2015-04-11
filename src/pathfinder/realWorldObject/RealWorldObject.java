@@ -11,10 +11,10 @@ import java.util.List;
  * @author jacob
  *
  */
-public class RealWorldObject
+public abstract class RealWorldObject
 {
     private Coordinate coordinate;
-    private long mass;
+    private long weight;
     private final long id;
 
     // perhaps a map or hashset would be better if we want to access these
@@ -28,9 +28,9 @@ public class RealWorldObject
                 // idmaker class that has an id counter
     }
 
-    public long getMass()
+    public long getWeight()
     {
-        return mass;
+        return weight;
     }
 
     public long getId()

@@ -8,6 +8,7 @@ import pathfinder.characters.classes.ClassInterface;
 import pathfinder.characters.skill.Skill;
 import pathfinder.realWorldObject.RealWorldObject;
 import pathfinder.realWorldObject.SizeCategory;
+import pathfinder.realWorldObject.creature.creatureType.CreatureType;
 
 /**
  * This is a template for any creature to implement. A creature would be
@@ -20,7 +21,7 @@ import pathfinder.realWorldObject.SizeCategory;
  */
 public class Creature extends RealWorldObject
 {
-    private ClassInterface creatureType;
+    private CreatureType race;
     private int level;
     private int hitDie;
     private List<CharacterClass> classes;
@@ -31,8 +32,6 @@ public class Creature extends RealWorldObject
     private Inventory inventory;
     private List<Spell> spells;
     // TODO feats and such
-    private boolean carryable; // maybe we could just determine this property by
-                               // creature weight?
     private SizeCategory size;
     // TODO abilities and such
     private Movement speeds;
@@ -42,7 +41,7 @@ public class Creature extends RealWorldObject
      * Offensive Properties
      */
     private int initiative;
-    private BaseAttackBonusProgression baseAttackBonus;
+    private int baseAttackBonus;
     private int combatManueverBonus;
 
     /*
@@ -57,4 +56,68 @@ public class Creature extends RealWorldObject
     private int damageReduction;
     private int spellResistance;
     private int combatManueverDefense;
+
+    public Creature(final CreatureType race, final AbilityScores baseStats)
+    {
+        this.race = race;
+        this.abilityScores = baseStats;
+    }
+
+    private void initCreature()
+    {
+        calcLevel();
+        this.size = this.race.getSizeCategory();
+        this.speeds = this.race.getMoveSpeeds();
+        calcInitiative();
+        calcBaseAttackBonus();
+        calcCombatManueverBonus();
+    }
+
+    private void calcLevel()
+    {
+        if (classes.size() > 0)
+        {
+            for (CharacterClass charClass : classes)
+            {
+                this.level += charClass.getLevel();
+            }
+        }
+        else
+        {
+            this.level = this.race.getLevel();
+        }
+
+    }
+
+    private void calcInitiative()
+    {
+        this.initiative = this.abilityScores.getDexterityModifier();
+        // TODO more initative calculations
+    }
+
+    private void calcBaseAttackBonus()
+    {
+
+        if (classes.size() > 0)
+        {
+            for (CharacterClass charClass : classes)
+            {
+                baseAttackBonus += charClass.getBaseAttackBonusProgression()
+                        .getBAB(charClass.getLevel());
+            }
+        }
+        else
+        {
+            baseAttackBonus = race.getBaseAttackBonusProgression().getBAB(
+                    race.getLevel());
+        }
+    }
+
+    private void calcCombatManueverBonus()
+    {
+        combatManueverBonus = baseAttackBonus
+                + abilityScores.getStrengthModifier()
+                + size.getSpecialSizeModifier();
+    }
+
 }

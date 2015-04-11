@@ -21,7 +21,7 @@ public class Inventory
     public void addItem(final RealWorldObject rwo)
     {
         contents.put(rwo.getId(), rwo);
-        totalMass += rwo.getMass();
+        totalMass += rwo.getWeight();
     }
 
     public RealWorldObject viewItem(long id)
@@ -31,7 +31,7 @@ public class Inventory
 
     public RealWorldObject removeItem(long id)
     {
-        totalMass -= contents.get(id).getMass();
+        totalMass -= contents.get(id).getWeight();
         return contents.remove(id);
     }
 
