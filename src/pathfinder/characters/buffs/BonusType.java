@@ -1,4 +1,4 @@
-package pathfinder.bonusTypes;
+package pathfinder.characters.buffs;
 
 public enum BonusType
 {

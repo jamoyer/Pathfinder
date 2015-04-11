@@ -119,5 +119,14 @@ public class Creature extends RealWorldObject
                 + abilityScores.getStrengthModifier()
                 + size.getSpecialSizeModifier();
     }
+    
+    /*
+     * Make equipped items class that has list of target type, amount, and target of effects/buffs which constantly updates scores
+     * for each element.
+     */
+    private void calcArmorClass()
+    {
+    	
+    }
 
 }

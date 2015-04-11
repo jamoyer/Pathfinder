@@ -11,14 +11,16 @@ package pathfinder.realWorldObject;
 public class RWOModifier
 {
     private int duration;
+    private boolean isPermanent;
     private final String description;
     private final String title;
 
-    public RWOModifier(final String title, final String description, int duration)
+    public RWOModifier(final String title, final String description, int duration, boolean isPermanent)
     {
         this.description = description;
         this.title = title;
         this.duration = duration;
+        this.isPermanent = isPermanent;
     }
 
     public String getDescription()
@@ -35,4 +37,8 @@ public class RWOModifier
     {
         return duration;
     }
+
+	public boolean isPermanent() {
+		return isPermanent;
+	}
 }

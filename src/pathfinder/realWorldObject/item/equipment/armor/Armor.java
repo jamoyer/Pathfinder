@@ -1,6 +1,6 @@
 package pathfinder.realWorldObject.item.equipment.armor;
 
-import pathfinder.bonusTypes.BonusType;
+import pathfinder.characters.buffs.BonusType;
 import pathfinder.realWorldObject.SizeCategory;
 import pathfinder.realWorldObject.creature.EquipableItem;
 import pathfinder.realWorldObject.creature.EquipmentSlotType;

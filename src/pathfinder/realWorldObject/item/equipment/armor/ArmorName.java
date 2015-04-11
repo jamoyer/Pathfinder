@@ -1,6 +1,6 @@
 package pathfinder.realWorldObject.item.equipment.armor;
 
-import pathfinder.bonusTypes.BonusType;
+import pathfinder.characters.buffs.BonusType;
 
 public enum ArmorName
 {
