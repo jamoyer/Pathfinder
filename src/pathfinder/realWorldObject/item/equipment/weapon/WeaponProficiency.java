@@ -1,6 +1,8 @@
 package pathfinder.realWorldObject.item.equipment.weapon;
 
-enum WeaponProficiency
+import pathfinder.realWorldObject.item.equipment.Proficiency;
+
+enum WeaponProficiency implements Proficiency
 {
     Simple,
     Martial,

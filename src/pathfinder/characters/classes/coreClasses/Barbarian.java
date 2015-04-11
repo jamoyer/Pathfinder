@@ -38,16 +38,9 @@ public class Barbarian extends CharacterClass
 
     // needs to be unmodifiable so that when this list is passed it is not
     // accidentally modified, which could be disastrous
-    private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Acrobatics.NAME,
-                                                                                          Climb.NAME, 
-                                                                                          Craft.NAME,
-                                                                                          HandleAnimal.NAME,
-                                                                                          Intimidate.NAME,
-                                                                                          Nature.NAME,
-                                                                                          Perception.NAME,
-                                                                                          Ride.NAME,
-                                                                                          Survival.NAME,
-                                                                                          Swim.NAME));
+    private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Acrobatics.NAME, Climb.NAME,
+            Craft.NAME, HandleAnimal.NAME, Intimidate.NAME, Nature.NAME, Perception.NAME, Ride.NAME, Survival.NAME,
+            Swim.NAME));
 
     @Override
     public int getHitDieType()

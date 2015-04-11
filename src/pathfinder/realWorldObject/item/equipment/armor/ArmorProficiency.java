@@ -1,6 +1,8 @@
 package pathfinder.realWorldObject.item.equipment.armor;
 
-public enum ArmorProficiency
+import pathfinder.realWorldObject.item.equipment.Proficiency;
+
+public enum ArmorProficiency implements Proficiency
 {
     Light,
     Medium,
