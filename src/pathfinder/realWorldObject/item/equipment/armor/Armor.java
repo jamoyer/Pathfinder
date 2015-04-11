@@ -4,20 +4,21 @@ import pathfinder.characters.buffs.BonusType;
 import pathfinder.realWorldObject.SizeCategory;
 import pathfinder.realWorldObject.creature.EquipableItem;
 import pathfinder.realWorldObject.creature.EquipmentSlotType;
+import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Armor extends EquipableItem
 {
-    private ArmorProficiency armorProficiency;
-    private BonusType bonusType;
+    private final Proficiency armorProficiency;
+    private final BonusType bonusType;
     private int cost;
-    private int armorValue;
-    private int maxDexBonus;
-    private int armorCheckPenalty;
-    private double arcaneSpellFailureChance;
-    private ArmorSpeedPenalty speedPenalty;
+    private final int armorValue;
+    private final int maxDexBonus;
+    private final int armorCheckPenalty;
+    private final double arcaneSpellFailureChance;
+    private final ArmorSpeedPenalty speedPenalty;
 
     public Armor(EquipmentSlotType slot, SizeCategory size,
-            ArmorProficiency armorProficiency, BonusType bonusType, int cost,
+            Proficiency armorProficiency, BonusType bonusType, int cost,
             int armorValue, int maxDexBonus, int armorCheckPenalty,
             double arcaneSpellFailureChance, ArmorSpeedPenalty speedPenalty)
     {
@@ -44,7 +45,7 @@ public class Armor extends EquipableItem
         this.speedPenalty = armorName.getSpeedPenalty();
     }
 
-    public ArmorProficiency getArmorProficiency()
+    public Proficiency getArmorProficiency()
     {
         return this.armorProficiency;
     }
@@ -59,6 +60,7 @@ public class Armor extends EquipableItem
         return this.armorValue;
     }
 
+    @Override
     public int getCost()
     {
         return this.cost;

@@ -1,6 +1,14 @@
 package pathfinder.realWorldObject.item.equipment;
 
-public interface Proficiency
+public enum Proficiency
 {
-
+    SimpleWeapon,
+    MartialWeapon,
+    ExoticWeapon,
+    LightArmor,
+    MediumArmor,
+    HeavyArmor,
+    Shield,
+    TowerShield,
+    Extra;
 }

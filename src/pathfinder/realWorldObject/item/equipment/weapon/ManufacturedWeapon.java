@@ -6,22 +6,23 @@ import pathfinder.metaObjects.Die;
 import pathfinder.realWorldObject.SizeCategory;
 import pathfinder.realWorldObject.creature.EquipableItem;
 import pathfinder.realWorldObject.creature.EquipmentSlotType;
+import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class ManufacturedWeapon extends EquipableItem implements Cloneable
 {
-    private WeaponProficiency weaponProficiency;
-    private WeaponCategory weaponCategory;
-    private int cost;
-    private Die damage;
-    private int damageProgressionIndex;
-    private int critMultiplier;
-    private int critRange;
-    private int range;
-    private List<DamageType> damageTypes;
+    private final Proficiency weaponProficiency;
+    private final WeaponCategory weaponCategory;
+    private final int cost;
+    private final Die damage;
+    private final int damageProgressionIndex;
+    private final int critMultiplier;
+    private final int critRange;
+    private final int range;
+    private final List<DamageType> damageTypes;
     private String description;
 
     public ManufacturedWeapon(EquipmentSlotType slot,
-            SizeCategory sizeCategory, WeaponProficiency weaponProficiency,
+            SizeCategory sizeCategory, Proficiency weaponProficiency,
             WeaponCategory weaponCategory, int cost,
             int damageProgressionIndex, int critMultiplier, int critRange,
             int range, List<DamageType> damageTypes, String decription)
@@ -55,7 +56,7 @@ public class ManufacturedWeapon extends EquipableItem implements Cloneable
         this.damageTypes = weaponName.getDamageTypes();
     }
 
-    public WeaponProficiency getWeaponProficiency()
+    public Proficiency getWeaponProficiency()
     {
         return weaponProficiency;
     }
@@ -65,6 +66,7 @@ public class ManufacturedWeapon extends EquipableItem implements Cloneable
         return weaponCategory;
     }
 
+    @Override
     public int getCost()
     {
         return cost;
@@ -94,7 +96,7 @@ public class ManufacturedWeapon extends EquipableItem implements Cloneable
     {
         return damageTypes;
     }
-    
+
     public String getDescription()
     {
         return description;

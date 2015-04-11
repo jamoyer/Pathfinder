@@ -42,6 +42,10 @@ public class Barbarian extends CharacterClass
             Craft.NAME, HandleAnimal.NAME, Intimidate.NAME, Nature.NAME, Perception.NAME, Ride.NAME, Survival.NAME,
             Swim.NAME));
 
+    //    private static final List<Proficiency> PROFICIENCIES = (List<Proficiency>) Collections.unmodifiableList(Arrays.asList(
+    //            WeaponProficiency.Simple, WeaponProficiency.Martial, ArmorProficiency.Light, ArmorProficiency.Medium,
+    //            ArmorProficiency.Shield));
+
     @Override
     public int getHitDieType()
     {
