@@ -18,7 +18,7 @@ public enum ArmorName
     StuddedLeather(ArmorProficiency.Light, BonusType.Armor, 25, 3, 5, -1, 15, ArmorSpeedPenalty.None),
     Wooden(ArmorProficiency.Light, BonusType.Armor, 20, 3, 3, -1, 15, ArmorSpeedPenalty.None),
     ChainShirt(ArmorProficiency.Light, BonusType.Armor, 100, 4, 4, -2, 20, ArmorSpeedPenalty.None),
-    
+
     /*****************************************************
      ******************* Medium Armors *******************
      *****************************************************/
@@ -27,7 +27,7 @@ public enum ArmorName
     ScaleMail(ArmorProficiency.Medium, BonusType.Armor, 50, 5, 3, -4, 25, ArmorSpeedPenalty.Regular),
     Chainmail(ArmorProficiency.Medium, BonusType.Armor, 150, 6, 2, -5, 30, ArmorSpeedPenalty.Regular),
     Breastplate(ArmorProficiency.Medium, BonusType.Armor, 200, 6, 3, -4, 25, ArmorSpeedPenalty.Regular),
-    
+
     /*****************************************************
      ******************* Heavy Armors ********************
      *****************************************************/
@@ -38,7 +38,7 @@ public enum ArmorName
     FullPlate(ArmorProficiency.Heavy, BonusType.Armor, 1500, 9, 1, -6, 35, ArmorSpeedPenalty.Regular),
     HellknightPlate(ArmorProficiency.Heavy, BonusType.Armor, 2000, 9, 1, -5, 35, ArmorSpeedPenalty.Regular),
     StonePlate(ArmorProficiency.Heavy, BonusType.Armor, 1800, 9, 1, -6, 35, ArmorSpeedPenalty.Heavy),
-    
+
     /*****************************************************
      ******************* Shields *************************
      *****************************************************/
@@ -51,7 +51,7 @@ public enum ArmorName
     ShieldHeavyWooden(ArmorProficiency.Shield, BonusType.Shield, 7, 2, 9999, -2, 15, ArmorSpeedPenalty.None),
     ShieldHeavySteel(ArmorProficiency.Shield, BonusType.Shield, 20, 2, 9999, -2, 15, ArmorSpeedPenalty.None),
     ShieldTower(ArmorProficiency.TowerShield, BonusType.Shield, 30, 4, 2, -10, 50, ArmorSpeedPenalty.None);
-    
+
     private ArmorProficiency armorProficiency;
     private BonusType bonusType;
     private int cost;
@@ -60,11 +60,10 @@ public enum ArmorName
     private int armorCheckPenalty;
     private int arcaneSpellFailureChance;
     private ArmorSpeedPenalty speedPenalty;
-    
-    private ArmorName(ArmorProficiency armorProficiency, BonusType bonusType, int cost, int armorValue, int maxDexBonus,
-            int armorCheckPenalty, int arcaneSpellFailureChance,
-            ArmorSpeedPenalty speedPenalty)
-            {
+
+    private ArmorName(ArmorProficiency armorProficiency, BonusType bonusType, int cost, int armorValue,
+            int maxDexBonus, int armorCheckPenalty, int arcaneSpellFailureChance, ArmorSpeedPenalty speedPenalty)
+    {
         this.armorProficiency = armorProficiency;
         this.bonusType = bonusType;
         this.cost = cost;
@@ -73,18 +72,18 @@ public enum ArmorName
         this.armorCheckPenalty = armorCheckPenalty;
         this.arcaneSpellFailureChance = arcaneSpellFailureChance;
         this.speedPenalty = speedPenalty;
-            }
-    
+    }
+
     public ArmorProficiency getArmorProficiency()
     {
         return this.armorProficiency;
     }
-    
+
     public BonusType getBonusType()
     {
         return this.bonusType;
     }
-    
+
     public int getCost()
     {
         return this.cost;

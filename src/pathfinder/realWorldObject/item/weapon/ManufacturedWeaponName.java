@@ -148,7 +148,7 @@ public enum ManufacturedWeaponName
     {
         return damageTypes;
     }
-    
+
     public String getDescription()
     {
         return description;
