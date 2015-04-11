@@ -21,6 +21,7 @@ import pathfinder.characters.skill.Survival;
 import pathfinder.characters.skill.Swim;
 import pathfinder.characters.skill.craft.Craft;
 import pathfinder.characters.skill.knowledge.Nature;
+import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Barbarian extends CharacterClass
 {
@@ -42,9 +43,9 @@ public class Barbarian extends CharacterClass
             Craft.NAME, HandleAnimal.NAME, Intimidate.NAME, Nature.NAME, Perception.NAME, Ride.NAME, Survival.NAME,
             Swim.NAME));
 
-    //    private static final List<Proficiency> PROFICIENCIES = (List<Proficiency>) Collections.unmodifiableList(Arrays.asList(
-    //            WeaponProficiency.Simple, WeaponProficiency.Martial, ArmorProficiency.Light, ArmorProficiency.Medium,
-    //            ArmorProficiency.Shield));
+    private static final List<Proficiency> PROFICIENCIES = Collections.unmodifiableList(Arrays.asList(
+            Proficiency.SimpleWeapon, Proficiency.MartialWeapon, Proficiency.LightArmor, Proficiency.MediumArmor,
+            Proficiency.Shield));
 
     @Override
     public int getHitDieType()
@@ -77,10 +78,9 @@ public class Barbarian extends CharacterClass
     }
 
     @Override
-    public String getProficiencies()
+    public List<Proficiency> getProficiencies()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return PROFICIENCIES;
     }
 
     /*
