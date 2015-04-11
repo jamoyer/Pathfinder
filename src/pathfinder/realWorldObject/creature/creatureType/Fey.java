@@ -29,7 +29,7 @@ import pathfinder.characters.skill.knowledge.Local;
 import pathfinder.characters.skill.knowledge.Nature;
 import pathfinder.characters.skill.perform.Perform;
 
-public class Fey extends CreatureType
+public abstract class Fey extends CreatureType
 {
     /*
      * Basic Class Stats

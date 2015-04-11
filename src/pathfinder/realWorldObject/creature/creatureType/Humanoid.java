@@ -18,7 +18,7 @@ import pathfinder.characters.skill.Survival;
 import pathfinder.characters.skill.craft.Craft;
 import pathfinder.characters.skill.profession.Profession;
 
-public class Humanoid extends CreatureType
+public abstract class Humanoid extends CreatureType
 {
     /*
      * Basic Class Stats

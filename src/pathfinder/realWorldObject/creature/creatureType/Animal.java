@@ -17,7 +17,7 @@ import pathfinder.characters.skill.Perception;
 import pathfinder.characters.skill.Stealth;
 import pathfinder.characters.skill.Swim;
 
-public class Animal extends CreatureType
+public abstract class Animal extends CreatureType
 {
     /*
      * Basic Class Stats

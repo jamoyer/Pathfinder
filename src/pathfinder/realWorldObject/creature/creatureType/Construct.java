@@ -8,7 +8,7 @@ import pathfinder.characters.savingThrow.BadSave;
 import pathfinder.characters.savingThrow.BaseSavingThrow;
 import pathfinder.characters.savingThrow.BaseSavingThrowSet;
 
-public class Construct extends CreatureType
+public abstract class Construct extends CreatureType
 {
     /*
      * Basic Class Stats

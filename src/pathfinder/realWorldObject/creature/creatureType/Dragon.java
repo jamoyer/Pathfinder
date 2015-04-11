@@ -27,7 +27,7 @@ import pathfinder.characters.skill.UseMagicDevice;
 import pathfinder.characters.skill.craft.Craft;
 import pathfinder.characters.skill.knowledge.Knowledge;
 
-public class Dragon extends CreatureType
+public abstract class Dragon extends CreatureType
 {
     /*
      * Basic Class Stats

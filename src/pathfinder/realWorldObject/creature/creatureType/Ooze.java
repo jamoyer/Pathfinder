@@ -8,7 +8,7 @@ import pathfinder.characters.savingThrow.BadSave;
 import pathfinder.characters.savingThrow.BaseSavingThrow;
 import pathfinder.characters.savingThrow.BaseSavingThrowSet;
 
-public class Ooze extends CreatureType
+public abstract class Ooze extends CreatureType
 {
     /*
      * Basic Class Stats

@@ -22,7 +22,7 @@ import pathfinder.characters.skill.Survival;
 import pathfinder.characters.skill.Swim;
 import pathfinder.characters.skill.knowledge.Knowledge;
 
-public class Aberration extends CreatureType
+public abstract class Aberration extends CreatureType
 {
     /*
      * Basic Class Stats

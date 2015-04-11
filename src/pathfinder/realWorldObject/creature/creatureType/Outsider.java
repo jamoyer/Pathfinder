@@ -17,7 +17,7 @@ import pathfinder.characters.skill.Stealth;
 import pathfinder.characters.skill.craft.Craft;
 import pathfinder.characters.skill.knowledge.Planes;
 
-public class Outsider extends CreatureType
+public abstract class Outsider extends CreatureType
 {
     /*
      * Basic Class Stats

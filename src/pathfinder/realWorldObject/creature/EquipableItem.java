@@ -12,10 +12,22 @@ import pathfinder.realWorldObject.item.Item;
 public class EquipableItem extends Item
 {
     private EquipmentSlotType slot;
+    private SizeCategory sizeCategory;
+    
+    public EquipableItem(EquipmentSlotType slot, SizeCategory sizeCategory)
+    {
+        this.slot = slot;
+        this.sizeCategory = sizeCategory;
+    }
 
     public EquipmentSlotType getSlotType()
     {
         return slot;
+    }
+    
+    public SizeCategory getSizeCategory()
+    {
+        return sizeCategory;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package pathfinder.realWorldObject.item;
 
 import pathfinder.realWorldObject.NonAnimate;
-import pathfinder.realWorldObject.SizeCategory;
 
 /**
  * This includes all items in Pathfinder, ex: gear, artifacts, general goods,

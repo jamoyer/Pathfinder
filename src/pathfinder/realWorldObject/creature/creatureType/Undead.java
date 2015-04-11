@@ -21,7 +21,7 @@ import pathfinder.characters.skill.Stealth;
 import pathfinder.characters.skill.knowledge.Arcana;
 import pathfinder.characters.skill.knowledge.Religion;
 
-public class Undead extends CreatureType
+public abstract class Undead extends CreatureType
 {
     /*
      * Basic Class Stats

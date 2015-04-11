@@ -1,12 +1,11 @@
 package pathfinder.realWorldObject.item.equipment.armor;
 
 import pathfinder.bonusTypes.BonusType;
-import pathfinder.realWorldObject.SizeCategory;
-import pathfinder.realWorldObject.creature.EquipableItem;
-import pathfinder.realWorldObject.creature.EquipmentSlotType;
 
-public class Armor extends EquipableItem
+public enum ArmorName
 {
+    ArmoredKilt(ArmorProficiency.Light, BonusType.Armor, 20, 1, 6, 0, 0.0, 0);
+    
     private ArmorProficiency armorProficiency;
     private BonusType bonusType;
     private int cost;
@@ -15,53 +14,39 @@ public class Armor extends EquipableItem
     private int armorCheckPenalty;
     private double arcaneSpellFailureChance;
     private int speedPenalty;
-
-    public Armor(EquipmentSlotType slot, SizeCategory size,
-            ArmorProficiency armorProficiency, BonusType bonusType, int cost,
-            int armorValue, int maxDexBonus, int armorCheckPenalty,
-            double arcaneSpellFailureChance, int speedPenalty)
-    {
-        super(slot, size);
+    
+    private ArmorName(ArmorProficiency armorProficiency, BonusType bonusType, int cost, int armorValue, int maxDexBonus,
+            int armorCheckPenalty, double arcaneSpellFailureChance,
+            int speedPenalty)
+            {
         this.armorProficiency = armorProficiency;
         this.bonusType = bonusType;
+        this.cost = cost;
         this.armorValue = armorValue;
         this.maxDexBonus = maxDexBonus;
         this.armorCheckPenalty = armorCheckPenalty;
         this.arcaneSpellFailureChance = arcaneSpellFailureChance;
         this.speedPenalty = speedPenalty;
-    }
-
-    public Armor(EquipmentSlotType slot, SizeCategory size, ArmorName armorName)
-    {
-        super(slot, size);
-        this.armorProficiency = armorName.getArmorProficiency();
-        this.bonusType = armorName.getBonusType();
-        this.cost = armorName.getCost();
-        this.armorValue = armorName.getArmorValue();
-        this.maxDexBonus = armorName.getMaxDexBonus();
-        this.armorCheckPenalty = armorName.getArmorCheckPenalty();
-        this.arcaneSpellFailureChance = armorName.getArcaneSpellFailureChance();
-        this.speedPenalty = armorName.getSpeedPenalty();
-    }
+            }
     
     public ArmorProficiency getArmorProficiency()
     {
         return this.armorProficiency;
     }
-
+    
     public BonusType getBonusType()
     {
         return this.bonusType;
+    }
+    
+    public int getCost()
+    {
+        return this.cost;
     }
 
     public int getArmorValue()
     {
         return this.armorValue;
-    }
-
-    public int getCost()
-    {
-        return this.cost;
     }
 
     public int getMaxDexBonus()

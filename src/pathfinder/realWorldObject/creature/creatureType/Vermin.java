@@ -9,7 +9,7 @@ import pathfinder.characters.savingThrow.BaseSavingThrow;
 import pathfinder.characters.savingThrow.BaseSavingThrowSet;
 import pathfinder.characters.savingThrow.GoodSave;
 
-public class Vermin extends CreatureType
+public abstract class Vermin extends CreatureType
 {
     /*
      * Basic Class Stats

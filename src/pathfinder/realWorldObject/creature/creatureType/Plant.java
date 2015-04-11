@@ -13,7 +13,7 @@ import pathfinder.characters.savingThrow.GoodSave;
 import pathfinder.characters.skill.Perception;
 import pathfinder.characters.skill.Stealth;
 
-public class Plant extends CreatureType
+public abstract class Plant extends CreatureType
 {
     /*
      * Basic Class Stats

@@ -20,7 +20,7 @@ import pathfinder.characters.skill.Survival;
 import pathfinder.characters.skill.Swim;
 import pathfinder.characters.skill.craft.Craft;
 
-public class MonstrousHumanoid extends CreatureType
+public abstract class MonstrousHumanoid extends CreatureType
 {
     /*
      * Basic Class Stats

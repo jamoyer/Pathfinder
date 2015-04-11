@@ -17,7 +17,7 @@ import pathfinder.characters.skill.Perception;
 import pathfinder.characters.skill.Stealth;
 import pathfinder.characters.skill.Swim;
 
-public class MagicalBeast extends CreatureType
+public abstract class MagicalBeast extends CreatureType
 {
     /*
      * Basic Class Stats
