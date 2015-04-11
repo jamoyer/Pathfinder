@@ -24,12 +24,11 @@ import pathfinder.realWorldObject.item.equipment.SlotManager;
 public class Creature extends RealWorldObject
 {
     private final CreatureType creatureType;
-    private final Race race;
     private int level;
     private int hitDie;
     private List<CharacterClass> classes;
     private CreatureDescription description;
-    private final AbilityScores abilityScores;
+    protected final AbilityScores abilityScores;
     private List<Skill> skills;
     private SlotManager equipment;
     private Inventory inventory;
@@ -60,24 +59,16 @@ public class Creature extends RealWorldObject
     private int spellResistance;
     private int combatManueverDefense;
     private final int baseDefence = 10;
-
-    /*public Creature(final CreatureType creatureType, final AbilityScores baseStats)
-    {
-        this.creatureType = creatureType;
-        this.abilityScores = baseStats;
-    }*/
     
-    public Creature(final CreatureType creatureType, final AbilityScores baseStats, Race race)
+    public Creature(final CreatureType creatureType, final AbilityScores baseStats)
     {
         this.creatureType = creatureType;
         this.abilityScores = baseStats;
-        this.race = race;
         initCreature();
     }
 
     private void initCreature()
     {
-        calcRacialFeatures();
         calcLevel();
         this.size = this.creatureType.getSizeCategory();
         this.speeds = this.creatureType.getMoveSpeeds();
@@ -88,17 +79,6 @@ public class Creature extends RealWorldObject
         calcSaves();
         calcDamageReduction();
         calcSpellResistance();
-    }
-
-    private void calcRacialFeatures()
-    {
-        AbilityScores racialAbilityScores = race.getAbilityScoreModifiers();
-        abilityScores.setStrengthScore(abilityScores.getStrengthScore()+racialAbilityScores.getStrengthScore());
-        abilityScores.setDexterityScore(abilityScores.getDexterityScore()+racialAbilityScores.getDexterityScore());
-        abilityScores.setConstitutionScore(abilityScores.getConstitutionScore()+racialAbilityScores.getConstitutionScore());
-        abilityScores.setIntelligenceScore(abilityScores.getIntelligenceScore()+racialAbilityScores.getIntelligenceScore());
-        abilityScores.setWisdomScore(abilityScores.getWisdomScore()+racialAbilityScores.getWisdomScore());
-        abilityScores.setCharismaScore(abilityScores.getCharismaScore()+racialAbilityScores.getCharismaScore());
     }
     
     private void calcLevel()
