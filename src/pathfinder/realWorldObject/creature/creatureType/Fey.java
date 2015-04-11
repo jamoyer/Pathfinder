@@ -41,18 +41,14 @@ public abstract class Fey extends CreatureType
     private static final BaseSavingThrow FORTITUDE = new BadSave();
     private static final BaseSavingThrow REFLEX = new GoodSave();
     private static final BaseSavingThrow WILL = new GoodSave();
-    private static final BaseSavingThrowSet BASE_SAVES = new BaseSavingThrowSet(
-            FORTITUDE, REFLEX, WILL);
+    private static final BaseSavingThrowSet BASE_SAVES = new BaseSavingThrowSet(FORTITUDE, REFLEX, WILL);
 
     // needs to be unmodifiable so that when this list is passed it is not
     // accidentally modified, which could be disastrous
-    private static final List<String> SKILLS = Collections
-            .unmodifiableList(Arrays.asList(Acrobatics.NAME, Bluff.NAME,
-                    Climb.NAME, Craft.NAME, Diplomacy.NAME, Disguise.NAME,
-                    EscapeArtist.NAME, Fly.NAME, Geography.NAME, Local.NAME,
-                    Nature.NAME, Perception.NAME, Perform.NAME,
-                    SenseMotive.NAME, SleightOfHand.NAME, Stealth.NAME,
-                    Swim.NAME, UseMagicDevice.NAME));
+    private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Acrobatics.NAME, Bluff.NAME,
+            Climb.NAME, Craft.NAME, Diplomacy.NAME, Disguise.NAME, EscapeArtist.NAME, Fly.NAME, Geography.NAME,
+            Local.NAME, Nature.NAME, Perception.NAME, Perform.NAME, SenseMotive.NAME, SleightOfHand.NAME, Stealth.NAME,
+            Swim.NAME, UseMagicDevice.NAME));
 
     @Override
     public int getHitDieType()
@@ -82,13 +78,6 @@ public abstract class Fey extends CreatureType
     public List<String> getClassSkills()
     {
         return SKILLS;
-    }
-
-    @Override
-    public String getProficiencies()
-    {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     /*

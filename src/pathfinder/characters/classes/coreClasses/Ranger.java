@@ -26,6 +26,7 @@ import pathfinder.characters.skill.knowledge.Dungeoneering;
 import pathfinder.characters.skill.knowledge.Geography;
 import pathfinder.characters.skill.knowledge.Nature;
 import pathfinder.characters.skill.profession.Profession;
+import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Ranger extends CharacterClass
 {
@@ -43,22 +44,13 @@ public class Ranger extends CharacterClass
 
     // needs to be unmodifiable so that when this list is passed it is not
     // accidentally modified, which could be disastrous
-    private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Climb.NAME,
-                                                                                          Craft.NAME,
-                                                                                          HandleAnimal.NAME,
-                                                                                          Heal.NAME,
-                                                                                          Intimidate.NAME,
-                                                                                          Dungeoneering.NAME,
-                                                                                          Geography.NAME,
-                                                                                          Nature.NAME,
-                                                                                          Perception.NAME,
-                                                                                          Profession.NAME,
-                                                                                          Ride.NAME,
-                                                                                          Spellcraft.NAME,
-                                                                                          Stealth.NAME,
-                                                                                          Survival.NAME,
-                                                                                          Swim.NAME
-                                                                                          ));
+    private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Climb.NAME, Craft.NAME,
+            HandleAnimal.NAME, Heal.NAME, Intimidate.NAME, Dungeoneering.NAME, Geography.NAME, Nature.NAME,
+            Perception.NAME, Profession.NAME, Ride.NAME, Spellcraft.NAME, Stealth.NAME, Survival.NAME, Swim.NAME));
+
+    private static final List<Proficiency> PROFICIENCIES = Collections.unmodifiableList(Arrays.asList(
+            Proficiency.SimpleWeapon, Proficiency.MartialWeapon, Proficiency.LightArmor, Proficiency.MediumArmor,
+            Proficiency.Shield));
 
     @Override
     public int getHitDieType()
@@ -91,10 +83,9 @@ public class Ranger extends CharacterClass
     }
 
     @Override
-    public String getProficiencies()
+    public List<Proficiency> getProficiencies()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return PROFICIENCIES;
     }
 
     /*

@@ -28,6 +28,7 @@ import pathfinder.characters.skill.knowledge.Nobility;
 import pathfinder.characters.skill.knowledge.Planes;
 import pathfinder.characters.skill.knowledge.Religion;
 import pathfinder.characters.skill.profession.Profession;
+import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Wizard extends CharacterClass
 {
@@ -45,24 +46,12 @@ public class Wizard extends CharacterClass
 
     // needs to be unmodifiable so that when this list is passed it is not
     // accidentally modified, which could be disastrous
-    private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Appraise.NAME,
-                                                                                          Craft.NAME,
-                                                                                          Fly.NAME,
-                                                                                          Intimidate.NAME,
-                                                                                          Arcana.NAME,
-                                                                                          Dungeoneering.NAME,
-                                                                                          Engineering.NAME,
-                                                                                          Geography.NAME,
-                                                                                          History.NAME,
-                                                                                          Local.NAME,
-                                                                                          Nature.NAME,
-                                                                                          Nobility.NAME,
-                                                                                          Planes.NAME,
-                                                                                          Religion.NAME,
-                                                                                          Linguistics.NAME,
-                                                                                          Profession.NAME,
-                                                                                          Spellcraft.NAME
-                                                                                          ));
+    private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Appraise.NAME, Craft.NAME,
+            Fly.NAME, Intimidate.NAME, Arcana.NAME, Dungeoneering.NAME, Engineering.NAME, Geography.NAME, History.NAME,
+            Local.NAME, Nature.NAME, Nobility.NAME, Planes.NAME, Religion.NAME, Linguistics.NAME, Profession.NAME,
+            Spellcraft.NAME));
+
+    private static final List<Proficiency> PROFICIENCIES = null;
 
     @Override
     public int getHitDieType()
@@ -95,10 +84,9 @@ public class Wizard extends CharacterClass
     }
 
     @Override
-    public String getProficiencies()
+    public List<Proficiency> getProficiencies()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return PROFICIENCIES;
     }
 
     /*

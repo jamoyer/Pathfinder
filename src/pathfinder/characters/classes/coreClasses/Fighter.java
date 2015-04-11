@@ -21,6 +21,7 @@ import pathfinder.characters.skill.craft.Craft;
 import pathfinder.characters.skill.knowledge.Dungeoneering;
 import pathfinder.characters.skill.knowledge.Engineering;
 import pathfinder.characters.skill.profession.Profession;
+import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Fighter extends CharacterClass
 {
@@ -38,17 +39,13 @@ public class Fighter extends CharacterClass
 
     // needs to be unmodifiable so that when this list is passed it is not
     // accidentally modified, which could be disastrous
-    private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Climb.NAME,
-                                                                                          Craft.NAME, 
-                                                                                          HandleAnimal.NAME,
-                                                                                          Intimidate.NAME,
-                                                                                          Dungeoneering.NAME,
-                                                                                          Engineering.NAME,
-                                                                                          Profession.NAME,
-                                                                                          Ride.NAME,
-                                                                                          Survival.NAME,
-                                                                                          Swim.NAME
-                                                                                          ));
+    private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Climb.NAME, Craft.NAME,
+            HandleAnimal.NAME, Intimidate.NAME, Dungeoneering.NAME, Engineering.NAME, Profession.NAME, Ride.NAME,
+            Survival.NAME, Swim.NAME));
+
+    private static final List<Proficiency> PROFICIENCIES = Collections.unmodifiableList(Arrays.asList(
+            Proficiency.SimpleWeapon, Proficiency.MartialWeapon, Proficiency.LightArmor, Proficiency.MediumArmor,
+            Proficiency.HeavyArmor, Proficiency.Shield, Proficiency.TowerShield));
 
     @Override
     public int getHitDieType()
@@ -81,10 +78,9 @@ public class Fighter extends CharacterClass
     }
 
     @Override
-    public String getProficiencies()
+    public List<Proficiency> getProficiencies()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return PROFICIENCIES;
     }
 
     /*

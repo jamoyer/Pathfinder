@@ -31,6 +31,7 @@ import pathfinder.characters.skill.knowledge.Dungeoneering;
 import pathfinder.characters.skill.knowledge.Local;
 import pathfinder.characters.skill.perform.Perform;
 import pathfinder.characters.skill.profession.Profession;
+import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Rogue extends CharacterClass
 {
@@ -49,26 +50,12 @@ public class Rogue extends CharacterClass
     // needs to be unmodifiable so that when this list is passed it is not
     // accidentally modified, which could be disastrous
     private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Acrobatics.NAME,
-                                                                                          Appraise.NAME,
-                                                                                          Bluff.NAME,
-                                                                                          Climb.NAME,
-                                                                                          Craft.NAME,
-                                                                                          Diplomacy.NAME,
-                                                                                          DisableDevice.NAME,
-                                                                                          Disguise.NAME,
-                                                                                          EscapeArtist.NAME,
-                                                                                          Dungeoneering.NAME,
-                                                                                          Local.NAME,
-                                                                                          Linguistics.NAME,
-                                                                                          Perception.NAME,
-                                                                                          Perform.NAME,
-                                                                                          Profession.NAME,
-                                                                                          SenseMotive.NAME,
-                                                                                          SleightOfHand.NAME,
-                                                                                          Stealth.NAME,
-                                                                                          Swim.NAME,
-                                                                                          UseMagicDevice.NAME
-                                                                                          ));
+            Appraise.NAME, Bluff.NAME, Climb.NAME, Craft.NAME, Diplomacy.NAME, DisableDevice.NAME, Disguise.NAME,
+            EscapeArtist.NAME, Dungeoneering.NAME, Local.NAME, Linguistics.NAME, Perception.NAME, Perform.NAME,
+            Profession.NAME, SenseMotive.NAME, SleightOfHand.NAME, Stealth.NAME, Swim.NAME, UseMagicDevice.NAME));
+
+    private static final List<Proficiency> PROFICIENCIES = Collections.unmodifiableList(Arrays.asList(
+            Proficiency.SimpleWeapon, Proficiency.Shield));
 
     @Override
     public int getHitDieType()
@@ -101,10 +88,9 @@ public class Rogue extends CharacterClass
     }
 
     @Override
-    public String getProficiencies()
+    public List<Proficiency> getProficiencies()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return PROFICIENCIES;
     }
 
     /*

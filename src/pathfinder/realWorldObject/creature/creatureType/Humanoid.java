@@ -30,15 +30,12 @@ public abstract class Humanoid extends CreatureType
     private static final BaseSavingThrow FORTITUDE = new GoodSave();
     private static final BaseSavingThrow REFLEX = new BadSave();
     private static final BaseSavingThrow WILL = new BadSave();
-    private static final BaseSavingThrowSet BASE_SAVES = new BaseSavingThrowSet(
-            FORTITUDE, REFLEX, WILL);
+    private static final BaseSavingThrowSet BASE_SAVES = new BaseSavingThrowSet(FORTITUDE, REFLEX, WILL);
 
     // needs to be unmodifiable so that when this list is passed it is not
     // accidentally modified, which could be disastrous
-    private static final List<String> SKILLS = Collections
-            .unmodifiableList(Arrays.asList(Climb.NAME, Craft.NAME,
-                    HandleAnimal.NAME, Heal.NAME, Profession.NAME, Ride.NAME,
-                    Survival.NAME));
+    private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Climb.NAME, Craft.NAME,
+            HandleAnimal.NAME, Heal.NAME, Profession.NAME, Ride.NAME, Survival.NAME));
 
     @Override
     public int getHitDieType()
@@ -68,13 +65,6 @@ public abstract class Humanoid extends CreatureType
     public List<String> getClassSkills()
     {
         return SKILLS;
-    }
-
-    @Override
-    public String getProficiencies()
-    {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     /*

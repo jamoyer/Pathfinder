@@ -24,6 +24,7 @@ import pathfinder.characters.skill.knowledge.History;
 import pathfinder.characters.skill.knowledge.Religion;
 import pathfinder.characters.skill.perform.Perform;
 import pathfinder.characters.skill.profession.Profession;
+import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Monk extends CharacterClass
 {
@@ -41,21 +42,11 @@ public class Monk extends CharacterClass
 
     // needs to be unmodifiable so that when this list is passed it is not
     // accidentally modified, which could be disastrous
-    private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Acrobatics.NAME,
-                                                                                          Climb.NAME,
-                                                                                          Craft.NAME,
-                                                                                          EscapeArtist.NAME,
-                                                                                          Intimidate.NAME,
-                                                                                          History.NAME,
-                                                                                          Religion.NAME,
-                                                                                          Perception.NAME,
-                                                                                          Perform.NAME,
-                                                                                          Profession.NAME,
-                                                                                          Ride.NAME,
-                                                                                          SenseMotive.NAME,
-                                                                                          Stealth.NAME,
-                                                                                          Swim.NAME
-                                                                                          ));
+    private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Acrobatics.NAME, Climb.NAME,
+            Craft.NAME, EscapeArtist.NAME, Intimidate.NAME, History.NAME, Religion.NAME, Perception.NAME, Perform.NAME,
+            Profession.NAME, Ride.NAME, SenseMotive.NAME, Stealth.NAME, Swim.NAME));
+
+    private static final List<Proficiency> PROFICIENCIES = null;
 
     @Override
     public int getHitDieType()
@@ -88,10 +79,9 @@ public class Monk extends CharacterClass
     }
 
     @Override
-    public String getProficiencies()
+    public List<Proficiency> getProficiencies()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return PROFICIENCIES;
     }
 
     /*

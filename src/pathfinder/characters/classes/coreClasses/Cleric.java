@@ -23,6 +23,7 @@ import pathfinder.characters.skill.knowledge.Nobility;
 import pathfinder.characters.skill.knowledge.Planes;
 import pathfinder.characters.skill.knowledge.Religion;
 import pathfinder.characters.skill.profession.Profession;
+import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Cleric extends CharacterClass
 {
@@ -40,18 +41,11 @@ public class Cleric extends CharacterClass
 
     // needs to be unmodifiable so that when this list is passed it is not
     // accidentally modified, which could be disastrous
-    private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Appraise.NAME,
-                                                                                          Craft.NAME,
-                                                                                          Diplomacy.NAME,
-                                                                                          Heal.NAME,
-                                                                                          History.NAME,
-                                                                                          Nobility.NAME,
-                                                                                          Planes.NAME,
-                                                                                          Religion.NAME,
-                                                                                          Linguistics.NAME,
-                                                                                          Profession.NAME,
-                                                                                          SenseMotive.NAME,
-                                                                                          Spellcraft.NAME));
+    private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Appraise.NAME, Craft.NAME,
+            Diplomacy.NAME, Heal.NAME, History.NAME, Nobility.NAME, Planes.NAME, Religion.NAME, Linguistics.NAME,
+            Profession.NAME, SenseMotive.NAME, Spellcraft.NAME));
+    private static final List<Proficiency> PROFICIENCIES = Collections.unmodifiableList(Arrays.asList(
+            Proficiency.SimpleWeapon, Proficiency.LightArmor, Proficiency.MediumArmor, Proficiency.Shield));
 
     @Override
     public int getHitDieType()
@@ -84,10 +78,9 @@ public class Cleric extends CharacterClass
     }
 
     @Override
-    public String getProficiencies()
+    public List<Proficiency> getProficiencies()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return PROFICIENCIES;
     }
 
     /*

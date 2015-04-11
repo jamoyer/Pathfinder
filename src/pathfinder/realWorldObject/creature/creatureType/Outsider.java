@@ -29,15 +29,12 @@ public abstract class Outsider extends CreatureType
     private static final BaseSavingThrow FORTITUDE = new GoodSave();
     private static final BaseSavingThrow REFLEX = new BadSave();
     private static final BaseSavingThrow WILL = new GoodSave();
-    private static final BaseSavingThrowSet BASE_SAVES = new BaseSavingThrowSet(
-            FORTITUDE, REFLEX, WILL);
+    private static final BaseSavingThrowSet BASE_SAVES = new BaseSavingThrowSet(FORTITUDE, REFLEX, WILL);
 
     // needs to be unmodifiable so that when this list is passed it is not
     // accidentally modified, which could be disastrous
-    private static final List<String> SKILLS = Collections
-            .unmodifiableList(Arrays.asList(Bluff.NAME, Craft.NAME,
-                    Planes.NAME, Perception.NAME, SenseMotive.NAME,
-                    Stealth.NAME));
+    private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Bluff.NAME, Craft.NAME,
+            Planes.NAME, Perception.NAME, SenseMotive.NAME, Stealth.NAME));
 
     @Override
     public int getHitDieType()
@@ -67,13 +64,6 @@ public abstract class Outsider extends CreatureType
     public List<String> getClassSkills()
     {
         return SKILLS;
-    }
-
-    @Override
-    public String getProficiencies()
-    {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     /*

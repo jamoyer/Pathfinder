@@ -20,6 +20,7 @@ import pathfinder.characters.skill.UseMagicDevice;
 import pathfinder.characters.skill.craft.Craft;
 import pathfinder.characters.skill.knowledge.Arcana;
 import pathfinder.characters.skill.profession.Profession;
+import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Sorcerer extends CharacterClass
 {
@@ -37,16 +38,11 @@ public class Sorcerer extends CharacterClass
 
     // needs to be unmodifiable so that when this list is passed it is not
     // accidentally modified, which could be disastrous
-    private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Appraise.NAME,
-                                                                                          Bluff.NAME,
-                                                                                          Craft.NAME,
-                                                                                          Fly.NAME,
-                                                                                          Intimidate.NAME,
-                                                                                          Arcana.NAME,
-                                                                                          Profession.NAME,
-                                                                                          Spellcraft.NAME,
-                                                                                          UseMagicDevice.NAME
-                                                                                          ));
+    private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Appraise.NAME, Bluff.NAME,
+            Craft.NAME, Fly.NAME, Intimidate.NAME, Arcana.NAME, Profession.NAME, Spellcraft.NAME, UseMagicDevice.NAME));
+
+    private static final List<Proficiency> PROFICIENCIES = Collections.unmodifiableList(Arrays
+            .asList(Proficiency.SimpleWeapon));
 
     @Override
     public int getHitDieType()
@@ -79,10 +75,9 @@ public class Sorcerer extends CharacterClass
     }
 
     @Override
-    public String getProficiencies()
+    public List<Proficiency> getProficiencies()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return PROFICIENCIES;
     }
 
     /*

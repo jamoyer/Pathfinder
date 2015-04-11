@@ -39,6 +39,7 @@ import pathfinder.characters.skill.knowledge.Planes;
 import pathfinder.characters.skill.knowledge.Religion;
 import pathfinder.characters.skill.perform.Perform;
 import pathfinder.characters.skill.profession.Profession;
+import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Bard extends CharacterClass
 {
@@ -57,34 +58,13 @@ public class Bard extends CharacterClass
     // needs to be unmodifiable so that when this list is passed it is not
     // accidentally modified, which could be disastrous
     private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Acrobatics.NAME,
-                                                                                          Appraise.NAME, 
-                                                                                          Bluff.NAME,
-                                                                                          Climb.NAME,
-                                                                                          Craft.NAME,
-                                                                                          Diplomacy.NAME,
-                                                                                          Disguise.NAME,
-                                                                                          EscapeArtist.NAME,
-                                                                                          Intimidate.NAME,
-                                                                                          Arcana.NAME,
-                                                                                          Dungeoneering.NAME,
-                                                                                          Engineering.NAME,
-                                                                                          Geography.NAME,
-                                                                                          History.NAME,
-                                                                                          Local.NAME,
-                                                                                          Nature.NAME,
-                                                                                          Nobility.NAME,
-                                                                                          Planes.NAME,
-                                                                                          Religion.NAME,
-                                                                                          Linguistics.NAME,
-                                                                                          Perception.NAME,
-                                                                                          Perform.NAME,
-                                                                                          Profession.NAME,
-                                                                                          SenseMotive.NAME,
-                                                                                          SleightOfHand.NAME,
-                                                                                          Spellcraft.NAME,
-                                                                                          Stealth.NAME,
-                                                                                          UseMagicDevice.NAME
-                                                                                          ));
+            Appraise.NAME, Bluff.NAME, Climb.NAME, Craft.NAME, Diplomacy.NAME, Disguise.NAME, EscapeArtist.NAME,
+            Intimidate.NAME, Arcana.NAME, Dungeoneering.NAME, Engineering.NAME, Geography.NAME, History.NAME,
+            Local.NAME, Nature.NAME, Nobility.NAME, Planes.NAME, Religion.NAME, Linguistics.NAME, Perception.NAME,
+            Perform.NAME, Profession.NAME, SenseMotive.NAME, SleightOfHand.NAME, Spellcraft.NAME, Stealth.NAME,
+            UseMagicDevice.NAME));
+    private static final List<Proficiency> PROFICIENCIES = Collections.unmodifiableList(Arrays.asList(
+            Proficiency.SimpleWeapon, Proficiency.LightArmor, Proficiency.Shield));
 
     @Override
     public int getHitDieType()
@@ -117,10 +97,9 @@ public class Bard extends CharacterClass
     }
 
     @Override
-    public String getProficiencies()
+    public List<Proficiency> getProficiencies()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return PROFICIENCIES;
     }
 
     /*
