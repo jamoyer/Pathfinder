@@ -14,6 +14,16 @@ public class Movement
     private int swim;
     private int burrow;
     private int climb;
+    
+    public Movement(int base, int withArmor, int fly, int swim, int burrow, int climb)
+    {
+    	this.base = base;
+    	this.withArmor = withArmor;
+    	this.fly = fly;
+    	this.swim = swim;
+    	this.burrow = burrow;
+    	this.climb = climb;
+    }
 
     public int getWithArmor()
     {
