@@ -1,4 +1,4 @@
-package pathfinder.realWorldObject.item.weapon;
+package pathfinder.realWorldObject.item.equipment.weapon;
 
 import java.util.Arrays;
 import java.util.Collections;
