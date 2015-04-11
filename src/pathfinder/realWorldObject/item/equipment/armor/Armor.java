@@ -14,12 +14,12 @@ public class Armor extends EquipableItem
     private int maxDexBonus;
     private int armorCheckPenalty;
     private double arcaneSpellFailureChance;
-    private int speedPenalty;
+    private ArmorSpeedPenalty speedPenalty;
 
     public Armor(EquipmentSlotType slot, SizeCategory size,
             ArmorProficiency armorProficiency, BonusType bonusType, int cost,
             int armorValue, int maxDexBonus, int armorCheckPenalty,
-            double arcaneSpellFailureChance, int speedPenalty)
+            double arcaneSpellFailureChance, ArmorSpeedPenalty speedPenalty)
     {
         super(slot, size);
         this.armorProficiency = armorProficiency;
@@ -43,7 +43,7 @@ public class Armor extends EquipableItem
         this.arcaneSpellFailureChance = armorName.getArcaneSpellFailureChance();
         this.speedPenalty = armorName.getSpeedPenalty();
     }
-    
+
     public ArmorProficiency getArmorProficiency()
     {
         return this.armorProficiency;
@@ -79,7 +79,7 @@ public class Armor extends EquipableItem
         return this.arcaneSpellFailureChance;
     }
 
-    public int getSpeedPenalty()
+    public ArmorSpeedPenalty getSpeedPenalty()
     {
         return this.speedPenalty;
     }
