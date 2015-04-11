@@ -2,10 +2,12 @@ package pathfinder.realWorldObject.creature;
 
 import java.util.List;
 
+import pathfinder.characters.buffs.BonusTarget;
 import pathfinder.characters.classes.CharacterClass;
 import pathfinder.characters.skill.Skill;
 import pathfinder.realWorldObject.RealWorldObject;
 import pathfinder.realWorldObject.SizeCategory;
+import pathfinder.realWorldObject.creature.coreRaces.Race;
 import pathfinder.realWorldObject.creature.creatureType.CreatureType;
 import pathfinder.realWorldObject.item.equipment.SlotManager;
 
@@ -20,7 +22,8 @@ import pathfinder.realWorldObject.item.equipment.SlotManager;
  */
 public class Creature extends RealWorldObject
 {
-    private final CreatureType race;
+    private final CreatureType creatureType;
+    private final Race race;
     private int level;
     private int hitDie;
     private List<CharacterClass> classes;
@@ -55,23 +58,48 @@ public class Creature extends RealWorldObject
     private int damageReduction;
     private int spellResistance;
     private int combatManueverDefense;
+    private final int baseDefence = 10;
 
-    public Creature(final CreatureType race, final AbilityScores baseStats)
+    /*public Creature(final CreatureType creatureType, final AbilityScores baseStats)
     {
-        this.race = race;
+        this.creatureType = creatureType;
         this.abilityScores = baseStats;
+    }*/
+    
+    public Creature(final CreatureType creatureType, final AbilityScores baseStats, Race race)
+    {
+        this.creatureType = creatureType;
+        this.abilityScores = baseStats;
+        this.race = race;
+        initCreature();
     }
 
     private void initCreature()
     {
+        calcRacialFeatures();
         calcLevel();
-        this.size = this.race.getSizeCategory();
-        this.speeds = this.race.getMoveSpeeds();
+        this.size = this.creatureType.getSizeCategory();
+        this.speeds = this.creatureType.getMoveSpeeds();
         calcInitiative();
         calcBaseAttackBonus();
         calcCombatManueverBonus();
+        calcArmorBonuses();
+        calcSaves();
+        calcDamageReduction();
+        calcSpellResistance();
     }
 
+    private void calcRacialFeatures()
+    {
+        AbilityScores racialAbilityScores = race.getAbilityScoreModifiers();
+        abilityScores.setStrengthScore(abilityScores.getStrengthScore()+racialAbilityScores.getStrengthScore());
+        abilityScores.setDexterityScore(abilityScores.getDexterityScore()+racialAbilityScores.getDexterityScore());
+        abilityScores.setConstitutionScore(abilityScores.getConstitutionScore()+racialAbilityScores.getConstitutionScore());
+        abilityScores.setIntelligenceScore(abilityScores.getIntelligenceScore()+racialAbilityScores.getIntelligenceScore());
+        abilityScores.setWisdomScore(abilityScores.getWisdomScore()+racialAbilityScores.getWisdomScore());
+        abilityScores.setCharismaScore(abilityScores.getCharismaScore()+racialAbilityScores.getCharismaScore());
+    }
+    
     private void calcLevel()
     {
         if (classes.size() > 0)
@@ -83,14 +111,14 @@ public class Creature extends RealWorldObject
         }
         else
         {
-            this.level = this.race.getLevel();
+            this.level = this.creatureType.getLevel();
         }
 
     }
 
     private void calcInitiative()
     {
-        this.initiative = this.abilityScores.getDexterityModifier();
+        this.initiative = this.abilityScores.getDexterityModifier() + equipment.getBonusByTarget(BonusTarget.Dexterity) + equipment.getBonusByTarget(BonusTarget.Initiative);
         // TODO more initative calculations
     }
 
@@ -107,8 +135,8 @@ public class Creature extends RealWorldObject
         }
         else
         {
-            baseAttackBonus = race.getBaseAttackBonusProgression().getBAB(
-                    race.getLevel());
+            baseAttackBonus = creatureType.getBaseAttackBonusProgression().getBAB(
+                    creatureType.getLevel());
         }
     }
 
@@ -116,16 +144,37 @@ public class Creature extends RealWorldObject
     {
         combatManueverBonus = baseAttackBonus
                 + abilityScores.getStrengthModifier()
-                + size.getSpecialSizeModifier();
+                + size.getSpecialSizeModifier()
+                + equipment.getBonusByTarget(BonusTarget.CMB);
     }
 
     /*
      * Make equipped items class that has list of target type, amount, and target of effects/buffs which constantly updates scores
      * for each element.
      */
-    private void calcArmorClass()
+    private void calcArmorBonuses()
     {
-
+        armorClass = baseDefence + equipment.getBonusByTarget(BonusTarget.ArmorClass);
+        flatfooted = baseDefence + equipment.getBonusByTarget(BonusTarget.FlatFooted);
+        touch = baseDefence + equipment.getBonusByTarget(BonusTarget.Touch);
+        combatManueverDefense = baseDefence + equipment.getBonusByTarget(BonusTarget.CMD);
+    }
+    
+    private void calcSaves()
+    {
+        reflex += equipment.getBonusByTarget(BonusTarget.Reflex);
+        fortitude += equipment.getBonusByTarget(BonusTarget.Fortitude);
+        will += equipment.getBonusByTarget(BonusTarget.Will);  
+    }
+    
+    private void calcDamageReduction()
+    {
+        damageReduction = equipment.getBonusByTarget(BonusTarget.DR);
+    }
+    
+    private void calcSpellResistance()
+    {
+        spellResistance = equipment.getBonusByTarget(BonusTarget.SR);
     }
 
 }
