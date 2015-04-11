@@ -6,110 +6,104 @@ public class AbilityScores
 {
 
     private final ArrayList<AbilityScoreInstance> scores = new ArrayList<AbilityScoreInstance>(6);
-    private static final int strIndex = 0;
-    private static final int dexIndex = 1;
-    private static final int conIndex = 2;
-    private static final int intelIndex = 3;
-    private static final int wisIndex = 4;
-    private static final int chaIndex = 5;
 
     public AbilityScores(int str, int dex, int con, int intel, int wis, int cha)
     {
-        scores.add(strIndex, new AbilityScoreInstance(AbilityScore.Strength, str));
-        scores.add(dexIndex, new AbilityScoreInstance(AbilityScore.Dexterity, dex));
-        scores.add(conIndex, new AbilityScoreInstance(AbilityScore.Constitution, con));
-        scores.add(intelIndex, new AbilityScoreInstance(AbilityScore.Intelligence, intel));
-        scores.add(wisIndex, new AbilityScoreInstance(AbilityScore.Wisdom, wis));
-        scores.add(chaIndex, new AbilityScoreInstance(AbilityScore.Charisma, cha));
+        scores.add(AbilityScore.Strength.ordinal(), new AbilityScoreInstance(AbilityScore.Strength, str));
+        scores.add(AbilityScore.Dexterity.ordinal(), new AbilityScoreInstance(AbilityScore.Dexterity, dex));
+        scores.add(AbilityScore.Constitution.ordinal(), new AbilityScoreInstance(AbilityScore.Constitution, con));
+        scores.add(AbilityScore.Intelligence.ordinal(), new AbilityScoreInstance(AbilityScore.Intelligence, intel));
+        scores.add(AbilityScore.Wisdom.ordinal(), new AbilityScoreInstance(AbilityScore.Wisdom, wis));
+        scores.add(AbilityScore.Charisma.ordinal(), new AbilityScoreInstance(AbilityScore.Charisma, cha));
     }
 
     public int getStrengthScore()
     {
-        return scores.get(strIndex).getScore();
+        return scores.get(AbilityScore.Strength.ordinal()).getScore();
     }
 
     public void setStrengthScore(final int score)
     {
-        scores.get(strIndex).setScore(score);
+        scores.get(AbilityScore.Strength.ordinal()).setScore(score);
     }
 
     public int getStrengthModifier()
     {
-        return scores.get(strIndex).getModifier();
+        return scores.get(AbilityScore.Strength.ordinal()).getModifier();
     }
 
     public int getDexterityScore()
     {
-        return scores.get(dexIndex).getScore();
+        return scores.get(AbilityScore.Dexterity.ordinal()).getScore();
     }
 
     public void setDexterityScore(final int score)
     {
-        scores.get(dexIndex).setScore(score);
+        scores.get(AbilityScore.Dexterity.ordinal()).setScore(score);
     }
 
     public int getDexterityModifier()
     {
-        return scores.get(dexIndex).getModifier();
+        return scores.get(AbilityScore.Dexterity.ordinal()).getModifier();
     }
 
     public int getConstitutionScore()
     {
-        return scores.get(conIndex).getScore();
+        return scores.get(AbilityScore.Constitution.ordinal()).getScore();
     }
 
     public void setConstitutionScore(final int score)
     {
-        scores.get(conIndex).setScore(score);
+        scores.get(AbilityScore.Constitution.ordinal()).setScore(score);
     }
 
     public int getConstitutionModifier()
     {
-        return scores.get(conIndex).getModifier();
+        return scores.get(AbilityScore.Constitution.ordinal()).getModifier();
     }
 
     public int getIntelligenceScore()
     {
-        return scores.get(intelIndex).getScore();
+        return scores.get(AbilityScore.Intelligence.ordinal()).getScore();
     }
 
     public void setIntelligenceScore(final int score)
     {
-        scores.get(intelIndex).setScore(score);
+        scores.get(AbilityScore.Intelligence.ordinal()).setScore(score);
     }
 
     public int getIntelligenceModifier()
     {
-        return scores.get(intelIndex).getModifier();
+        return scores.get(AbilityScore.Intelligence.ordinal()).getModifier();
     }
 
     public int getWisdomScore()
     {
-        return scores.get(wisIndex).getScore();
+        return scores.get(AbilityScore.Wisdom.ordinal()).getScore();
     }
 
     public void setWisdomScore(final int score)
     {
-        scores.get(wisIndex).setScore(score);
+        scores.get(AbilityScore.Wisdom.ordinal()).setScore(score);
     }
 
     public int getWisdomModifier()
     {
-        return scores.get(wisIndex).getModifier();
+        return scores.get(AbilityScore.Wisdom.ordinal()).getModifier();
     }
 
     public int getCharismaScore()
     {
-        return scores.get(chaIndex).getScore();
+        return scores.get(AbilityScore.Charisma.ordinal()).getScore();
     }
 
     public void setCharismaScore(final int score)
     {
-        scores.get(chaIndex).setScore(score);
+        scores.get(AbilityScore.Charisma.ordinal()).setScore(score);
     }
 
     public int getCharismaModifier()
     {
-        return scores.get(chaIndex).getModifier();
+        return scores.get(AbilityScore.Charisma.ordinal()).getModifier();
     }
 }
