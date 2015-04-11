@@ -1,4 +1,4 @@
-package pathfinder.realWorldObject.creature;
+package pathfinder.realWorldObject.creature.creatureType;
 
 import pathfinder.characters.classes.ClassInterface;
 
