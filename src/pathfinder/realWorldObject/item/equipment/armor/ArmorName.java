@@ -4,7 +4,21 @@ import pathfinder.bonusTypes.BonusType;
 
 public enum ArmorName
 {
-    ArmoredKilt(ArmorProficiency.Light, BonusType.Armor, 20, 1, 6, 0, 0.0, 0);
+    /*****************************************************
+     ******************* Light Armors ********************
+     *****************************************************/
+    ArmoredKilt(ArmorProficiency.Light, BonusType.Armor, 20, 1, 6, 0, 0, 0),
+    Padded(ArmorProficiency.Light, BonusType.Armor, 5, 1, 8, 0, 5, 0),
+    QuiltedCloth(ArmorProficiency.Light, BonusType.Armor, 100, 1, 8, 0, 10, 0),
+    Leather(ArmorProficiency.Light, BonusType.Armor, 10, 2, 6, 0, 10, 0),
+    RoseWoodArmor(ArmorProficiency.Light, BonusType.Armor, 50, 2, 6, 0, 10, 0),
+    HideShirt(ArmorProficiency.Light, BonusType.Armor, 20, 3, 4, -1, 15, 0),
+    LeafArmor(ArmorProficiency.Light, BonusType.Armor, 500, 3, 5, 0, 15, 0),
+    ParadeArmor(ArmorProficiency.Light, BonusType.Armor, 25, 3, 5, -1, 15, 0),
+    StuddedLeather(ArmorProficiency.Light, BonusType.Armor, 25, 3, 5, -1, 15, 0),
+    Wooden(ArmorProficiency.Light, BonusType.Armor, 20, 3, 3, -1, 15, 0),
+    ChainShirt(ArmorProficiency.Light, BonusType.Armor, 100, 4, 4, -2, 20, 0);
+    
     
     private ArmorProficiency armorProficiency;
     private BonusType bonusType;
@@ -12,11 +26,11 @@ public enum ArmorName
     private int armorValue;
     private int maxDexBonus;
     private int armorCheckPenalty;
-    private double arcaneSpellFailureChance;
+    private int arcaneSpellFailureChance;
     private int speedPenalty;
     
     private ArmorName(ArmorProficiency armorProficiency, BonusType bonusType, int cost, int armorValue, int maxDexBonus,
-            int armorCheckPenalty, double arcaneSpellFailureChance,
+            int armorCheckPenalty, int arcaneSpellFailureChance,
             int speedPenalty)
             {
         this.armorProficiency = armorProficiency;
@@ -59,7 +73,7 @@ public enum ArmorName
         return this.armorCheckPenalty;
     }
 
-    public double getArcaneSpellFailureChance()
+    public int getArcaneSpellFailureChance()
     {
         return this.arcaneSpellFailureChance;
     }
