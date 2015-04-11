@@ -1,5 +1,7 @@
 package pathfinder.realWorldObject.item.weapon;
 
+import java.util.List;
+
 import pathfinder.metaObjects.Die;
 import pathfinder.realWorldObject.SizeCategory;
 import pathfinder.realWorldObject.creature.EquipableItem;
@@ -15,14 +17,14 @@ public class ManufacturedWeapon extends EquipableItem implements Cloneable
     private int critMultiplier;
     private int critRange;
     private int range;
-    private DamageType damageType;
+    private List<DamageType> damageTypes;
     private String description;
 
     public ManufacturedWeapon(EquipmentSlotType slot,
             SizeCategory sizeCategory, WeaponProficiency weaponProficiency,
             WeaponCategory weaponCategory, int cost,
             int damageProgressionIndex, int critMultiplier, int critRange,
-            int range, DamageType damageType, String decription)
+            int range, List<DamageType> damageTypes, String decription)
     {
         super(slot, sizeCategory);
         this.weaponProficiency = weaponProficiency;
@@ -34,7 +36,7 @@ public class ManufacturedWeapon extends EquipableItem implements Cloneable
         this.critMultiplier = critMultiplier;
         this.critRange = critRange;
         this.range = range;
-        this.damageType = damageType;
+        this.damageTypes = damageTypes;
     }
 
     public ManufacturedWeapon(EquipmentSlotType slot,
@@ -50,7 +52,7 @@ public class ManufacturedWeapon extends EquipableItem implements Cloneable
         this.critMultiplier = weaponName.getCritMultiplier();
         this.critRange = weaponName.getCritRange();
         this.range = weaponName.getRange();
-        this.damageType = weaponName.getDamageType();
+        this.damageTypes = weaponName.getDamageTypes();
     }
 
     public WeaponProficiency getWeaponProficiency()
@@ -88,9 +90,9 @@ public class ManufacturedWeapon extends EquipableItem implements Cloneable
         return range;
     }
 
-    public DamageType getDamageType()
+    public List<DamageType> getDamageTypes()
     {
-        return damageType;
+        return damageTypes;
     }
     
     public String getDescription()
@@ -104,6 +106,6 @@ public class ManufacturedWeapon extends EquipableItem implements Cloneable
         return new ManufacturedWeapon(this.getSlotType(),
                 this.getSizeCategory(), weaponProficiency, weaponCategory,
                 cost, damageProgressionIndex, critMultiplier, critRange, range,
-                damageType, description);
+                damageTypes, description);
     }
 }
