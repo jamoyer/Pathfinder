@@ -4,6 +4,7 @@ import java.util.List;
 
 import pathfinder.characters.buffs.BonusTarget;
 import pathfinder.characters.classes.CharacterClass;
+import pathfinder.characters.savingThrow.BaseSavingThrowSet;
 import pathfinder.characters.skill.Skill;
 import pathfinder.realWorldObject.RealWorldObject;
 import pathfinder.realWorldObject.SizeCategory;
@@ -162,9 +163,16 @@ public class Creature extends RealWorldObject
     
     private void calcSaves()
     {
-        reflex += equipment.getBonusByTarget(BonusTarget.Reflex);
-        fortitude += equipment.getBonusByTarget(BonusTarget.Fortitude);
-        will += equipment.getBonusByTarget(BonusTarget.Will);  
+        reflex = equipment.getBonusByTarget(BonusTarget.Reflex) + abilityScores.getDexterityModifier();
+        fortitude = equipment.getBonusByTarget(BonusTarget.Fortitude) + abilityScores.getConstitutionModifier();
+        will = equipment.getBonusByTarget(BonusTarget.Will) + abilityScores.getWisdomModifier();  
+        for (final CharacterClass charClass : classes)
+        {
+            BaseSavingThrowSet baseSaves = charClass.getSavingThrowSet();
+            reflex += baseSaves.getBaseReflex(charClass.getLevel());
+            fortitude += baseSaves.getBaseFortitude(charClass.getLevel());
+            will += baseSaves.getBaseWill(charClass.getLevel());
+        }
     }
     
     private void calcDamageReduction()
