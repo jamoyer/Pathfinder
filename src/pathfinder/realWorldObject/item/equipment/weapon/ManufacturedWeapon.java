@@ -2,7 +2,7 @@ package pathfinder.realWorldObject.item.equipment.weapon;
 
 import java.util.List;
 
-import pathfinder.metaObjects.Die;
+import pathfinder.metaObjects.DiceSet;
 import pathfinder.realWorldObject.SizeCategory;
 import pathfinder.realWorldObject.creature.EquipableItem;
 import pathfinder.realWorldObject.creature.EquipmentSlotType;
@@ -13,7 +13,7 @@ public class ManufacturedWeapon extends EquipableItem implements Cloneable
     private final Proficiency weaponProficiency;
     private final WeaponCategory weaponCategory;
     private final int cost;
-    private final Die damage;
+    private final DiceSet damage;
     private final int damageProgressionIndex;
     private final int critMultiplier;
     private final int critRange;
@@ -32,7 +32,7 @@ public class ManufacturedWeapon extends EquipableItem implements Cloneable
         this.weaponCategory = weaponCategory;
         this.cost = cost;
         this.damageProgressionIndex = damageProgressionIndex;
-        this.damage = Die.getDieForDamage(this.getSizeCategory(),
+        this.damage = DiceSet.getDieForDamage(this.getSizeCategory(),
                 this.damageProgressionIndex);
         this.critMultiplier = critMultiplier;
         this.critRange = critRange;
@@ -48,7 +48,7 @@ public class ManufacturedWeapon extends EquipableItem implements Cloneable
         this.weaponCategory = weaponName.getWeaponCategory();
         this.cost = weaponName.getCost();
         this.damageProgressionIndex = weaponName.getDamageProgressionIndex();
-        this.damage = Die.getDieForDamage(this.getSizeCategory(),
+        this.damage = DiceSet.getDieForDamage(this.getSizeCategory(),
                 this.damageProgressionIndex);
         this.critMultiplier = weaponName.getCritMultiplier();
         this.critRange = weaponName.getCritRange();
@@ -72,7 +72,7 @@ public class ManufacturedWeapon extends EquipableItem implements Cloneable
         return cost;
     }
 
-    public Die getDamage()
+    public DiceSet getDamage()
     {
         return damage;
     }

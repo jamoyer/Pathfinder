@@ -2,11 +2,9 @@ package pathfinder.realWorldObject.creature;
 
 import java.util.List;
 
-import pathfinder.characters.buffs.BonusTarget;
 import pathfinder.characters.skill.Skill;
 import pathfinder.realWorldObject.RealWorldObject;
 import pathfinder.realWorldObject.SizeCategory;
-import pathfinder.realWorldObject.item.equipment.SlotManager;
 
 /**
  * This is a template for any creature to implement. A creature would be
@@ -20,12 +18,19 @@ import pathfinder.realWorldObject.item.equipment.SlotManager;
 public abstract class Creature extends RealWorldObject
 {
     private int level;
-    private int hitDie;
+    private int currentHP;
+    private int nonlethalDamage;
+    private int maxHealthPoints;
+
+    /*
+     * TODO we need something similar to the SlotManager for things that are not
+     * just equipment.
+     */
 
     private CreatureDescription description;
     private final AbilityScores abilityScores;
     private List<Skill> skills;
-    private SlotManager equipment;
+
     private Inventory inventory;
     private List<Spell> spells;
     // TODO feats and such
@@ -53,12 +58,18 @@ public abstract class Creature extends RealWorldObject
     private int damageReduction;
     private int spellResistance;
     private int combatManueverDefense;
-    private final int baseDefence = 10;
+    private static final int BASE_DEFENSE = 10;
+
+    public Creature(final AbilityScores baseStats, final SizeCategory size)
+    {
+        this.abilityScores = baseStats;
+        this.size = size;
+        initCreature();
+    }
 
     public Creature(final AbilityScores baseStats)
     {
-        this.abilityScores = baseStats;
-        initCreature();
+        this(baseStats, SizeCategory.Medium);
     }
 
     protected int getLevel()
@@ -71,14 +82,34 @@ public abstract class Creature extends RealWorldObject
         this.level = level;
     }
 
-    protected int getHitDie()
+    protected int getCurrentHP()
     {
-        return hitDie;
+        return currentHP;
     }
 
-    protected void setHitDie(int hitDie)
+    protected void setCurrentHP(int currentHP)
     {
-        this.hitDie = hitDie;
+        this.currentHP = currentHP;
+    }
+
+    protected int getNonlethalDamage()
+    {
+        return nonlethalDamage;
+    }
+
+    protected void setNonlethalDamage(int nonlethalDamage)
+    {
+        this.nonlethalDamage = nonlethalDamage;
+    }
+
+    protected int getMaxHealthPoints()
+    {
+        return maxHealthPoints;
+    }
+
+    protected void setMaxHealthPoints(int maxHealthPoints)
+    {
+        this.maxHealthPoints = maxHealthPoints;
     }
 
     protected CreatureDescription getDescription()
@@ -99,16 +130,6 @@ public abstract class Creature extends RealWorldObject
     protected void setSkills(List<Skill> skills)
     {
         this.skills = skills;
-    }
-
-    protected SlotManager getEquipment()
-    {
-        return equipment;
-    }
-
-    protected void setEquipment(SlotManager equipment)
-    {
-        this.equipment = equipment;
     }
 
     protected Inventory getInventory()
@@ -286,22 +307,29 @@ public abstract class Creature extends RealWorldObject
         return abilityScores;
     }
 
-    protected int getBaseDefence()
-    {
-        return baseDefence;
-    }
-
     protected void initCreature()
     {
+        // lots of things depend on size and level so calculate those first
+        calcSizeCategory();
         calcLevel();
-        calcAbilityScores();
-        calcInitiative();
+
+        //
         calcBaseAttackBonus();
+        initMaxHealthPoints();
+        currentHP = maxHealthPoints;
+        nonlethalDamage = 0;
+        calcInitiative();
         calcCombatManueverBonus();
         calcArmorBonuses();
         calcSaves();
         calcDamageReduction();
         calcSpellResistance();
+        calcMoveSpeeds();
+    }
+
+    protected void initMaxHealthPoints()
+    {
+        maxHealthPoints = level * abilityScores.getConstitutionModifier();
     }
 
     protected abstract void calcLevel();
@@ -310,33 +338,16 @@ public abstract class Creature extends RealWorldObject
 
     protected abstract void calcMoveSpeeds();
 
-    protected void calcAbilityScores()
-    {
-        abilityScores.setStrengthScore(abilityScores.getStrengthScore()
-                + equipment.getBonusByTarget(BonusTarget.Strength));
-        abilityScores.setStrengthScore(abilityScores.getDexterityScore()
-                + equipment.getBonusByTarget(BonusTarget.Dexterity));
-        abilityScores.setStrengthScore(abilityScores.getConstitutionScore()
-                + equipment.getBonusByTarget(BonusTarget.Constitution));
-        abilityScores.setStrengthScore(abilityScores.getIntelligenceScore()
-                + equipment.getBonusByTarget(BonusTarget.Intelligence));
-        abilityScores.setStrengthScore(abilityScores.getWisdomScore() + equipment.getBonusByTarget(BonusTarget.Wisdom));
-        abilityScores.setStrengthScore(abilityScores.getCharismaScore()
-                + equipment.getBonusByTarget(BonusTarget.Charisma));
-    }
-
     protected void calcInitiative()
     {
-        this.initiative = this.abilityScores.getDexterityModifier()
-                + equipment.getBonusByTarget(BonusTarget.Initiative);
+        this.initiative = this.abilityScores.getDexterityModifier();
     }
 
     protected abstract void calcBaseAttackBonus();
 
     protected void calcCombatManueverBonus()
     {
-        combatManueverBonus = baseAttackBonus + abilityScores.getStrengthModifier() + size.getSpecialSizeModifier()
-                + equipment.getBonusByTarget(BonusTarget.CMB);
+        combatManueverBonus = baseAttackBonus + abilityScores.getStrengthModifier() + size.getSpecialSizeModifier();
     }
 
     /*
@@ -346,27 +357,22 @@ public abstract class Creature extends RealWorldObject
      */
     protected void calcArmorBonuses()
     {
-        armorClass = baseDefence + equipment.getBonusByTarget(BonusTarget.ArmorClass);
-        flatfooted = baseDefence + equipment.getBonusByTarget(BonusTarget.FlatFooted);
-        touch = baseDefence + equipment.getBonusByTarget(BonusTarget.Touch);
-        combatManueverDefense = baseDefence + equipment.getBonusByTarget(BonusTarget.CMD);
+        armorClass = BASE_DEFENSE + abilityScores.getDexterityModifier() + size.getSizeModifier();
+        flatfooted = BASE_DEFENSE + size.getSizeModifier();
+        touch = BASE_DEFENSE + abilityScores.getDexterityModifier() + size.getSizeModifier();
+        combatManueverDefense = BASE_DEFENSE + abilityScores.getDexterityModifier() + size.getSizeModifier()
+                + abilityScores.getStrengthModifier() + baseAttackBonus;
     }
 
     protected void calcSaves()
     {
-        reflex = equipment.getBonusByTarget(BonusTarget.Reflex) + abilityScores.getDexterityModifier();
-        fortitude = equipment.getBonusByTarget(BonusTarget.Fortitude) + abilityScores.getConstitutionModifier();
-        will = equipment.getBonusByTarget(BonusTarget.Will) + abilityScores.getWisdomModifier();
+        reflex = abilityScores.getDexterityModifier();
+        fortitude = abilityScores.getConstitutionModifier();
+        will = abilityScores.getWisdomModifier();
     }
 
-    protected void calcDamageReduction()
-    {
-        damageReduction = equipment.getBonusByTarget(BonusTarget.DR);
-    }
+    protected abstract void calcDamageReduction();
 
-    protected void calcSpellResistance()
-    {
-        spellResistance = equipment.getBonusByTarget(BonusTarget.SR);
-    }
+    protected abstract void calcSpellResistance();
 
 }
