@@ -12,7 +12,7 @@ import pathfinder.realWorldObject.creature.Movement;
 import pathfinder.realWorldObject.creature.creatureType.Humanoid;
 import pathfinder.realWorldObject.item.equipment.Proficiency;
 
-public class Halfling extends Humanoid implements Race
+public class Halfling extends Humanoid
 {
 
     private final static AbilityScores abilityScoreModifiers = new AbilityScores(-2, 2, 0, 0, 0, 2);

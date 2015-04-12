@@ -13,7 +13,7 @@ import pathfinder.realWorldObject.creature.Movement;
 import pathfinder.realWorldObject.creature.creatureType.Humanoid;
 import pathfinder.realWorldObject.item.equipment.Proficiency;
 
-public class HalfOrc extends Humanoid implements Race
+public class HalfOrc extends Humanoid
 {
 
     private final AbilityScores abilityScoreModifiers;

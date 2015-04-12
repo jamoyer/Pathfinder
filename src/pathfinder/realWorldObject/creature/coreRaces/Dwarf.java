@@ -12,7 +12,7 @@ import pathfinder.realWorldObject.creature.Movement;
 import pathfinder.realWorldObject.creature.creatureType.Humanoid;
 import pathfinder.realWorldObject.item.equipment.Proficiency;
 
-public class Dwarf extends Humanoid implements Race
+public class Dwarf extends Humanoid
 {
 
     private final static AbilityScores abilityScoreModifiers = new AbilityScores(0, 0, 2, 0, 2, -2);

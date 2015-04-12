@@ -3,13 +3,9 @@ package pathfinder.realWorldObject.creature;
 import java.util.List;
 
 import pathfinder.characters.buffs.BonusTarget;
-import pathfinder.characters.classes.CharacterClass;
-import pathfinder.characters.savingThrow.BaseSavingThrowSet;
 import pathfinder.characters.skill.Skill;
 import pathfinder.realWorldObject.RealWorldObject;
 import pathfinder.realWorldObject.SizeCategory;
-import pathfinder.realWorldObject.creature.coreRaces.Race;
-import pathfinder.realWorldObject.creature.creatureType.CreatureType;
 import pathfinder.realWorldObject.item.equipment.SlotManager;
 
 /**
@@ -21,14 +17,13 @@ import pathfinder.realWorldObject.item.equipment.SlotManager;
  * @author jacob
  *
  */
-public class Creature extends RealWorldObject
+public abstract class Creature extends RealWorldObject
 {
-    private final CreatureType creatureType;
     private int level;
     private int hitDie;
-    private List<CharacterClass> classes;
+
     private CreatureDescription description;
-    protected final AbilityScores abilityScores;
+    private final AbilityScores abilityScores;
     private List<Skill> skills;
     private SlotManager equipment;
     private Inventory inventory;
@@ -59,19 +54,247 @@ public class Creature extends RealWorldObject
     private int spellResistance;
     private int combatManueverDefense;
     private final int baseDefence = 10;
-    
-    public Creature(final CreatureType creatureType, final AbilityScores baseStats)
+
+    public Creature(final AbilityScores baseStats)
     {
-        this.creatureType = creatureType;
         this.abilityScores = baseStats;
         initCreature();
     }
 
-    private void initCreature()
+    protected int getLevel()
+    {
+        return level;
+    }
+
+    protected void setLevel(int level)
+    {
+        this.level = level;
+    }
+
+    protected int getHitDie()
+    {
+        return hitDie;
+    }
+
+    protected void setHitDie(int hitDie)
+    {
+        this.hitDie = hitDie;
+    }
+
+    protected CreatureDescription getDescription()
+    {
+        return description;
+    }
+
+    protected void setDescription(CreatureDescription description)
+    {
+        this.description = description;
+    }
+
+    protected List<Skill> getSkills()
+    {
+        return skills;
+    }
+
+    protected void setSkills(List<Skill> skills)
+    {
+        this.skills = skills;
+    }
+
+    protected SlotManager getEquipment()
+    {
+        return equipment;
+    }
+
+    protected void setEquipment(SlotManager equipment)
+    {
+        this.equipment = equipment;
+    }
+
+    protected Inventory getInventory()
+    {
+        return inventory;
+    }
+
+    protected void setInventory(Inventory inventory)
+    {
+        this.inventory = inventory;
+    }
+
+    protected List<Spell> getSpells()
+    {
+        return spells;
+    }
+
+    protected void setSpells(List<Spell> spells)
+    {
+        this.spells = spells;
+    }
+
+    protected SizeCategory getSize()
+    {
+        return size;
+    }
+
+    protected void setSize(SizeCategory size)
+    {
+        this.size = size;
+    }
+
+    protected Movement getSpeeds()
+    {
+        return speeds;
+    }
+
+    protected void setSpeeds(Movement speeds)
+    {
+        this.speeds = speeds;
+    }
+
+    protected List<Language> getKnownLanguages()
+    {
+        return knownLanguages;
+    }
+
+    protected void setKnownLanguages(List<Language> knownLanguages)
+    {
+        this.knownLanguages = knownLanguages;
+    }
+
+    protected int getInitiative()
+    {
+        return initiative;
+    }
+
+    protected void setInitiative(int initiative)
+    {
+        this.initiative = initiative;
+    }
+
+    protected int getBaseAttackBonus()
+    {
+        return baseAttackBonus;
+    }
+
+    protected void setBaseAttackBonus(int baseAttackBonus)
+    {
+        this.baseAttackBonus = baseAttackBonus;
+    }
+
+    protected int getCombatManueverBonus()
+    {
+        return combatManueverBonus;
+    }
+
+    protected void setCombatManueverBonus(int combatManueverBonus)
+    {
+        this.combatManueverBonus = combatManueverBonus;
+    }
+
+    protected int getArmorClass()
+    {
+        return armorClass;
+    }
+
+    protected void setArmorClass(int armorClass)
+    {
+        this.armorClass = armorClass;
+    }
+
+    protected int getTouch()
+    {
+        return touch;
+    }
+
+    protected void setTouch(int touch)
+    {
+        this.touch = touch;
+    }
+
+    protected int getFlatfooted()
+    {
+        return flatfooted;
+    }
+
+    protected void setFlatfooted(int flatfooted)
+    {
+        this.flatfooted = flatfooted;
+    }
+
+    protected int getReflex()
+    {
+        return reflex;
+    }
+
+    protected void setReflex(int reflex)
+    {
+        this.reflex = reflex;
+    }
+
+    protected int getFortitude()
+    {
+        return fortitude;
+    }
+
+    protected void setFortitude(int fortitude)
+    {
+        this.fortitude = fortitude;
+    }
+
+    protected int getWill()
+    {
+        return will;
+    }
+
+    protected void setWill(int will)
+    {
+        this.will = will;
+    }
+
+    protected int getDamageReduction()
+    {
+        return damageReduction;
+    }
+
+    protected void setDamageReduction(int damageReduction)
+    {
+        this.damageReduction = damageReduction;
+    }
+
+    protected int getSpellResistance()
+    {
+        return spellResistance;
+    }
+
+    protected void setSpellResistance(int spellResistance)
+    {
+        this.spellResistance = spellResistance;
+    }
+
+    protected int getCombatManueverDefense()
+    {
+        return combatManueverDefense;
+    }
+
+    protected void setCombatManueverDefense(int combatManueverDefense)
+    {
+        this.combatManueverDefense = combatManueverDefense;
+    }
+
+    protected AbilityScores getAbilityScores()
+    {
+        return abilityScores;
+    }
+
+    protected int getBaseDefence()
+    {
+        return baseDefence;
+    }
+
+    protected void initCreature()
     {
         calcLevel();
-        this.size = this.creatureType.getSizeCategory();
-        this.speeds = this.creatureType.getMoveSpeeds();
+        calcAbilityScores();
         calcInitiative();
         calcBaseAttackBonus();
         calcCombatManueverBonus();
@@ -80,87 +303,68 @@ public class Creature extends RealWorldObject
         calcDamageReduction();
         calcSpellResistance();
     }
-    
-    private void calcLevel()
-    {
-        if (classes.size() > 0)
-        {
-            for (final CharacterClass charClass : classes)
-            {
-                this.level += charClass.getLevel();
-            }
-        }
-        else
-        {
-            this.level = this.creatureType.getLevel();
-        }
 
+    protected abstract void calcLevel();
+
+    protected abstract void calcSizeCategory();
+
+    protected abstract void calcMoveSpeeds();
+
+    protected void calcAbilityScores()
+    {
+        abilityScores.setStrengthScore(abilityScores.getStrengthScore()
+                + equipment.getBonusByTarget(BonusTarget.Strength));
+        abilityScores.setStrengthScore(abilityScores.getDexterityScore()
+                + equipment.getBonusByTarget(BonusTarget.Dexterity));
+        abilityScores.setStrengthScore(abilityScores.getConstitutionScore()
+                + equipment.getBonusByTarget(BonusTarget.Constitution));
+        abilityScores.setStrengthScore(abilityScores.getIntelligenceScore()
+                + equipment.getBonusByTarget(BonusTarget.Intelligence));
+        abilityScores.setStrengthScore(abilityScores.getWisdomScore() + equipment.getBonusByTarget(BonusTarget.Wisdom));
+        abilityScores.setStrengthScore(abilityScores.getCharismaScore()
+                + equipment.getBonusByTarget(BonusTarget.Charisma));
     }
 
-    private void calcInitiative()
+    protected void calcInitiative()
     {
-        this.initiative = this.abilityScores.getDexterityModifier() + equipment.getBonusByTarget(BonusTarget.Dexterity) + equipment.getBonusByTarget(BonusTarget.Initiative);
-        // TODO more initative calculations
+        this.initiative = this.abilityScores.getDexterityModifier()
+                + equipment.getBonusByTarget(BonusTarget.Initiative);
     }
 
-    private void calcBaseAttackBonus()
-    {
+    protected abstract void calcBaseAttackBonus();
 
-        if (classes.size() > 0)
-        {
-            for (final CharacterClass charClass : classes)
-            {
-                baseAttackBonus += charClass.getBaseAttackBonusProgression()
-                        .getBAB(charClass.getLevel());
-            }
-        }
-        else
-        {
-            baseAttackBonus = creatureType.getBaseAttackBonusProgression().getBAB(
-                    creatureType.getLevel());
-        }
-    }
-
-    private void calcCombatManueverBonus()
+    protected void calcCombatManueverBonus()
     {
-        combatManueverBonus = baseAttackBonus
-                + abilityScores.getStrengthModifier()
-                + size.getSpecialSizeModifier()
+        combatManueverBonus = baseAttackBonus + abilityScores.getStrengthModifier() + size.getSpecialSizeModifier()
                 + equipment.getBonusByTarget(BonusTarget.CMB);
     }
 
     /*
-     * Make equipped items class that has list of target type, amount, and target of effects/buffs which constantly updates scores
+     * Make equipped items class that has list of target type, amount, and
+     * target of effects/buffs which constantly updates scores
      * for each element.
      */
-    private void calcArmorBonuses()
+    protected void calcArmorBonuses()
     {
         armorClass = baseDefence + equipment.getBonusByTarget(BonusTarget.ArmorClass);
         flatfooted = baseDefence + equipment.getBonusByTarget(BonusTarget.FlatFooted);
         touch = baseDefence + equipment.getBonusByTarget(BonusTarget.Touch);
         combatManueverDefense = baseDefence + equipment.getBonusByTarget(BonusTarget.CMD);
     }
-    
-    private void calcSaves()
+
+    protected void calcSaves()
     {
         reflex = equipment.getBonusByTarget(BonusTarget.Reflex) + abilityScores.getDexterityModifier();
         fortitude = equipment.getBonusByTarget(BonusTarget.Fortitude) + abilityScores.getConstitutionModifier();
-        will = equipment.getBonusByTarget(BonusTarget.Will) + abilityScores.getWisdomModifier();  
-        for (final CharacterClass charClass : classes)
-        {
-            BaseSavingThrowSet baseSaves = charClass.getSavingThrowSet();
-            reflex += baseSaves.getBaseReflex(charClass.getLevel());
-            fortitude += baseSaves.getBaseFortitude(charClass.getLevel());
-            will += baseSaves.getBaseWill(charClass.getLevel());
-        }
+        will = equipment.getBonusByTarget(BonusTarget.Will) + abilityScores.getWisdomModifier();
     }
-    
-    private void calcDamageReduction()
+
+    protected void calcDamageReduction()
     {
         damageReduction = equipment.getBonusByTarget(BonusTarget.DR);
     }
-    
-    private void calcSpellResistance()
+
+    protected void calcSpellResistance()
     {
         spellResistance = equipment.getBonusByTarget(BonusTarget.SR);
     }
