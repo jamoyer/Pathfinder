@@ -17,7 +17,7 @@ import pathfinder.characters.skill.Ride;
 import pathfinder.characters.skill.Survival;
 import pathfinder.characters.skill.craft.Craft;
 import pathfinder.characters.skill.profession.Profession;
-import pathfinder.realWorldObject.creature.AbilityScores;
+import pathfinder.realWorldObject.creature.AbilityScoreSet;
 import pathfinder.realWorldObject.creature.Language;
 
 public abstract class Humanoid extends CreatureType
@@ -69,7 +69,7 @@ public abstract class Humanoid extends CreatureType
         return SKILLS;
     }
 
-    public abstract AbilityScores getAbilityScoreModifiers();
+    public abstract AbilityScoreSet getAbilityScoreModifiers();
 
     public abstract List<Language> getLanguages();
 

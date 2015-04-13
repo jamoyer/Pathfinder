@@ -15,7 +15,13 @@ import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Expert extends CharacterClass
 {
-	/*
+	public Expert(int level)
+    {
+        super(level);
+        // TODO Auto-generated constructor stub
+    }
+
+    /*
 	 * Basic Class Stats
 	 */
 	private static final int HIT_DIE = 8;

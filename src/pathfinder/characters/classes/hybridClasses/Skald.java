@@ -43,7 +43,13 @@ import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Skald extends CharacterClass
 {
-	/*
+    public Skald(int level)
+    {
+        super(level);
+        // TODO Auto-generated constructor stub
+    }
+
+    /*
 	 * Basic Class Stats
 	 */
 	private static final int HIT_DIE = 8;

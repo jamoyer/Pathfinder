@@ -16,5 +16,7 @@ public enum EquipmentSlotType
     Shield,
     Shoulders,
     Wrists,
+
+    // make sure slotless stays on the bottom, SlotManager depends on this.
     Slotless;
 }

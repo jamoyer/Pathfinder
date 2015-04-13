@@ -22,6 +22,12 @@ import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Commoner extends CharacterClass
 {
+    public Commoner(int level)
+    {
+        super(level);
+        // TODO Auto-generated constructor stub
+    }
+
     /*
      * Basic Class Stats
      */

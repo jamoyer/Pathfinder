@@ -23,6 +23,11 @@ public abstract class ClassInterface
         level = 0;
     }
 
+    public ClassInterface(int level)
+    {
+        this.level = level;
+    }
+
     public int getLevel()
     {
         return level;

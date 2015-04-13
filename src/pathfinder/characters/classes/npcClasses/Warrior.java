@@ -22,7 +22,13 @@ import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Warrior extends CharacterClass
 {
-	/*
+    public Warrior(int level)
+    {
+        super(level);
+        // TODO Auto-generated constructor stub
+    }
+
+    /*
 	 * Basic Class Stats
 	 */
 	private static final int HIT_DIE = 10;

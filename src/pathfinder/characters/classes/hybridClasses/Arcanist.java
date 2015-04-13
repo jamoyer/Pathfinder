@@ -33,7 +33,13 @@ import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Arcanist extends CharacterClass
 {
-	/*
+    public Arcanist(int level)
+    {
+        super(level);
+        // TODO Auto-generated constructor stub
+    }
+
+    /*
 	 * Basic Class Stats
 	 */
 	private static final int HIT_DIE = 6;

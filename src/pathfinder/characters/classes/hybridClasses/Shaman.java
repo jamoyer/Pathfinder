@@ -27,7 +27,13 @@ import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Shaman extends CharacterClass
 {
-	/*
+    public Shaman(int level)
+    {
+        super(level);
+        // TODO Auto-generated constructor stub
+    }
+
+    /*
 	 * Basic Class Stats
 	 */
 	private static final int HIT_DIE = 8;

@@ -47,6 +47,16 @@ public class Barbarian extends CharacterClass
             Proficiency.SimpleWeapon, Proficiency.MartialWeapon, Proficiency.LightArmor, Proficiency.MediumArmor,
             Proficiency.Shield));
 
+    public Barbarian(int level)
+    {
+        super(level);
+    }
+
+    public Barbarian()
+    {
+        super();
+    }
+
     @Override
     public int getHitDieType()
     {

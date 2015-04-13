@@ -24,6 +24,12 @@ import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Sorcerer extends CharacterClass
 {
+    public Sorcerer(int level)
+    {
+        super(level);
+        // TODO Auto-generated constructor stub
+    }
+
     /*
      * Basic Class Stats
      */

@@ -28,6 +28,12 @@ import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Monk extends CharacterClass
 {
+    public Monk(int level)
+    {
+        super(level);
+        // TODO Auto-generated constructor stub
+    }
+
     /*
      * Basic Class Stats
      */

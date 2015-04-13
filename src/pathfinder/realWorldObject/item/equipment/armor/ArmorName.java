@@ -43,14 +43,14 @@ public enum ArmorName
     /*****************************************************
      ******************* Shields *************************
      *****************************************************/
-    Buckler(Proficiency.Shield, BonusType.Shield, 5, 1, 9999, -1, 5, ArmorSpeedPenalty.None),
-    Klar(Proficiency.Shield, BonusType.Shield, 12, 1, 9999, -1, 5, ArmorSpeedPenalty.None),
-    MaduLeather(Proficiency.Shield, BonusType.Shield, 30, 1, 9999, -2, 5, ArmorSpeedPenalty.None),
-    MaduSteel(Proficiency.Shield, BonusType.Shield, 40, 1, 9999, -2, 5, ArmorSpeedPenalty.None),
-    ShieldLightWooden(Proficiency.Shield, BonusType.Shield, 3, 1, 9999, -1, 5, ArmorSpeedPenalty.None),
-    ShieldLightSteel(Proficiency.Shield, BonusType.Shield, 9, 1, 9999, -1, 5, ArmorSpeedPenalty.None),
-    ShieldHeavyWooden(Proficiency.Shield, BonusType.Shield, 7, 2, 9999, -2, 15, ArmorSpeedPenalty.None),
-    ShieldHeavySteel(Proficiency.Shield, BonusType.Shield, 20, 2, 9999, -2, 15, ArmorSpeedPenalty.None),
+    Buckler(Proficiency.Shield, BonusType.Shield, 5, 1, Armor.UNLIMITED_DEX_BONUS, -1, 5, ArmorSpeedPenalty.None),
+    Klar(Proficiency.Shield, BonusType.Shield, 12, 1, Armor.UNLIMITED_DEX_BONUS, -1, 5, ArmorSpeedPenalty.None),
+    MaduLeather(Proficiency.Shield, BonusType.Shield, 30, 1, Armor.UNLIMITED_DEX_BONUS, -2, 5, ArmorSpeedPenalty.None),
+    MaduSteel(Proficiency.Shield, BonusType.Shield, 40, 1, Armor.UNLIMITED_DEX_BONUS, -2, 5, ArmorSpeedPenalty.None),
+    ShieldLightWooden(Proficiency.Shield, BonusType.Shield, 3, 1, Armor.UNLIMITED_DEX_BONUS, -1, 5, ArmorSpeedPenalty.None),
+    ShieldLightSteel(Proficiency.Shield, BonusType.Shield, 9, 1, Armor.UNLIMITED_DEX_BONUS, -1, 5, ArmorSpeedPenalty.None),
+    ShieldHeavyWooden(Proficiency.Shield, BonusType.Shield, 7, 2, Armor.UNLIMITED_DEX_BONUS, -2, 15, ArmorSpeedPenalty.None),
+    ShieldHeavySteel(Proficiency.Shield, BonusType.Shield, 20, 2, Armor.UNLIMITED_DEX_BONUS, -2, 15, ArmorSpeedPenalty.None),
     ShieldTower(Proficiency.TowerShield, BonusType.Shield, 30, 4, 2, -10, 50, ArmorSpeedPenalty.None);
 
     private Proficiency armorProficiency;

@@ -1,157 +1,145 @@
 package pathfinder.realWorldObject.creature;
 
+import java.util.Arrays;
 import java.util.List;
 
 import pathfinder.characters.buffs.BonusTarget;
 import pathfinder.characters.classes.CharacterClass;
-import pathfinder.characters.savingThrow.BaseSavingThrowSet;
 import pathfinder.metaObjects.DiceSet;
-import pathfinder.realWorldObject.creature.creatureType.CreatureType;
 import pathfinder.realWorldObject.creature.creatureType.Humanoid;
 import pathfinder.realWorldObject.item.equipment.SlotManager;
 
 public class CharacterCreature extends Creature
 {
-
+    private final int totalLevel;
     private final Humanoid race;
     private final List<CharacterClass> classes;
     private SlotManager equipment;
 
-    public CharacterCreature(final CreatureType creatureType, final AbilityScores baseStats, final Humanoid race,
-            final List<CharacterClass> classList)
+    public CharacterCreature(final AbilityScoreSet baseStats, final Humanoid race, final CharacterClass charClass)
     {
-        super(new AbilityScores(baseStats.getStrengthScore() + race.getAbilityScoreModifiers().getStrengthScore(),
-                baseStats.getDexterityScore() + race.getAbilityScoreModifiers().getDexterityScore(),
-                baseStats.getConstitutionScore() + race.getAbilityScoreModifiers().getConstitutionScore(),
-                baseStats.getIntelligenceScore() + race.getAbilityScoreModifiers().getIntelligenceScore(),
-                baseStats.getWisdomScore() + race.getAbilityScoreModifiers().getWisdomScore(),
-                baseStats.getCharismaScore() + race.getAbilityScoreModifiers().getCharismaScore()));
-        this.race = race;
-        classes = classList;
+        this(baseStats, race, Arrays.asList(charClass));
     }
 
-    protected SlotManager getEquipment()
+    public CharacterCreature(final AbilityScoreSet baseStats, final Humanoid race, final List<CharacterClass> classList)
+    {
+        super(baseStats.addScores(race.getAbilityScoreModifiers()), race);
+        this.race = race;
+        classes = classList;
+        totalLevel = calcTotalLevel();
+        super.setBaseAttackBonus(calcCharacterBaseAttackBonus());
+
+        super.setCombatManueverDefense(calcCombatManueverDefense());
+
+        super.setMaxHealthPoints(calcCharacterMaxHealthPointsRandom());
+        super.setCurrentHP(calcCurrentHP());
+
+        super.setReflex(calcCharacterReflex());
+        super.setFortitude(calcCharacterFortitude());
+        super.setWill(calcCharacterWill());
+    }
+
+    public int getCharacterLevel()
+    {
+        return totalLevel;
+    }
+
+    public SlotManager getEquipment()
     {
         return equipment;
     }
 
-    protected void setEquipment(SlotManager equipment)
-    {
-        this.equipment = equipment;
-    }
+    /*****************************************************
+     *************** Calculation Functions ***************
+     *****************************************************/
 
-    protected void calcAbilityScores()
+    private int calcTotalLevel()
     {
-        super.getAbilityScores().setStrengthScore(
-                super.getAbilityScores().getStrengthScore() + equipment.getBonusByTarget(BonusTarget.Strength));
-        super.getAbilityScores().setStrengthScore(
-                super.getAbilityScores().getDexterityScore() + equipment.getBonusByTarget(BonusTarget.Dexterity));
-        super.getAbilityScores().setStrengthScore(
-                super.getAbilityScores().getConstitutionScore() + equipment.getBonusByTarget(BonusTarget.Constitution));
-        super.getAbilityScores().setStrengthScore(
-                super.getAbilityScores().getIntelligenceScore() + equipment.getBonusByTarget(BonusTarget.Intelligence));
-        super.getAbilityScores().setStrengthScore(
-                super.getAbilityScores().getWisdomScore() + equipment.getBonusByTarget(BonusTarget.Wisdom));
-        super.getAbilityScores().setStrengthScore(
-                super.getAbilityScores().getCharismaScore() + equipment.getBonusByTarget(BonusTarget.Charisma));
-    }
-
-    @Override
-    protected void calcLevel()
-    {
-        // initialize level to zero and then sum the level of every class
-        super.setLevel(0);
+        int level = 0;
         for (final CharacterClass charClass : classes)
         {
-            super.setLevel(super.getLevel() + charClass.getLevel());
+            level += charClass.getLevel();
         }
+        return level;
     }
 
-    @Override
-    protected void initMaxHealthPoints()
+    public int calcCharacterMaxHealthPointsRandom()
     {
-        super.initMaxHealthPoints();
+        final int conHP = getCharacterLevel() * getEffectiveAbilityScores().getConstitutionModifier();
+        final int bonusHP = getBuffManager().getBonusByTarget(BonusTarget.MaxHp);
 
         int hpFromClasses = 0;
+        boolean isFirstClass = true;
         for (final CharacterClass charClass : classes)
         {
-            final DiceSet dice = new DiceSet(charClass.getHitDieType());
-            hpFromClasses += dice.getRolledTotal();
+            final int hitDie = race.getHitDieType();
+            final int level = charClass.getLevel();
+            if (isFirstClass)
+            {
+                // if this is the first class give one full hitDie of health for first level, the
+                // rest is random
+                hpFromClasses += new DiceSet(hitDie, level - 1).getRolledTotal() + hitDie;
+                isFirstClass = false;
+            }
+            else
+            {
+                hpFromClasses += new DiceSet(hitDie, level).getRolledTotal();
+            }
         }
-        super.setMaxHealthPoints(super.getMaxHealthPoints() + hpFromClasses);
+        return hpFromClasses + conHP + bonusHP;
     }
 
-    @Override
-    protected void calcInitiative()
+    public int calcCharacterBaseAttackBonus()
     {
-        super.calcInitiative();
-        super.setInitiative(super.getInitiative() + equipment.getBonusByTarget(BonusTarget.Initiative));
-    }
-
-    @Override
-    protected void calcCombatManueverBonus()
-    {
-        super.calcCombatManueverBonus();
-        super.setCombatManueverBonus(super.getCombatManueverBonus() + equipment.getBonusByTarget(BonusTarget.CMB));
-    }
-
-    @Override
-    protected void calcArmorBonuses()
-    {
-        super.calcArmorBonuses();
-        super.setArmorClass(super.getArmorClass() + equipment.getBonusByTarget(BonusTarget.ArmorClass));
-        super.setFlatfooted(super.getFlatfooted() + equipment.getBonusByTarget(BonusTarget.FlatFooted));
-        super.setTouch(super.getTouch() + equipment.getBonusByTarget(BonusTarget.Touch));
-        super.setCombatManueverDefense(super.getCombatManueverDefense() + equipment.getBonusByTarget(BonusTarget.CMD));
-    }
-
-    @Override
-    protected void calcBaseAttackBonus()
-    {
+        int bab = 0;
         // initialize level to zero and then sum the level of every class
-        super.setBaseAttackBonus(0);
         for (final CharacterClass charClass : classes)
         {
-            super.setBaseAttackBonus(charClass.getBaseAttackBonusProgression().getBAB(charClass.getLevel())
-                    + super.getBaseAttackBonus());
+            bab += charClass.getBaseAttackBonusProgression().getBAB(charClass.getLevel());
         }
+        return bab;
     }
 
-    @Override
-    protected void calcSaves()
+    public int calcCharacterFortitude()
     {
-        super.calcSaves();
+        final int conMod = getEffectiveAbilityScores().getConstitutionModifier();
+        final int fortBonus = getBuffManager().getBonusByTarget(BonusTarget.Fortitude);
+
+        int baseFort = 0;
         for (final CharacterClass charClass : classes)
         {
-            final BaseSavingThrowSet baseSaves = charClass.getSavingThrowSet();
-            super.setReflex(super.getReflex() + baseSaves.getBaseReflex(charClass.getLevel()));
-            super.setFortitude(super.getFortitude() + baseSaves.getBaseFortitude(charClass.getLevel()));
-            super.setWill(super.getWill() + baseSaves.getBaseWill(charClass.getLevel()));
+            baseFort += charClass.getSavingThrowSet().getBaseFortitude(charClass.getLevel());
         }
+
+        return conMod + baseFort + fortBonus;
     }
 
-    @Override
-    protected void calcDamageReduction()
+    public int calcCharacterReflex()
     {
-        super.setDamageReduction(equipment.getBonusByTarget(BonusTarget.DR));
+        final int dexMod = getEffectiveAbilityScores().getDexterityModifier();
+        final int reflexBonus = getBuffManager().getBonusByTarget(BonusTarget.Reflex);
+
+        int baseReflex = 0;
+        for (final CharacterClass charClass : classes)
+        {
+            baseReflex += charClass.getSavingThrowSet().getBaseReflex(charClass.getLevel());
+        }
+
+        return dexMod + baseReflex + reflexBonus;
     }
 
-    @Override
-    protected void calcSpellResistance()
+    public int calcCharacterWill()
     {
-        super.setDamageReduction(equipment.getBonusByTarget(BonusTarget.SR));
-    }
+        final int wisMod = getEffectiveAbilityScores().getWisdomModifier();
+        final int willBonus = getBuffManager().getBonusByTarget(BonusTarget.Will);
 
-    @Override
-    protected void calcSizeCategory()
-    {
-        super.setSize(race.getSizeCategory());
-    }
+        int baseWill = 0;
+        for (final CharacterClass charClass : classes)
+        {
+            baseWill += charClass.getSavingThrowSet().getBaseWill(charClass.getLevel());
+        }
 
-    @Override
-    protected void calcMoveSpeeds()
-    {
-        super.setSpeeds(race.getMoveSpeeds());
+        return wisMod + baseWill + willBonus;
     }
 
 }

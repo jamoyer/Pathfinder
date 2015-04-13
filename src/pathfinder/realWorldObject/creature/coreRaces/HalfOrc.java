@@ -7,7 +7,7 @@ import java.util.List;
 
 import pathfinder.realWorldObject.SizeCategory;
 import pathfinder.realWorldObject.creature.AbilityScore;
-import pathfinder.realWorldObject.creature.AbilityScores;
+import pathfinder.realWorldObject.creature.AbilityScoreSet;
 import pathfinder.realWorldObject.creature.Language;
 import pathfinder.realWorldObject.creature.Movement;
 import pathfinder.realWorldObject.creature.creatureType.Humanoid;
@@ -16,7 +16,7 @@ import pathfinder.realWorldObject.item.equipment.Proficiency;
 public class HalfOrc extends Humanoid
 {
 
-    private final AbilityScores abilityScoreModifiers;
+    private final AbilityScoreSet abilityScoreModifiers;
     private final static Movement movement = new Movement(30, 0, 0, 0, 0, 0);
     private final static List<Language> languages = Collections.unmodifiableList(Arrays.asList(Language.Common,
             Language.Orc));
@@ -28,31 +28,31 @@ public class HalfOrc extends Humanoid
         switch (abilityScoreBonus)
         {
             case Charisma:
-                abilityScoreModifiers = new AbilityScores(0, 0, 0, 0, 0, 2);
+                abilityScoreModifiers = new AbilityScoreSet(0, 0, 0, 0, 0, 2);
                 break;
             case Constitution:
-                abilityScoreModifiers = new AbilityScores(0, 0, 2, 0, 0, 0);
+                abilityScoreModifiers = new AbilityScoreSet(0, 0, 2, 0, 0, 0);
                 break;
             case Dexterity:
-                abilityScoreModifiers = new AbilityScores(0, 2, 0, 0, 0, 0);
+                abilityScoreModifiers = new AbilityScoreSet(0, 2, 0, 0, 0, 0);
                 break;
             case Intelligence:
-                abilityScoreModifiers = new AbilityScores(0, 0, 0, 2, 0, 0);
+                abilityScoreModifiers = new AbilityScoreSet(0, 0, 0, 2, 0, 0);
                 break;
             case Strength:
-                abilityScoreModifiers = new AbilityScores(2, 0, 0, 0, 0, 0);
+                abilityScoreModifiers = new AbilityScoreSet(2, 0, 0, 0, 0, 0);
                 break;
             case Wisdom:
-                abilityScoreModifiers = new AbilityScores(0, 0, 0, 0, 2, 0);
+                abilityScoreModifiers = new AbilityScoreSet(0, 0, 0, 0, 2, 0);
                 break;
             default:
-                abilityScoreModifiers = new AbilityScores(0, 0, 0, 0, 0, 0);
+                abilityScoreModifiers = new AbilityScoreSet(0, 0, 0, 0, 0, 0);
                 break;
         }
     }
 
     @Override
-    public AbilityScores getAbilityScoreModifiers()
+    public AbilityScoreSet getAbilityScoreModifiers()
     {
         return abilityScoreModifiers;
     }

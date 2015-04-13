@@ -25,6 +25,12 @@ import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Fighter extends CharacterClass
 {
+    public Fighter(int level)
+    {
+        super(level);
+        // TODO Auto-generated constructor stub
+    }
+
     /*
      * Basic Class Stats
      */

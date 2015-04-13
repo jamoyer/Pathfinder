@@ -26,69 +26,71 @@ import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Antipaladin extends CharacterClass
 {
-	/*
-	 * Basic Class Stats
-	 */
-	private static final int HIT_DIE = 10;
-	private static final int SKILL_RANKS_PER_LEVEL = 2;
-	private static final BaseAttackBonusProgression BASE_ATTACK_BONUS = new FastBAB();
+    public Antipaladin(int level)
+    {
+        super(level);
+    }
 
-	private static final BaseSavingThrow FORTITUDE = new GoodSave();
-	private static final BaseSavingThrow REFLEX = new BadSave();
-	private static final BaseSavingThrow WILL = new GoodSave();
-	private static final BaseSavingThrowSet BASE_SAVES = new BaseSavingThrowSet(
-			FORTITUDE, REFLEX, WILL);
+    /*
+     * Basic Class Stats
+     */
+    private static final int HIT_DIE = 10;
+    private static final int SKILL_RANKS_PER_LEVEL = 2;
+    private static final BaseAttackBonusProgression BASE_ATTACK_BONUS = new FastBAB();
 
-	// needs to be unmodifiable so that when this list is passed it is not
-	// accidentally modified, which could be disastrous
-	private static final List<String> SKILLS = Collections
-			.unmodifiableList(Arrays.asList(Bluff.NAME, Craft.NAME,
-					Disguise.NAME, HandleAnimal.NAME, Intimidate.NAME,
-					Religion.NAME, Profession.NAME, Ride.NAME,
-					SenseMotive.NAME, Spellcraft.NAME, Stealth.NAME));
+    private static final BaseSavingThrow FORTITUDE = new GoodSave();
+    private static final BaseSavingThrow REFLEX = new BadSave();
+    private static final BaseSavingThrow WILL = new GoodSave();
+    private static final BaseSavingThrowSet BASE_SAVES = new BaseSavingThrowSet(FORTITUDE, REFLEX, WILL);
 
-	private static final List<Proficiency> PROFICIENCIES = Collections.unmodifiableList(Arrays.asList(
+    // needs to be unmodifiable so that when this list is passed it is not
+    // accidentally modified, which could be disastrous
+    private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Bluff.NAME, Craft.NAME,
+            Disguise.NAME, HandleAnimal.NAME, Intimidate.NAME, Religion.NAME, Profession.NAME, Ride.NAME,
+            SenseMotive.NAME, Spellcraft.NAME, Stealth.NAME));
+
+    private static final List<Proficiency> PROFICIENCIES = Collections.unmodifiableList(Arrays.asList(
             Proficiency.SimpleWeapon, Proficiency.MartialWeapon, Proficiency.LightArmor, Proficiency.MediumArmor,
             Proficiency.HeavyArmor, Proficiency.Shield));
 
-	@Override
-	public int getHitDieType()
-	{
-		return HIT_DIE;
-	}
+    @Override
+    public int getHitDieType()
+    {
+        return HIT_DIE;
+    }
 
-	@Override
-	public BaseAttackBonusProgression getBaseAttackBonusProgression()
-	{
-		return BASE_ATTACK_BONUS;
-	}
+    @Override
+    public BaseAttackBonusProgression getBaseAttackBonusProgression()
+    {
+        return BASE_ATTACK_BONUS;
+    }
 
-	@Override
-	public BaseSavingThrowSet getSavingThrowSet()
-	{
-		return BASE_SAVES;
-	}
+    @Override
+    public BaseSavingThrowSet getSavingThrowSet()
+    {
+        return BASE_SAVES;
+    }
 
-	@Override
-	public int getSkillRanksPerLevel()
-	{
-		return SKILL_RANKS_PER_LEVEL;
-	}
+    @Override
+    public int getSkillRanksPerLevel()
+    {
+        return SKILL_RANKS_PER_LEVEL;
+    }
 
-	@Override
-	public List<String> getClassSkills()
-	{
-		return SKILLS;
-	}
+    @Override
+    public List<String> getClassSkills()
+    {
+        return SKILLS;
+    }
 
-	@Override
-	public List<Proficiency> getProficiencies()
-	{
-		return PROFICIENCIES;
-	}
+    @Override
+    public List<Proficiency> getProficiencies()
+    {
+        return PROFICIENCIES;
+    }
 
-	/*
-	 * TODO class features
-	 */
+    /*
+     * TODO class features
+     */
 
 }

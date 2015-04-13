@@ -62,9 +62,11 @@ public class DiceSet
         int sum = 0;
         for (int i = 0; i < count; i++)
         {
-            sum += _random.nextInt(numSides) + 1;
+            sum += _random.nextInt(numSides);
         }
-        return sum;
+
+        // add count because minimum for dice is 1 but nextInt minimum is 0
+        return sum + count;
     }
 
     /**

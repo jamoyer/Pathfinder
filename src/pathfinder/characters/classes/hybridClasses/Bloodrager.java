@@ -26,7 +26,13 @@ import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Bloodrager extends CharacterClass
 {
-	/*
+	public Bloodrager(int level)
+    {
+        super(level);
+        // TODO Auto-generated constructor stub
+    }
+
+    /*
 	 * Basic Class Stats
 	 */
 	private static final int HIT_DIE = 10;

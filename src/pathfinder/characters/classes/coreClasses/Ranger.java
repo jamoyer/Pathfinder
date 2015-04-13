@@ -30,6 +30,12 @@ import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Ranger extends CharacterClass
 {
+    public Ranger(int level)
+    {
+        super(level);
+        // TODO Auto-generated constructor stub
+    }
+
     /*
      * Basic Class Stats
      */

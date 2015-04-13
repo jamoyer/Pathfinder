@@ -17,6 +17,8 @@ public class Armor extends EquipableItem
     private final double arcaneSpellFailureChance;
     private final ArmorSpeedPenalty speedPenalty;
 
+    public static final int UNLIMITED_DEX_BONUS = 9999;
+
     public Armor(EquipmentSlotType slot, SizeCategory size,
             Proficiency armorProficiency, BonusType bonusType, int cost,
             int armorValue, int maxDexBonus, int armorCheckPenalty,

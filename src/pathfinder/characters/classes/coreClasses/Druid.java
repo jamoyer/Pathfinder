@@ -28,6 +28,12 @@ import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Druid extends CharacterClass
 {
+    public Druid(int level)
+    {
+        super(level);
+        // TODO Auto-generated constructor stub
+    }
+
     /*
      * Basic Class Stats
      */

@@ -30,7 +30,13 @@ import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Gunslinger extends CharacterClass
 {
-	/*
+	public Gunslinger(int level)
+    {
+        super(level);
+        // TODO Auto-generated constructor stub
+    }
+
+    /*
 	 * Basic Class Stats
 	 */
 	private static final int HIT_DIE = 10;

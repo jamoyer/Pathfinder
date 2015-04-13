@@ -29,7 +29,13 @@ import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Warpriest extends CharacterClass
 {
-	/*
+    public Warpriest(int level)
+    {
+        super(level);
+        // TODO Auto-generated constructor stub
+    }
+
+    /*
 	 * Basic Class Stats
 	 */
 	private static final int HIT_DIE = 8;

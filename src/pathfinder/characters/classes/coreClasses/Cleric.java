@@ -27,6 +27,12 @@ import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Cleric extends CharacterClass
 {
+    public Cleric(int level)
+    {
+        super(level);
+        // TODO Auto-generated constructor stub
+    }
+
     /*
      * Basic Class Stats
      */

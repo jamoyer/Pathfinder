@@ -43,6 +43,12 @@ import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Bard extends CharacterClass
 {
+    public Bard(int level)
+    {
+        super(level);
+        // TODO Auto-generated constructor stub
+    }
+
     /*
      * Basic Class Stats
      */

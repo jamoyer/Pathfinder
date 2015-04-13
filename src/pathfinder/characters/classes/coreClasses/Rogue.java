@@ -35,6 +35,12 @@ import pathfinder.realWorldObject.item.equipment.Proficiency;
 
 public class Rogue extends CharacterClass
 {
+    public Rogue(int level)
+    {
+        super(level);
+        // TODO Auto-generated constructor stub
+    }
+
     /*
      * Basic Class Stats
      */
