@@ -1,6 +1,7 @@
 package pathfinder.realWorldObject.creature;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import pathfinder.characters.buffs.BonusTarget;
@@ -8,13 +9,15 @@ import pathfinder.characters.classes.CharacterClass;
 import pathfinder.metaObjects.DiceSet;
 import pathfinder.realWorldObject.creature.creatureType.Humanoid;
 import pathfinder.realWorldObject.item.equipment.SlotManager;
+import pathfinder.realWorldObject.item.equipment.armor.Armor;
 
 public class CharacterCreature extends Creature
 {
     private final int totalLevel;
     private final Humanoid race;
     private final List<CharacterClass> classes;
-    private SlotManager equipment;
+    private final SlotManager equipment;
+    private final int maxDexBonus;
 
     public CharacterCreature(final AbilityScoreSet baseStats, final Humanoid race, final CharacterClass charClass)
     {
@@ -27,9 +30,13 @@ public class CharacterCreature extends Creature
         this.race = race;
         classes = classList;
         totalLevel = calcTotalLevel();
+        equipment = new SlotManager(race.getSizeCategory());
         super.setBaseAttackBonus(calcCharacterBaseAttackBonus());
 
+        maxDexBonus = calcMaxDexBonus();
         super.setCombatManueverDefense(calcCombatManueverDefense());
+        super.setArmorClass(calcArmorClass());
+        super.setTouch(calcTouch());
 
         super.setMaxHealthPoints(calcCharacterMaxHealthPointsRandom());
         super.setCurrentHP(calcCurrentHP());
@@ -47,6 +54,16 @@ public class CharacterCreature extends Creature
     public SlotManager getEquipment()
     {
         return equipment;
+    }
+
+    public List<CharacterClass> getClasses()
+    {
+        return Collections.unmodifiableList(classes);
+    }
+
+    public int getMaxDexBonus()
+    {
+        return maxDexBonus;
     }
 
     /*****************************************************
@@ -98,6 +115,52 @@ public class CharacterCreature extends Creature
             bab += charClass.getBaseAttackBonusProgression().getBAB(charClass.getLevel());
         }
         return bab;
+    }
+
+    public int calcMaxDexBonus()
+    {
+        final int totalDex = super.getEffectiveAbilityScores().getDexterityModifier();
+        final int bonusToMaxDexBonus = getBuffManager().getBonusByTarget(BonusTarget.MaxDexBonus);
+
+        // get maximum allowed dex from armor
+        int armorMax = Armor.UNLIMITED_DEX_BONUS;
+        final EquippableItem armor = equipment.getItemBySlot(EquipmentSlotType.Armor);
+        if (armor != null)
+        {
+            armorMax = ((Armor) armor).getMaxDexBonus();
+        }
+
+        // get maximum allowed dex from shield
+        int shieldMax = Armor.UNLIMITED_DEX_BONUS;
+        final EquippableItem shield = equipment.getItemBySlot(EquipmentSlotType.Shield);
+        if (shield != null)
+        {
+            shieldMax = ((Armor) shield).getMaxDexBonus();
+        }
+
+        // maxDex will be the minimum from the armor and shield plus any bonuses
+        final int maxDexPossible = (armorMax < shieldMax ? armorMax : shieldMax) + bonusToMaxDexBonus;
+
+        // return the maximum usable dexterity
+        if (maxDexPossible > totalDex)
+        {
+            return totalDex;
+        }
+        return maxDexPossible;
+    }
+
+    public int calcCharacterArmorClass()
+    {
+        final int sizeMod = race.getSizeCategory().getSizeModifier();
+        final int acBonus = getBuffManager().getBonusByTarget(BonusTarget.ArmorClass);
+        return BASE_DEFENSE + maxDexBonus + sizeMod + acBonus;
+    }
+
+    public int calcCharacterTouch()
+    {
+        final int sizeMod = race.getSizeCategory().getSizeModifier();
+        final int touchBonus = getBuffManager().getBonusByTarget(BonusTarget.Touch);
+        return BASE_DEFENSE + maxDexBonus + sizeMod + touchBonus;
     }
 
     public int calcCharacterFortitude()

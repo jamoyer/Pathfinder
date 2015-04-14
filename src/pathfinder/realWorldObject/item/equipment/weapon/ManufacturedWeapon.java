@@ -4,11 +4,11 @@ import java.util.List;
 
 import pathfinder.metaObjects.DiceSet;
 import pathfinder.realWorldObject.SizeCategory;
-import pathfinder.realWorldObject.creature.EquipableItem;
+import pathfinder.realWorldObject.creature.EquippableItem;
 import pathfinder.realWorldObject.creature.EquipmentSlotType;
 import pathfinder.realWorldObject.item.equipment.Proficiency;
 
-public class ManufacturedWeapon extends EquipableItem implements Cloneable
+public class ManufacturedWeapon extends EquippableItem implements Cloneable
 {
     private final Proficiency weaponProficiency;
     private final WeaponCategory weaponCategory;

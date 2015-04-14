@@ -2,11 +2,11 @@ package pathfinder.realWorldObject.item.equipment.armor;
 
 import pathfinder.characters.buffs.BonusType;
 import pathfinder.realWorldObject.SizeCategory;
-import pathfinder.realWorldObject.creature.EquipableItem;
+import pathfinder.realWorldObject.creature.EquippableItem;
 import pathfinder.realWorldObject.creature.EquipmentSlotType;
 import pathfinder.realWorldObject.item.equipment.Proficiency;
 
-public class Armor extends EquipableItem
+public class Armor extends EquippableItem
 {
     private final Proficiency armorProficiency;
     private final BonusType bonusType;

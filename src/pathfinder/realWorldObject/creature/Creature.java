@@ -42,7 +42,7 @@ public abstract class Creature extends RealWorldObject
     // effective scores are what a creature actually uses and takes into account base scores,
     // bonuses, penalties, etc
     private final AbilityScoreSet effectiveScores;
-    private final int maxDexBonus;
+
     private List<Skill> skills;
 
     private Inventory inventory;
@@ -70,7 +70,7 @@ public abstract class Creature extends RealWorldObject
     private int damageReduction;
     private int spellResistance;
     private int combatManueverDefense;
-    private static final int BASE_DEFENSE = 10;
+    protected static final int BASE_DEFENSE = 10;
 
     public Creature(final AbilityScoreSet baseStats, final CreatureType creatureType)
     {
@@ -85,7 +85,6 @@ public abstract class Creature extends RealWorldObject
 
         // these need to be calculated next as most things depend on them
         effectiveScores = calcAbilityScores();
-        maxDexBonus = calcMaxDexBonus();
         baseAttackBonus = calcBaseAttackBonus();
 
         // now calculate things in groups, the order of the groups don't really matter
@@ -333,17 +332,6 @@ public abstract class Creature extends RealWorldObject
         return baseScores.addScores(bonuses);
     }
 
-    public int calcMaxDexBonus()
-    {
-        final int maxDexPossible = buffManager.getBonusByTarget(BonusTarget.MaxDexBonus);
-        final int totalDex = effectiveScores.getDexterityModifier();
-        if (maxDexPossible > totalDex)
-        {
-            return totalDex;
-        }
-        return maxDexPossible;
-    }
-
     public int calcTempHP()
     {
         return buffManager.getBonusByTarget(BonusTarget.TempHp);
@@ -391,7 +379,8 @@ public abstract class Creature extends RealWorldObject
     {
         final int sizeMod = creatureType.getSizeCategory().getSizeModifier();
         final int touchBonus = buffManager.getBonusByTarget(BonusTarget.Touch);
-        return BASE_DEFENSE + maxDexBonus + sizeMod + touchBonus;
+        final int dexBonus = effectiveScores.getDexterityModifier();
+        return BASE_DEFENSE + dexBonus + sizeMod + touchBonus;
     }
 
     public int calcFlatFooted()
@@ -405,7 +394,8 @@ public abstract class Creature extends RealWorldObject
     {
         final int sizeMod = creatureType.getSizeCategory().getSizeModifier();
         final int acBonus = buffManager.getBonusByTarget(BonusTarget.ArmorClass);
-        return BASE_DEFENSE + maxDexBonus + sizeMod + acBonus;
+        final int dexBonus = effectiveScores.getDexterityModifier();
+        return BASE_DEFENSE + dexBonus + sizeMod + acBonus;
     }
 
     public int calcFortitude()

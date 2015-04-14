@@ -14,20 +14,20 @@ import pathfinder.realWorldObject.item.Item;
  * @author jacob
  *
  */
-public class EquipableItem extends Item
+public class EquippableItem extends Item
 {
     private final EquipmentSlotType slot;
     private final SizeCategory sizeCategory;
     private final List<CharacterBuff> buffs;
 
-    public EquipableItem(EquipmentSlotType slot, SizeCategory sizeCategory)
+    public EquippableItem(EquipmentSlotType slot, SizeCategory sizeCategory)
     {
         this.slot = slot;
         this.sizeCategory = sizeCategory;
         buffs = new LinkedList<CharacterBuff>();
     }
 
-    public EquipableItem(EquipmentSlotType slot, SizeCategory sizeCategory, List<CharacterBuff> buffs)
+    public EquippableItem(EquipmentSlotType slot, SizeCategory sizeCategory, List<CharacterBuff> buffs)
     {
         this.slot = slot;
         this.sizeCategory = sizeCategory;

@@ -5,15 +5,15 @@ import java.util.List;
 
 import pathfinder.characters.buffs.CharacterBuff;
 import pathfinder.realWorldObject.SizeCategory;
-import pathfinder.realWorldObject.creature.EquipableItem;
 import pathfinder.realWorldObject.creature.EquipmentSlotType;
+import pathfinder.realWorldObject.creature.EquippableItem;
 
 public class SlotManager
 {
     // an array for all the slots except slotless
-    private final EquipableItem[] equipedItems = new EquipableItem[EquipmentSlotType.values().length - 1];
+    private final EquippableItem[] slottedItems = new EquippableItem[EquipmentSlotType.values().length - 1];
     // a list for all the slotless items
-    private final List<EquipableItem> slotlessItems = new LinkedList<EquipableItem>();
+    private final List<EquippableItem> slotlessItems = new LinkedList<EquippableItem>();
     private final SizeCategory size;
 
     public SlotManager(final SizeCategory size)
@@ -28,7 +28,7 @@ public class SlotManager
      * @param item
      * @return
      */
-    public List<CharacterBuff> addEquipment(final EquipableItem item)
+    public List<CharacterBuff> addEquipment(final EquippableItem item)
     {
         // check for correct size category
         if (item.getSizeCategory().ordinal() > size.ordinal())
@@ -44,13 +44,13 @@ public class SlotManager
         else
         {
             // check to see if the slot is already being used
-            if (equipedItems[item.getSlotType().ordinal()] != null)
+            if (slottedItems[item.getSlotType().ordinal()] != null)
             {
                 return null;
             }
 
             // add the item to the corresponding slot
-            equipedItems[item.getSlotType().ordinal()] = item;
+            slottedItems[item.getSlotType().ordinal()] = item;
         }
 
         return item.getBuffs();
@@ -63,14 +63,14 @@ public class SlotManager
      * @param itemId
      * @return
      */
-    public EquipableItem removeEquipment(final long itemId)
+    public EquippableItem removeEquipment(final long itemId)
     {
-        for (int i = 0; i < equipedItems.length; i++)
+        for (int i = 0; i < slottedItems.length; i++)
         {
-            final EquipableItem item = equipedItems[i];
+            final EquippableItem item = slottedItems[i];
             if (item.getId() == itemId)
             {
-                equipedItems[i] = null;
+                slottedItems[i] = null;
                 return item;
             }
         }
@@ -84,13 +84,34 @@ public class SlotManager
      * @param item
      * @return
      */
-    public List<CharacterBuff> removeEquipment(final EquipableItem item)
+    public List<CharacterBuff> removeEquipment(final EquippableItem item)
     {
         if (removeEquipment(item.getId()) != null)
         {
             return item.getBuffs();
         }
         return null;
+    }
+
+    /**
+     * Returns the equipped item for the given slot type. If slotType is slotless and there are
+     * multiple slotless items, this method returns one of them. If there is no such item for the
+     * given slot type, the method returns null.
+     *
+     * @param slotType
+     * @return
+     */
+    public EquippableItem getItemBySlot(final EquipmentSlotType slotType)
+    {
+        if (slotType.equals(EquipmentSlotType.Slotless))
+        {
+            if (!slotlessItems.isEmpty())
+            {
+                return slotlessItems.get(0);
+            }
+            return null;
+        }
+        return slottedItems[slotType.ordinal()];
     }
 
     /**
@@ -109,9 +130,9 @@ public class SlotManager
      * @param size
      * @return a list of items that were unequipped by the size change.
      */
-    public List<EquipableItem> setSlotSize(final SizeCategory size)
+    public List<EquippableItem> setSlotSize(final SizeCategory size)
     {
-        return new LinkedList<EquipableItem>();
+        return new LinkedList<EquippableItem>();
     }
 
     /**
