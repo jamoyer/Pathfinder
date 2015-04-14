@@ -11,12 +11,13 @@ public class Main
 
     public static void main(String[] args)
     {
-        final AbilityScoreSet baseScores = AbilityScoreSet.roll4d6AbilityScoreSet();
-        final Dwarf dwarf = new Dwarf();
-        final Barbarian bar = new Barbarian(5);
-        final Creature steve = new CharacterCreature(baseScores, dwarf, bar);
-        steve.getArmorClass();
-        System.out.println("Successfully created Steve.");
+         final AbilityScoreSet baseScores = AbilityScoreSet.roll4d6AbilityScoreSet();
+         final Dwarf dwarf = new Dwarf();
+         final Barbarian bar = new Barbarian(5);
+         final Creature steve = new CharacterCreature(baseScores, dwarf, bar);
+         steve.getArmorClass();
+         System.out.println("Successfully created Steve.");
+
     }
 
 }

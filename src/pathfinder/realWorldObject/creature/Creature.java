@@ -21,9 +21,7 @@ import pathfinder.realWorldObject.creature.creatureType.CreatureType;
  */
 public abstract class Creature extends RealWorldObject
 {
-    private int currentHP;
     private int nonlethalDamage;
-    private int maxHealthPoints;
     private int tempHP;
 
     /*
@@ -45,7 +43,7 @@ public abstract class Creature extends RealWorldObject
 
     private List<Skill> skills;
 
-    private Inventory inventory;
+    private final Inventory inventory;
     private List<Spell> spells;
     // TODO feats and such
     // TODO abilities and such
@@ -88,8 +86,8 @@ public abstract class Creature extends RealWorldObject
         baseAttackBonus = calcBaseAttackBonus();
 
         // now calculate things in groups, the order of the groups don't really matter
-        maxHealthPoints = calcMaxHealthPointsRandom();
-        currentHP = calcCurrentHP();
+        super.setMaxHP(calcMaxHealthPointsRandom());
+        super.setHP(calcCurrentHP());
         nonlethalDamage = 0;
 
         initiative = calcInitiative();
@@ -103,6 +101,8 @@ public abstract class Creature extends RealWorldObject
         reflex = calcReflex();
         fortitude = calcFortitude();
         will = calcWill();
+
+        inventory = new Inventory(effectiveScores.getStrengthScore(), creatureType.getSizeCategory(), creatureType.isBipedal());
     }
 
     /*****************************************************
@@ -129,16 +129,6 @@ public abstract class Creature extends RealWorldObject
         return creatureType.getLevel();
     }
 
-    public int getCurrentHP()
-    {
-        return currentHP;
-    }
-
-    public void setCurrentHP(int currentHP)
-    {
-        this.currentHP = currentHP;
-    }
-
     public int getTempHP()
     {
         return tempHP;
@@ -157,16 +147,6 @@ public abstract class Creature extends RealWorldObject
     public void setNonlethalDamage(int nonlethalDamage)
     {
         this.nonlethalDamage = nonlethalDamage;
-    }
-
-    public int getMaxHealthPoints()
-    {
-        return maxHealthPoints;
-    }
-
-    public void setMaxHealthPoints(int maxHealthPoints)
-    {
-        this.maxHealthPoints = maxHealthPoints;
     }
 
     public CreatureDescription getDescription()
@@ -339,7 +319,7 @@ public abstract class Creature extends RealWorldObject
 
     public int calcCurrentHP()
     {
-        return maxHealthPoints + tempHP + buffManager.getBonusByTarget(BonusTarget.CurrentHp);
+        return getMaxHP() + tempHP + buffManager.getBonusByTarget(BonusTarget.CurrentHp);
     }
 
     public int calcMaxHealthPointsRandom()
@@ -430,5 +410,15 @@ public abstract class Creature extends RealWorldObject
     public int calcSpellResistance()
     {
         return buffManager.getBonusByTarget(BonusTarget.SR);
+    }
+
+    /*****************************************************
+     ****************** Action Functions *****************
+     *****************************************************/
+
+    public void addToInventory(final RealWorldObject rwo)
+    {
+        inventory.addItem(rwo);
+        // TODO apply buffs or whatever else might need to happen
     }
 }

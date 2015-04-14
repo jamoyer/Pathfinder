@@ -36,8 +36,8 @@ public abstract class Humanoid extends CreatureType
 
     // needs to be unmodifiable so that when this list is passed it is not
     // accidentally modified, which could be disastrous
-    private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Climb.NAME, Craft.NAME,
-            HandleAnimal.NAME, Heal.NAME, Profession.NAME, Ride.NAME, Survival.NAME));
+    private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Climb.NAME, Craft.NAME, HandleAnimal.NAME, Heal.NAME, Profession.NAME, Ride.NAME,
+            Survival.NAME));
 
     @Override
     public int getHitDieType()
@@ -67,6 +67,12 @@ public abstract class Humanoid extends CreatureType
     public List<String> getClassSkills()
     {
         return SKILLS;
+    }
+
+    @Override
+    public boolean isBipedal()
+    {
+        return true;
     }
 
     public abstract AbilityScoreSet getAbilityScoreModifiers();

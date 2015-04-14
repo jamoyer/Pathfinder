@@ -7,7 +7,7 @@ import java.util.List;
  * This object is a template for anything that is real and can exist in the game
  * world. Does not include things like Quests, bounties, things that cannot be
  * sensed by one of the 5 senses, etc.
- * 
+ *
  * @author jacob
  *
  */
@@ -21,11 +21,15 @@ public abstract class RealWorldObject
     // modifiers often
     private final List<RWOModifier> modifiers = new LinkedList<RWOModifier>();
     private int hitPoints;
+    private int maxHitPoints;
+
+    private long idcounter = 0;
 
     public RealWorldObject()
     {
-        id = 0; // TODO create a system for making unique id's, possibly a
-                // idmaker class that has an id counter
+        id = idcounter++;
+        // TODO create a system for making unique id's, possibly a
+        // idmaker class that has an id counter
     }
 
     public long getWeight()
@@ -43,9 +47,24 @@ public abstract class RealWorldObject
         return coordinate;
     }
 
+    public int getMaxHP()
+    {
+        return maxHitPoints;
+    }
+
+    public void setMaxHP(int hp)
+    {
+        maxHitPoints = hp;
+    }
+
     public int getHitPoints()
     {
         return hitPoints;
+    }
+
+    public void setHP(int hp)
+    {
+        hitPoints = hp;
     }
 
     public void addModifier(final RWOModifier modifier)
@@ -56,5 +75,11 @@ public abstract class RealWorldObject
     public List<RWOModifier> getModifiers()
     {
         return modifiers;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return (int) id;
     }
 }

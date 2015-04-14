@@ -38,8 +38,8 @@ public class CharacterCreature extends Creature
         super.setArmorClass(calcArmorClass());
         super.setTouch(calcTouch());
 
-        super.setMaxHealthPoints(calcCharacterMaxHealthPointsRandom());
-        super.setCurrentHP(calcCurrentHP());
+        super.setMaxHP(calcCharacterMaxHealthPointsRandom());
+        super.setHP(calcCurrentHP());
 
         super.setReflex(calcCharacterReflex());
         super.setFortitude(calcCharacterFortitude());
