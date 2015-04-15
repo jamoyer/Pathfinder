@@ -1,15 +1,17 @@
 package pathfinder.realWorldObject;
 
 /**
- * This object is used to modify RealWorldObjects, examples: "On fire",
- * "Bleeding", "Sleeping", "Unconscious", "Taking Damage", "Falling". These
- * modify the objects they are applied to.
+ * This object is used to modify RealWorldObjects, examples: "On fire", "Bleeding", "Sleeping",
+ * "Unconscious", "Taking Damage", "Falling". These modify the objects they are applied to.
  *
  * @author jacob
  *
  */
 public class RWOModifier
 {
+    private static long idCounter = 0;
+
+    private final long id;
     private final long sourceId;
     private final int duration;
     private final boolean isPermanent;
@@ -23,6 +25,7 @@ public class RWOModifier
         this.title = title;
         this.duration = duration;
         this.isPermanent = isPermanent;
+        id = idCounter++;
     }
 
     public long getSourceId()
@@ -64,22 +67,17 @@ public class RWOModifier
         }
 
         final RWOModifier temp = (RWOModifier) o;
-        if (!title.equals(temp.getTitle()))
-        {
-            return false;
-        }
-        if (sourceId != temp.getSourceId())
-        {
-            return false;
-        }
-        if (duration != temp.getDuration())
-        {
-            return false;
-        }
-        if (isPermanent != temp.isPermanent())
+
+        if (hashCode() != temp.hashCode())
         {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return (int) id;
     }
 }

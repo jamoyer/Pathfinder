@@ -5,16 +5,16 @@ import java.util.List;
 
 import pathfinder.characters.buffs.BonusTarget;
 import pathfinder.characters.buffs.BuffManager;
+import pathfinder.characters.buffs.CreatureBuff;
 import pathfinder.characters.skill.Skill;
 import pathfinder.metaObjects.DiceSet;
 import pathfinder.realWorldObject.RealWorldObject;
 import pathfinder.realWorldObject.creature.creatureType.CreatureType;
 
 /**
- * This is a template for any creature to implement. A creature would be
- * anything that is considered a creature in Pathfinder rules including
- * Monsters, NPC's, the players/party members, anything that moves and controls
- * its own movement and actions.
+ * This is a template for any creature to implement. A creature would be anything that is considered
+ * a creature in Pathfinder rules including Monsters, NPC's, the players/party members, anything
+ * that moves and controls its own movement and actions.
  *
  * @author jacob
  *
@@ -25,8 +25,7 @@ public abstract class Creature extends RealWorldObject
     private int tempHP;
 
     /*
-     * TODO we need something similar to the SlotManager for things that are not
-     * just equipment.
+     * TODO we need something similar to the SlotManager for things that are not just equipment.
      */
 
     private final CreatureType creatureType;
@@ -40,8 +39,12 @@ public abstract class Creature extends RealWorldObject
     // effective scores are what a creature actually uses and takes into account base scores,
     // bonuses, penalties, etc
     private final AbilityScoreSet effectiveScores;
+    private int maxDexBonus;
 
     private List<Skill> skills;
+
+    private final Movement baseMovement;
+    private Movement effectiveMovement;
 
     private final Inventory inventory;
     private List<Spell> spells;
@@ -83,6 +86,7 @@ public abstract class Creature extends RealWorldObject
 
         // these need to be calculated next as most things depend on them
         effectiveScores = calcAbilityScores();
+        inventory = new Inventory(effectiveScores.getStrengthScore(), creatureType.getSizeCategory(), creatureType.isBipedal());
         baseAttackBonus = calcBaseAttackBonus();
 
         // now calculate things in groups, the order of the groups don't really matter
@@ -93,6 +97,7 @@ public abstract class Creature extends RealWorldObject
         initiative = calcInitiative();
         combatManueverBonus = calcCombatManueverBonus();
 
+        maxDexBonus = calcMaxDexBonus();
         armorClass = calcArmorClass();
         touch = calcTouch();
         flatfooted = calcFlatFooted();
@@ -102,12 +107,23 @@ public abstract class Creature extends RealWorldObject
         fortitude = calcFortitude();
         will = calcWill();
 
-        inventory = new Inventory(effectiveScores.getStrengthScore(), creatureType.getSizeCategory(), creatureType.isBipedal());
+        baseMovement = creatureType.getMoveSpeeds();
+        effectiveMovement = calcEffectiveMovement();
     }
 
     /*****************************************************
      **************** Getters and Setters ****************
      *****************************************************/
+
+    public int getMaxDexBonus()
+    {
+        return maxDexBonus;
+    }
+
+    public void setMaxDexBonus(int maxDexBonus)
+    {
+        this.maxDexBonus = maxDexBonus;
+    }
 
     public AbilityScoreSet getBaseAbilityScores()
     {
@@ -294,6 +310,11 @@ public abstract class Creature extends RealWorldObject
         return buffManager;
     }
 
+    public long getTotalWeight()
+    {
+        return getWeight() + inventory.getTotalWeight();
+    }
+
     /*****************************************************
      *************** Calculation Functions ***************
      *****************************************************/
@@ -355,12 +376,30 @@ public abstract class Creature extends RealWorldObject
         return BASE_DEFENSE + dexMod + sizeMod + strMod + baseAttackBonus + cmdBonus;
     }
 
+    public int calcMaxDexBonus()
+    {
+        final int totalDex = effectiveScores.getDexterityModifier();
+        final int bonusToMaxDexBonus = buffManager.getBonusByTarget(BonusTarget.MaxDexBonus);
+
+        // get maximum allowed dex from load
+        final int loadMax = inventory.getLoad().getMaxDex();
+
+        // maxDex will be the minimum from the load plus any bonuses
+        final int maxDexPossible = loadMax + bonusToMaxDexBonus;
+
+        // return the maximum usable dexterity
+        if (maxDexPossible > totalDex)
+        {
+            return totalDex;
+        }
+        return maxDexPossible;
+    }
+
     public int calcTouch()
     {
         final int sizeMod = creatureType.getSizeCategory().getSizeModifier();
         final int touchBonus = buffManager.getBonusByTarget(BonusTarget.Touch);
-        final int dexBonus = effectiveScores.getDexterityModifier();
-        return BASE_DEFENSE + dexBonus + sizeMod + touchBonus;
+        return BASE_DEFENSE + maxDexBonus + sizeMod + touchBonus;
     }
 
     public int calcFlatFooted()
@@ -374,8 +413,7 @@ public abstract class Creature extends RealWorldObject
     {
         final int sizeMod = creatureType.getSizeCategory().getSizeModifier();
         final int acBonus = buffManager.getBonusByTarget(BonusTarget.ArmorClass);
-        final int dexBonus = effectiveScores.getDexterityModifier();
-        return BASE_DEFENSE + dexBonus + sizeMod + acBonus;
+        return BASE_DEFENSE + maxDexBonus + sizeMod + acBonus;
     }
 
     public int calcFortitude()
@@ -412,13 +450,94 @@ public abstract class Creature extends RealWorldObject
         return buffManager.getBonusByTarget(BonusTarget.SR);
     }
 
+    public Movement calcEffectiveMovement()
+    {
+        final int baseSpeed = baseMovement.getBase();
+        final Movement toReturn = baseMovement.clone();
+
+        // reduce move speed amounts due to load
+        // this may not actually reduce the base any if this is a light load
+        toReturn.setBase(inventory.getLoad().getReducedSpeed(baseSpeed));
+        return toReturn;
+    }
+
     /*****************************************************
      ****************** Action Functions *****************
      *****************************************************/
 
-    public void addToInventory(final RealWorldObject rwo)
+    /**
+     * Attempts to add the object to the creature's inventory. This method returns true if the item
+     * is successfully added to inventory or false otherwise.
+     *
+     * @param rwo
+     * @return
+     */
+    public boolean addToInventory(final RealWorldObject rwo)
     {
-        inventory.addItem(rwo);
-        // TODO apply buffs or whatever else might need to happen
+        if (inventory.addItem(rwo))
+        {
+            maxDexBonus = calcMaxDexBonus();
+            effectiveMovement = calcEffectiveMovement();
+            return true;
+        }
+        return false;
     }
+
+    /*
+     * TODO will need a system for tracking the bonuses from slotless items that are added to
+     * creatures similar to character creature. Probably something like a generic equipment tracker
+     * that tracks slots that are applicable to the creature. At that point we could pull regular
+     * equipment and slot management out of character creature, which would be ideal. But for now
+     * character creature will have to work as is and slotless items simply have no effect over
+     * regular creatures.
+     */
+
+    /**
+     * Applies a buff to the creature.
+     *
+     * @param buff
+     */
+    public void addBuff(final CreatureBuff buff)
+    {
+        buffManager.addBuff(buff);
+        // TODO recalculate things based on the target of the buff
+    }
+
+    /**
+     * Applies a list of buffs to the creature.
+     *
+     * @param buffs
+     */
+    public void addBuff(final List<CreatureBuff> buffs)
+    {
+        for (final CreatureBuff buff : buffs)
+        {
+            addBuff(buff);
+        }
+    }
+
+    /**
+     * Removes the buff from the creature.
+     *
+     * @param buff
+     */
+    public void removeBuff(final CreatureBuff buff)
+    {
+        buffManager.removeBuff(buff);
+        // TODO recalculate things based on the target of the buff
+    }
+
+    /**
+     * Removes a list of buffs from the creature.
+     *
+     * @param buffs
+     */
+    public void removeBuff(final List<CreatureBuff> buffs)
+    {
+        for (final CreatureBuff buff : buffs)
+        {
+            removeBuff(buff);
+        }
+    }
+
 }

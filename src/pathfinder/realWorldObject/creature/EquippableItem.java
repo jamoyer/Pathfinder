@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import pathfinder.characters.buffs.CharacterBuff;
+import pathfinder.characters.buffs.CreatureBuff;
 import pathfinder.realWorldObject.SizeCategory;
 import pathfinder.realWorldObject.item.Item;
 
@@ -18,23 +18,30 @@ public class EquippableItem extends Item
 {
     private final EquipmentSlotType slot;
     private final SizeCategory sizeCategory;
-    private final List<CharacterBuff> buffs;
+    private final List<CreatureBuff> buffs;
 
     public EquippableItem(EquipmentSlotType slot, SizeCategory sizeCategory)
     {
         this.slot = slot;
         this.sizeCategory = sizeCategory;
-        buffs = new LinkedList<CharacterBuff>();
+        buffs = new LinkedList<CreatureBuff>();
     }
 
-    public EquippableItem(EquipmentSlotType slot, SizeCategory sizeCategory, List<CharacterBuff> buffs)
+    public EquippableItem(EquipmentSlotType slot, SizeCategory sizeCategory, List<CreatureBuff> buffs)
     {
         this.slot = slot;
         this.sizeCategory = sizeCategory;
-        this.buffs = buffs;
+        if (buffs != null)
+        {
+            this.buffs = buffs;
+        }
+        else
+        {
+            this.buffs = new LinkedList<CreatureBuff>();
+        }
     }
 
-    public List<CharacterBuff> getBuffs()
+    public List<CreatureBuff> getBuffs()
     {
         return Collections.unmodifiableList(buffs);
     }

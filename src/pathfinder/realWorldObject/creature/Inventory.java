@@ -41,6 +41,10 @@ public class Inventory
         calcLoad();
     }
 
+    /*****************************************************
+     *************** Calculation Functions ***************
+     *****************************************************/
+
     private void calcLoad()
     {
         final int loadAsInt = (int) (totalWeight / (maxLoad / 3));
@@ -98,6 +102,10 @@ public class Inventory
         maxLoad *= bipedal ? size.getBipedCarryCapacityMultiplier() : size.getQuadrupedCarryCapacityMultiplier();
     }
 
+    /*****************************************************
+     **************** Getters and Setters ****************
+     *****************************************************/
+
     public void setStrength(int str)
     {
         strength = str;
@@ -127,6 +135,10 @@ public class Inventory
         return load;
     }
 
+    /*****************************************************
+     ****************** Action Functions *****************
+     *****************************************************/
+
     /**
      * Attempts to add the item to the inventory. If the weight of the item would exceed the max
      * load, the item is not added.
@@ -137,7 +149,7 @@ public class Inventory
     public boolean addItem(final RealWorldObject rwo)
     {
         /*
-         * TODO being overloaded, lifting above head, dragging ...
+         * TODO creatures being overloaded, lifting above head, dragging ...
          *
          * from http://www.d20pfsrd.com/alignment-description/carrying-capacity
          *
@@ -182,6 +194,11 @@ public class Inventory
         final ArrayList<RealWorldObject> returnList = new ArrayList<RealWorldObject>(contents.size());
         contents.addAll(returnList);
         return Collections.unmodifiableList(returnList);
+    }
+
+    public boolean contains(final RealWorldObject rwo)
+    {
+        return contents.contains(rwo);
     }
 
     public void removeAll()

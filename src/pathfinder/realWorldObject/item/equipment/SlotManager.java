@@ -3,7 +3,7 @@ package pathfinder.realWorldObject.item.equipment;
 import java.util.LinkedList;
 import java.util.List;
 
-import pathfinder.characters.buffs.CharacterBuff;
+import pathfinder.characters.buffs.CreatureBuff;
 import pathfinder.realWorldObject.SizeCategory;
 import pathfinder.realWorldObject.creature.EquipmentSlotType;
 import pathfinder.realWorldObject.creature.EquippableItem;
@@ -28,7 +28,7 @@ public class SlotManager
      * @param item
      * @return
      */
-    public List<CharacterBuff> addEquipment(final EquippableItem item)
+    public List<CreatureBuff> addEquipment(final EquippableItem item)
     {
         // check for correct size category
         if (item.getSizeCategory().ordinal() > size.ordinal())
@@ -84,7 +84,7 @@ public class SlotManager
      * @param item
      * @return
      */
-    public List<CharacterBuff> removeEquipment(final EquippableItem item)
+    public List<CreatureBuff> removeEquipment(final EquippableItem item)
     {
         if (removeEquipment(item.getId()) != null)
         {

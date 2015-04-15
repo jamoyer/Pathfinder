@@ -14,20 +14,20 @@ public class BuffManager
     // a grid of priority queued buffs, the first list is indexed by targets, the second lists are
     // indexed by types, each value in the grid is a priority queue of buffs, sorted to give the
     // highest value
-    private final List<List<PriorityQueue<CharacterBuff>>> individualBonuses;
+    private final List<List<PriorityQueue<CreatureBuff>>> individualBonuses;
 
     public BuffManager()
     {
         // initializes the individualBonuses mapping so it is unchangeable in size
-        final ArrayList<List<PriorityQueue<CharacterBuff>>> tempBonusMapping = new ArrayList<List<PriorityQueue<CharacterBuff>>>(BonusTarget.values().length);
+        final ArrayList<List<PriorityQueue<CreatureBuff>>> tempBonusMapping = new ArrayList<List<PriorityQueue<CreatureBuff>>>(BonusTarget.values().length);
         for (int i = 0; i < BonusTarget.values().length; i++)
         {
-            final ArrayList<PriorityQueue<CharacterBuff>> targetBuffList = new ArrayList<PriorityQueue<CharacterBuff>>(BonusType.values().length);
+            final ArrayList<PriorityQueue<CreatureBuff>> targetBuffList = new ArrayList<PriorityQueue<CreatureBuff>>(BonusType.values().length);
             for (int j = 0; j < BonusType.values().length; j++)
             {
                 // initialize to size 3 and reverse the comparator ordering so this we get the max
                 // element when we poll
-                targetBuffList.add(new PriorityQueue<CharacterBuff>(3, Collections.reverseOrder()));
+                targetBuffList.add(new PriorityQueue<CreatureBuff>(3, Collections.reverseOrder()));
             }
             tempBonusMapping.add(Collections.unmodifiableList(targetBuffList));
         }
@@ -39,11 +39,11 @@ public class BuffManager
      *
      * @param buff
      */
-    public void addBuff(final CharacterBuff buff)
+    public void addBuff(final CreatureBuff buff)
     {
         final int targetIndex = buff.getBonusTarget().ordinal();
         final int typeIndex = buff.getBonusType().ordinal();
-        final CharacterBuff previousTopBuff = individualBonuses.get(targetIndex).get(typeIndex).poll();
+        final CreatureBuff previousTopBuff = individualBonuses.get(targetIndex).get(typeIndex).poll();
 
         // if the queue is not empty, we might need to recalculate the bonuses
         if (previousTopBuff != null)
@@ -79,11 +79,11 @@ public class BuffManager
      *
      * @param buff
      */
-    public void removeBuff(final CharacterBuff buff)
+    public void removeBuff(final CreatureBuff buff)
     {
         final int targetIndex = buff.getBonusTarget().ordinal();
         final int typeIndex = buff.getBonusType().ordinal();
-        final CharacterBuff previousTopBuff = individualBonuses.get(targetIndex).get(typeIndex).poll();
+        final CreatureBuff previousTopBuff = individualBonuses.get(targetIndex).get(typeIndex).poll();
 
         // if the queue is empty we don't need to do anything
         if (previousTopBuff != null)

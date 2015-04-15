@@ -4,9 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * This object is a template for anything that is real and can exist in the game
- * world. Does not include things like Quests, bounties, things that cannot be
- * sensed by one of the 5 senses, etc.
+ * This object is a template for anything that is real and can exist in the game world. Does not
+ * include things like Quests, bounties, things that cannot be sensed by one of the 5 senses, etc.
  *
  * @author jacob
  *
@@ -23,11 +22,11 @@ public abstract class RealWorldObject
     private int hitPoints;
     private int maxHitPoints;
 
-    private long idcounter = 0;
+    private static long idCounter = 0;
 
     public RealWorldObject()
     {
-        id = idcounter++;
+        id = idCounter++;
         // TODO create a system for making unique id's, possibly a
         // idmaker class that has an id counter
     }
@@ -35,6 +34,11 @@ public abstract class RealWorldObject
     public long getWeight()
     {
         return weight;
+    }
+
+    public void setWeight(long weight)
+    {
+        this.weight = weight;
     }
 
     public long getId()
@@ -75,6 +79,28 @@ public abstract class RealWorldObject
     public List<RWOModifier> getModifiers()
     {
         return modifiers;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (o == null)
+        {
+            return false;
+        }
+
+        if (!(o instanceof RealWorldObject))
+        {
+            return false;
+        }
+
+        final RealWorldObject rwo = (RealWorldObject) o;
+
+        if (hashCode() != rwo.hashCode())
+        {
+            return false;
+        }
+        return true;
     }
 
     @Override

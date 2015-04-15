@@ -2,11 +2,11 @@ package pathfinder.realWorldObject.creature;
 
 /**
  * A list of creature movement types.
- * 
+ *
  * @author jacob
  *
  */
-public class Movement
+public class Movement implements Cloneable
 {
     private int base;
     private int withArmor;
@@ -14,15 +14,15 @@ public class Movement
     private int swim;
     private int burrow;
     private int climb;
-    
+
     public Movement(int base, int withArmor, int fly, int swim, int burrow, int climb)
     {
-    	this.base = base;
-    	this.withArmor = withArmor;
-    	this.fly = fly;
-    	this.swim = swim;
-    	this.burrow = burrow;
-    	this.climb = climb;
+        this.base = base;
+        this.withArmor = withArmor;
+        this.fly = fly;
+        this.swim = swim;
+        this.burrow = burrow;
+        this.climb = climb;
     }
 
     public int getWithArmor()
@@ -83,5 +83,11 @@ public class Movement
     public void setClimb(int climb)
     {
         this.climb = climb;
+    }
+
+    @Override
+    public Movement clone()
+    {
+        return new Movement(base, withArmor, fly, swim, burrow, climb);
     }
 }
