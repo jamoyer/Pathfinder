@@ -20,8 +20,9 @@ public class EquippableItem extends Item
     private final SizeCategory sizeCategory;
     private final List<CreatureBuff> buffs;
 
-    public EquippableItem(EquipmentSlotType slot, SizeCategory sizeCategory)
+    public EquippableItem(EquipmentSlotType slot, SizeCategory sizeCategory, int cost)
     {
+        super(cost);
         this.slot = slot;
         this.sizeCategory = sizeCategory;
         buffs = new LinkedList<CreatureBuff>();
@@ -58,13 +59,6 @@ public class EquippableItem extends Item
 
     @Override
     public int getCost()
-    {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public long getWeight()
     {
         // TODO Auto-generated method stub
         return 0;

@@ -13,7 +13,7 @@ import java.util.List;
 public abstract class RealWorldObject
 {
     private Coordinate coordinate;
-    private long weight;
+    private int weight;
     private final long id;
 
     // perhaps a map or hashset would be better if we want to access these
@@ -31,12 +31,12 @@ public abstract class RealWorldObject
         // idmaker class that has an id counter
     }
 
-    public long getWeight()
+    public int getWeight()
     {
         return weight;
     }
 
-    public void setWeight(long weight)
+    public void setWeight(int weight)
     {
         this.weight = weight;
     }

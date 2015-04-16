@@ -5,7 +5,6 @@ import pathfinder.characters.classes.coreClasses.Paladin;
 import pathfinder.realWorldObject.SizeCategory;
 import pathfinder.realWorldObject.creature.AbilityScoreSet;
 import pathfinder.realWorldObject.creature.CharacterCreature;
-import pathfinder.realWorldObject.creature.EquipmentSlotType;
 import pathfinder.realWorldObject.creature.coreRaces.Dwarf;
 import pathfinder.realWorldObject.creature.creatureType.Humanoid;
 import pathfinder.realWorldObject.item.equipment.armor.Armor;
@@ -49,7 +48,7 @@ public class Main
             System.out.println("It worked! We added the spear!");
         }
 
-        final Armor stonePlate = new Armor(EquipmentSlotType.Armor, SizeCategory.Medium, ArmorName.StonePlate);
+        final Armor stonePlate = new Armor(SizeCategory.Medium, ArmorName.StonePlate);
         if (grom.equipItem(stonePlate))
         {
             System.out.println("Added stoneplate!");

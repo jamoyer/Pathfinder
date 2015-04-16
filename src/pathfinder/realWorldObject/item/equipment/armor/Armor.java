@@ -11,7 +11,6 @@ public class Armor extends EquippableItem implements DexLimiting
 {
     private final Proficiency armorProficiency;
     private final BonusType bonusType;
-    private int cost;
     private final int armorValue;
     private final int maxDexBonus;
     private final int armorCheckPenalty;
@@ -21,9 +20,9 @@ public class Armor extends EquippableItem implements DexLimiting
     public static final int UNLIMITED_DEX_BONUS = 9999;
 
     public Armor(EquipmentSlotType slot, SizeCategory size, Proficiency armorProficiency, BonusType bonusType, int cost, int armorValue, int maxDexBonus, int armorCheckPenalty,
-            double arcaneSpellFailureChance, ArmorSpeedPenalty speedPenalty)
+            double arcaneSpellFailureChance, ArmorSpeedPenalty speedPenalty, int weight)
     {
-        super(slot, size);
+        super(slot, size, cost);
         this.armorProficiency = armorProficiency;
         this.bonusType = bonusType;
         this.armorValue = armorValue;
@@ -31,19 +30,20 @@ public class Armor extends EquippableItem implements DexLimiting
         this.armorCheckPenalty = armorCheckPenalty;
         this.arcaneSpellFailureChance = arcaneSpellFailureChance;
         this.speedPenalty = speedPenalty;
+        super.setWeight(weight);
     }
 
-    public Armor(EquipmentSlotType slot, SizeCategory size, ArmorName armorName)
+    public Armor(SizeCategory size, ArmorName armorName)
     {
-        super(slot, size);
+        super(armorName.getEquipmentSlotType(), size, armorName.getCost());
         this.armorProficiency = armorName.getArmorProficiency();
         this.bonusType = armorName.getBonusType();
-        this.cost = armorName.getCost();
         this.armorValue = armorName.getArmorValue();
         this.maxDexBonus = armorName.getMaxDexBonus();
         this.armorCheckPenalty = armorName.getArmorCheckPenalty();
         this.arcaneSpellFailureChance = armorName.getArcaneSpellFailureChance();
         this.speedPenalty = armorName.getSpeedPenalty();
+        super.setWeight(armorName.getWeight());
     }
 
     public Proficiency getArmorProficiency()
@@ -59,12 +59,6 @@ public class Armor extends EquippableItem implements DexLimiting
     public int getArmorValue()
     {
         return this.armorValue;
-    }
-
-    @Override
-    public int getCost()
-    {
-        return this.cost;
     }
 
     @Override
