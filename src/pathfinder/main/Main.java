@@ -24,10 +24,36 @@ public class Main
         final CharacterCreature grom = new CharacterCreature(baseScores, dwarf, pally);
         System.out.println("Successfully created Grom!");
 
-        final ManufacturedWeapon mace = new ManufacturedWeapon(EquipmentSlotType.Hands, SizeCategory.Small, ManufacturedWeaponName.MaceHeavy);
-        grom.equipItem(mace);
+        final ManufacturedWeapon mace = new ManufacturedWeapon(SizeCategory.Small, ManufacturedWeaponName.MaceHeavy);
+        if (grom.equipItem(mace))
+        {
+            System.out.println("Added mace!");
+        }
+        final ManufacturedWeapon dagger = new ManufacturedWeapon(SizeCategory.Tiny, ManufacturedWeaponName.Dagger);
+        if (grom.equipItem(dagger))
+        {
+            System.out.println("Added dagger!");
+        }
+        final ManufacturedWeapon spear = new ManufacturedWeapon(SizeCategory.Medium, ManufacturedWeaponName.Spear);
+        if (grom.equipItem(spear))
+        {
+            System.out.println("Added spear! (This is not good.)");
+        }
+        if (grom.unequipItem(dagger) && grom.unequipItem(mace))
+        {
+            System.out.println("Removed dagger and mace!");
+            System.out.println("Now we can add the spear!");
+        }
+        if (grom.equipItem(spear))
+        {
+            System.out.println("It worked! We added the spear!");
+        }
+
         final Armor stonePlate = new Armor(EquipmentSlotType.Armor, SizeCategory.Medium, ArmorName.StonePlate);
-        grom.equipItem(stonePlate);
+        if (grom.equipItem(stonePlate))
+        {
+            System.out.println("Added stoneplate!");
+        }
         System.out.println("Successfully equipped Grom for battle!");
     }
 

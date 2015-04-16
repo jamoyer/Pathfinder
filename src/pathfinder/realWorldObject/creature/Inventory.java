@@ -23,6 +23,7 @@ public class Inventory
     private SizeCategory size;
     private long maxLoad;
     private Load load;
+    private boolean loadHasChanged;
 
     /*
      * Table holding the maximum carry weights with the index of the array being strength score.
@@ -37,6 +38,7 @@ public class Inventory
         strength = strengthScore;
         this.size = size;
         bipedal = isBipedal;
+        loadHasChanged = false;
         calcMaxLoad();
         calcLoad();
     }
@@ -48,17 +50,29 @@ public class Inventory
     private void calcLoad()
     {
         final int loadAsInt = (int) (totalWeight / (maxLoad / 3));
+        Load temp = null;
         switch (loadAsInt)
         {
             case 0:
-                load = Load.Light;
+                temp = Load.Light;
                 break;
             case 1:
-                load = Load.Medium;
+                temp = Load.Medium;
                 break;
             case 2:
-                load = Load.Heavy;
+                temp = Load.Heavy;
                 break;
+        }
+
+        // set the loadHasChanged flag if the load changes
+        if (!temp.equals(load))
+        {
+            load = temp;
+            loadHasChanged = true;
+        }
+        else
+        {
+            loadHasChanged = false;
         }
     }
 
@@ -135,6 +149,22 @@ public class Inventory
         return load;
     }
 
+    public long getTotalWeight()
+    {
+        return totalWeight;
+    }
+
+    /**
+     * Whether or not the load changed the last time it was calculated such as changing the
+     * strength, size, or items.
+     *
+     * @return
+     */
+    public boolean loadHasChanged()
+    {
+        return loadHasChanged;
+    }
+
     /*****************************************************
      ****************** Action Functions *****************
      *****************************************************/
@@ -208,8 +238,4 @@ public class Inventory
         calcLoad();
     }
 
-    public long getTotalWeight()
-    {
-        return totalWeight;
-    }
 }

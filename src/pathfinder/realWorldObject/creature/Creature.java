@@ -115,6 +115,11 @@ public abstract class Creature extends RealWorldObject
      **************** Getters and Setters ****************
      *****************************************************/
 
+    public Movement getEffectiveMovement()
+    {
+        return effectiveMovement;
+    }
+
     public int getMaxDexBonus()
     {
         return maxDexBonus;
@@ -381,8 +386,8 @@ public abstract class Creature extends RealWorldObject
         final int totalDex = effectiveScores.getDexterityModifier();
         final int bonusToMaxDexBonus = buffManager.getBonusByTarget(BonusTarget.MaxDexBonus);
 
-        // get maximum allowed dex from load
-        final int loadMax = inventory.getLoad().getMaxDex();
+        // get maximum allowed dex
+        final int loadMax = buffManager.getMaxDexBonus();
 
         // maxDex will be the minimum from the load plus any bonuses
         final int maxDexPossible = loadMax + bonusToMaxDexBonus;
@@ -465,6 +470,27 @@ public abstract class Creature extends RealWorldObject
      ****************** Action Functions *****************
      *****************************************************/
 
+    public boolean removeFromInventory(final RealWorldObject rwo)
+    {
+        // if the load changes we need to know what the load used to be
+        final Load preLoad = inventory.getLoad();
+        if (inventory.removeItem(rwo))
+        {
+            // only recalculate stats if the load changed
+            if (inventory.loadHasChanged())
+            {
+                // remove the previous load and add the new one so calculations are correct
+                buffManager.removeDexLimiting(preLoad);
+                buffManager.addDexLimiting(inventory.getLoad());
+
+                maxDexBonus = calcMaxDexBonus();
+                effectiveMovement = calcEffectiveMovement();
+            }
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Attempts to add the object to the creature's inventory. This method returns true if the item
      * is successfully added to inventory or false otherwise.
@@ -474,10 +500,20 @@ public abstract class Creature extends RealWorldObject
      */
     public boolean addToInventory(final RealWorldObject rwo)
     {
+        // if the load changes we need to know what the load used to be
+        final Load preLoad = inventory.getLoad();
         if (inventory.addItem(rwo))
         {
-            maxDexBonus = calcMaxDexBonus();
-            effectiveMovement = calcEffectiveMovement();
+            // only recalculate stats if the load changed
+            if (inventory.loadHasChanged())
+            {
+                // remove the previous load and add the new one so calculations are correct
+                buffManager.removeDexLimiting(preLoad);
+                buffManager.addDexLimiting(inventory.getLoad());
+
+                maxDexBonus = calcMaxDexBonus();
+                effectiveMovement = calcEffectiveMovement();
+            }
             return true;
         }
         return false;

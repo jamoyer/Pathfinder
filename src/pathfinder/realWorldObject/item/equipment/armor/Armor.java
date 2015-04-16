@@ -2,11 +2,12 @@ package pathfinder.realWorldObject.item.equipment.armor;
 
 import pathfinder.characters.buffs.BonusType;
 import pathfinder.realWorldObject.SizeCategory;
-import pathfinder.realWorldObject.creature.EquippableItem;
+import pathfinder.realWorldObject.creature.DexLimiting;
 import pathfinder.realWorldObject.creature.EquipmentSlotType;
+import pathfinder.realWorldObject.creature.EquippableItem;
 import pathfinder.realWorldObject.item.equipment.Proficiency;
 
-public class Armor extends EquippableItem
+public class Armor extends EquippableItem implements DexLimiting
 {
     private final Proficiency armorProficiency;
     private final BonusType bonusType;
@@ -19,9 +20,7 @@ public class Armor extends EquippableItem
 
     public static final int UNLIMITED_DEX_BONUS = 9999;
 
-    public Armor(EquipmentSlotType slot, SizeCategory size,
-            Proficiency armorProficiency, BonusType bonusType, int cost,
-            int armorValue, int maxDexBonus, int armorCheckPenalty,
+    public Armor(EquipmentSlotType slot, SizeCategory size, Proficiency armorProficiency, BonusType bonusType, int cost, int armorValue, int maxDexBonus, int armorCheckPenalty,
             double arcaneSpellFailureChance, ArmorSpeedPenalty speedPenalty)
     {
         super(slot, size);
@@ -68,6 +67,7 @@ public class Armor extends EquippableItem
         return this.cost;
     }
 
+    @Override
     public int getMaxDexBonus()
     {
         return this.maxDexBonus;

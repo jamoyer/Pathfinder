@@ -1,5 +1,6 @@
 package pathfinder.realWorldObject.item.equipment;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,41 +37,104 @@ public class SlotManager
             return null;
         }
 
+        final EquipmentSlotType slotType = item.getSlotType();
+
         // add the item if it is slotless
-        if (item.getSlotType().equals(EquipmentSlotType.Slotless))
+        if (slotType.equals(EquipmentSlotType.Slotless))
         {
             slotlessItems.add(item);
+            return item.getBuffs();
         }
-        else
+
+        // if this is an item held in the hands
+        else if (slotType.equals(EquipmentSlotType.MainHand) || slotType.equals(EquipmentSlotType.OffHand) || slotType.equals(EquipmentSlotType.TwoHands))
         {
-            // check to see if the slot is already being used
-            if (slottedItems[item.getSlotType().ordinal()] != null)
+            // two handed items can only be fit if both hands are free
+            if (slotType.equals(EquipmentSlotType.TwoHands) && slottedItems[EquipmentSlotType.OffHand.ordinal()] == null
+                    && slottedItems[EquipmentSlotType.MainHand.ordinal()] == null)
             {
-                return null;
+                slottedItems[EquipmentSlotType.TwoHands.ordinal()] = item;
+                return item.getBuffs();
             }
 
-            // add the item to the corresponding slot
-            slottedItems[item.getSlotType().ordinal()] = item;
+            // if this item is one handed try to fit it in one of the hands
+            else if ((slotType.equals(EquipmentSlotType.MainHand) || slotType.equals(EquipmentSlotType.OffHand)) && slottedItems[EquipmentSlotType.TwoHands.ordinal()] == null)
+            {
+                if (tryToFit(item, EquipmentSlotType.MainHand, EquipmentSlotType.OffHand))
+                {
+                    return item.getBuffs();
+                }
+            }
+            return null;
         }
 
-        return item.getBuffs();
+        // try to fit it if its a generic item
+        else if (tryToFit(item))
+        {
+            return item.getBuffs();
+        }
+
+        // if this is a ring check both slots
+        else if (slotType.equals(EquipmentSlotType.Ring1) || slotType.equals(EquipmentSlotType.Ring2))
+        {
+            if (tryToFit(item, EquipmentSlotType.Ring1, EquipmentSlotType.Ring2))
+            {
+                return item.getBuffs();
+            }
+        }
+        return null;
+    }
+
+    private boolean tryToFit(final EquippableItem item)
+    {
+        return tryToFit(item, item.getSlotType(), null);
+    }
+
+    private boolean tryToFit(final EquippableItem item, final EquipmentSlotType preferred, final EquipmentSlotType alternate)
+    {
+        if (preferred != null && slottedItems[preferred.ordinal()] == null)
+        {
+            slottedItems[preferred.ordinal()] = item;
+            return true;
+        }
+
+        if (alternate != null && slottedItems[alternate.ordinal()] == null)
+        {
+            slottedItems[alternate.ordinal()] = item;
+            return true;
+        }
+
+        return false;
     }
 
     /**
-     * Removes the item corresponding to the itemId and updates the equipment
-     * accordingly. If the item does not exist this method returns null.
+     * Removes the item corresponding to the itemId and updates the equipment accordingly. If the
+     * item does not exist this method returns null.
      *
      * @param itemId
      * @return
      */
     public EquippableItem removeEquipment(final long itemId)
     {
+        // check slotted items
         for (int i = 0; i < slottedItems.length; i++)
         {
             final EquippableItem item = slottedItems[i];
-            if (item.getId() == itemId)
+            if (item != null && item.getId() == itemId)
             {
                 slottedItems[i] = null;
+                return item;
+            }
+        }
+
+        // check slotless items
+        final Iterator<EquippableItem> it = slotlessItems.iterator();
+        while (it.hasNext())
+        {
+            final EquippableItem item = it.next();
+            if (item.getId() == itemId)
+            {
+                it.remove();
                 return item;
             }
         }
@@ -97,6 +161,9 @@ public class SlotManager
      * Returns the equipped item for the given slot type. If slotType is slotless and there are
      * multiple slotless items, this method returns one of them. If there is no such item for the
      * given slot type, the method returns null.
+     *
+     * NOTE: this method should not be used to remove a specific ring because there are two ring
+     * slots and a given ring could be put into either slot. Similarly to slotless items.
      *
      * @param slotType
      * @return

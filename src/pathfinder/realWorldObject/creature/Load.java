@@ -2,7 +2,7 @@ package pathfinder.realWorldObject.creature;
 
 import pathfinder.realWorldObject.item.equipment.armor.Armor;
 
-public enum Load
+public enum Load implements DexLimiting
 {
     Light(Armor.UNLIMITED_DEX_BONUS, 0, 4),
     Medium(3, -3, 4),
@@ -19,7 +19,8 @@ public enum Load
         this.runningSpeedMultiplier = runningSpeedMultiplier;
     }
 
-    public int getMaxDex()
+    @Override
+    public int getMaxDexBonus()
     {
         return maxDex;
     }

@@ -2,8 +2,12 @@ package pathfinder.characters.buffs;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
+
+import pathfinder.realWorldObject.creature.DexLimiting;
+import pathfinder.realWorldObject.item.equipment.armor.Armor;
 
 public class BuffManager
 {
@@ -15,6 +19,8 @@ public class BuffManager
     // indexed by types, each value in the grid is a priority queue of buffs, sorted to give the
     // highest value
     private final List<List<PriorityQueue<CreatureBuff>>> individualBonuses;
+
+    private final PriorityQueue<DexLimiting> maxDexTracker;
 
     public BuffManager()
     {
@@ -32,6 +38,53 @@ public class BuffManager
             tempBonusMapping.add(Collections.unmodifiableList(targetBuffList));
         }
         individualBonuses = Collections.unmodifiableList(tempBonusMapping);
+
+        // initialize the maxDexTracker to have smallest max dex bonus on the top
+        maxDexTracker = new PriorityQueue<DexLimiting>(4, new Comparator<DexLimiting>()
+        {
+            @Override
+            public int compare(DexLimiting arg0, DexLimiting arg1)
+            {
+                /*
+                 * We want a DexLimiting object that gives a larger bonus to be greater than those
+                 * that give a smaller bonus because PriorityQueues are sorted by minimum on top.
+                 */
+                if (arg0.getMaxDexBonus() > arg1.getMaxDexBonus())
+                {
+                    return 1;
+                }
+                else if (arg0.getMaxDexBonus() == arg1.getMaxDexBonus())
+                {
+                    return 0;
+                }
+                return -1;
+            }
+        });
+
+        // just adding an object so we don't get null all the time from the maxDexTracker
+        maxDexTracker.add(new DexLimiting()
+        {
+            @Override
+            public int getMaxDexBonus()
+            {
+                return Armor.UNLIMITED_DEX_BONUS;
+            }
+        });
+    }
+
+    public void addDexLimiting(final DexLimiting dexLimiter)
+    {
+        maxDexTracker.add(dexLimiter);
+    }
+
+    public void removeDexLimiting(final DexLimiting dexLimiter)
+    {
+        maxDexTracker.remove(dexLimiter);
+    }
+
+    public int getMaxDexBonus()
+    {
+        return maxDexTracker.peek().getMaxDexBonus();
     }
 
     /**
@@ -43,7 +96,7 @@ public class BuffManager
     {
         final int targetIndex = buff.getBonusTarget().ordinal();
         final int typeIndex = buff.getBonusType().ordinal();
-        final CreatureBuff previousTopBuff = individualBonuses.get(targetIndex).get(typeIndex).poll();
+        final CreatureBuff previousTopBuff = individualBonuses.get(targetIndex).get(typeIndex).peek();
 
         // if the queue is not empty, we might need to recalculate the bonuses
         if (previousTopBuff != null)
@@ -83,7 +136,7 @@ public class BuffManager
     {
         final int targetIndex = buff.getBonusTarget().ordinal();
         final int typeIndex = buff.getBonusType().ordinal();
-        final CreatureBuff previousTopBuff = individualBonuses.get(targetIndex).get(typeIndex).poll();
+        final CreatureBuff previousTopBuff = individualBonuses.get(targetIndex).get(typeIndex).peek();
 
         // if the queue is empty we don't need to do anything
         if (previousTopBuff != null)
@@ -92,7 +145,7 @@ public class BuffManager
             // remove the buff from the queue if it exists
             if (individualBonuses.get(targetIndex).get(typeIndex).remove(buff))
             {
-                final int newMaxBonus = individualBonuses.get(targetIndex).get(typeIndex).poll().getValue();
+                final int newMaxBonus = individualBonuses.get(targetIndex).get(typeIndex).peek().getValue();
 
                 // check if the type stacks with itself
                 if (buff.getBonusType().equals(BonusType.Untyped))

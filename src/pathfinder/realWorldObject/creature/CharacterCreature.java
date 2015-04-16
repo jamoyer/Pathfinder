@@ -10,7 +10,6 @@ import pathfinder.characters.classes.CharacterClass;
 import pathfinder.metaObjects.DiceSet;
 import pathfinder.realWorldObject.creature.creatureType.Humanoid;
 import pathfinder.realWorldObject.item.equipment.SlotManager;
-import pathfinder.realWorldObject.item.equipment.armor.Armor;
 
 public class CharacterCreature extends Creature
 {
@@ -33,7 +32,6 @@ public class CharacterCreature extends Creature
         equipment = new SlotManager(race.getSizeCategory());
         super.setBaseAttackBonus(calcCharacterBaseAttackBonus());
 
-        super.setMaxDexBonus(calcCharacterMaxDexBonus());
         super.setCombatManueverDefense(calcCombatManueverDefense());
         super.setArmorClass(calcArmorClass());
         super.setTouch(calcTouch());
@@ -110,41 +108,6 @@ public class CharacterCreature extends Creature
             bab += charClass.getBaseAttackBonusProgression().getBAB(charClass.getLevel());
         }
         return bab;
-    }
-
-    public int calcCharacterMaxDexBonus()
-    {
-        // calculates max dex bonus according to load and dexterity
-        // does not account for armor or shield max dex
-        final int baseMaxDex = super.calcMaxDexBonus();
-
-        // get maximum allowed dex from armor
-        int armorMax = Armor.UNLIMITED_DEX_BONUS;
-        final EquippableItem armor = equipment.getItemBySlot(EquipmentSlotType.Armor);
-        if (armor != null)
-        {
-            armorMax = ((Armor) armor).getMaxDexBonus();
-        }
-
-        // get maximum allowed dex from shield
-        int shieldMax = Armor.UNLIMITED_DEX_BONUS;
-        final EquippableItem shield = equipment.getItemBySlot(EquipmentSlotType.Shield);
-        if (shield != null)
-        {
-            shieldMax = ((Armor) shield).getMaxDexBonus();
-        }
-
-        // maxDex will be the minimum from the armor, shield, and load.
-        int maxDexPossible = baseMaxDex;
-        if (maxDexPossible > armorMax)
-        {
-            maxDexPossible = armorMax;
-        }
-        else if (maxDexPossible > shieldMax)
-        {
-            maxDexPossible = shieldMax;
-        }
-        return maxDexPossible;
     }
 
     public int calcCharacterArmorClass()
@@ -259,12 +222,21 @@ public class CharacterCreature extends Creature
             }
         }
 
+        // add any buffs that come from the item to this character
         final List<CreatureBuff> buffsFromItem = equipment.addEquipment(item);
         if (buffsFromItem == null)
         {
             return false;
         }
         super.addBuff(buffsFromItem);
+
+        // we need to check if this item limits max dex and if so, apply it
+        // TODO using instanceof in this way is a bad practice we need to think of a better way
+        if (item instanceof DexLimiting)
+        {
+            getBuffManager().addDexLimiting((DexLimiting) item);
+        }
+
         return true;
     }
 
@@ -282,6 +254,14 @@ public class CharacterCreature extends Creature
             return false;
         }
         super.removeBuff(buffsFromItem);
+
+        // we need to check if this item limits max dex and if so, unapply it
+        // TODO using instanceof in this way is a bad practice we need to think of a better way
+        if (item instanceof DexLimiting)
+        {
+            getBuffManager().removeDexLimiting((DexLimiting) item);
+        }
+
         return true;
     }
 

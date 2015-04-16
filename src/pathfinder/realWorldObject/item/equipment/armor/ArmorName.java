@@ -3,6 +3,10 @@ package pathfinder.realWorldObject.item.equipment.armor;
 import pathfinder.characters.buffs.BonusType;
 import pathfinder.realWorldObject.item.equipment.Proficiency;
 
+/*
+ * TODO add weight to this table
+ */
+
 public enum ArmorName
 {
     /*****************************************************
@@ -62,8 +66,8 @@ public enum ArmorName
     private int arcaneSpellFailureChance;
     private ArmorSpeedPenalty speedPenalty;
 
-    private ArmorName(Proficiency armorProficiency, BonusType bonusType, int cost, int armorValue,
-            int maxDexBonus, int armorCheckPenalty, int arcaneSpellFailureChance, ArmorSpeedPenalty speedPenalty)
+    private ArmorName(Proficiency armorProficiency, BonusType bonusType, int cost, int armorValue, int maxDexBonus, int armorCheckPenalty, int arcaneSpellFailureChance,
+            ArmorSpeedPenalty speedPenalty)
     {
         this.armorProficiency = armorProficiency;
         this.bonusType = bonusType;
