@@ -1,13 +1,15 @@
 package pathfinder.realWorldObject.creature;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import pathfinder.characters.buffs.BonusTarget;
 import pathfinder.characters.buffs.BuffManager;
 import pathfinder.characters.buffs.CreatureBuff;
+import pathfinder.characters.classes.CreatureClass;
+import pathfinder.characters.classes.CreatureClassManager;
 import pathfinder.characters.skill.Skill;
-import pathfinder.metaObjects.DiceSet;
 import pathfinder.realWorldObject.RealWorldObject;
 import pathfinder.realWorldObject.creature.creatureType.CreatureType;
 
@@ -23,12 +25,15 @@ public abstract class Creature extends RealWorldObject
 {
     private int nonlethalDamage;
     private int tempHP;
+    // stores all the rolls for health for this creature
+    private final List<Integer> healthByLevel;
 
     /*
      * TODO we need something similar to the SlotManager for things that are not just equipment.
      */
 
     private final CreatureType creatureType;
+    private final CreatureClassManager classManager = new CreatureClassManager();
     private final BuffManager buffManager;
 
     private CreatureDescription description;
@@ -38,7 +43,7 @@ public abstract class Creature extends RealWorldObject
 
     // effective scores are what a creature actually uses and takes into account base scores,
     // bonuses, penalties, etc
-    private final AbilityScoreSet effectiveScores;
+    private AbilityScoreSet effectiveScores;
     private int maxDexBonus;
 
     private List<Skill> skills;
@@ -82,6 +87,7 @@ public abstract class Creature extends RealWorldObject
         // everything depends on these so set them first
         this.buffManager = new BuffManager();
         this.baseScores = baseStats;
+        classManager.addLevel(creatureType);
         this.creatureType = creatureType;
 
         // these need to be calculated next as most things depend on them
@@ -90,7 +96,8 @@ public abstract class Creature extends RealWorldObject
         baseAttackBonus = calcBaseAttackBonus();
 
         // now calculate things in groups, the order of the groups don't really matter
-        super.setMaxHP(calcMaxHealthPointsRandom());
+        healthByLevel = new ArrayList<Integer>(creatureType.getLevel());
+        super.setMaxHP(calcMaxHealthPoints());
         super.setHP(calcCurrentHP());
         nonlethalDamage = 0;
 
@@ -114,6 +121,11 @@ public abstract class Creature extends RealWorldObject
     /*****************************************************
      **************** Getters and Setters ****************
      *****************************************************/
+
+    public List<Integer> getHealthRolls()
+    {
+        return healthByLevel;
+    }
 
     public Movement getEffectiveMovement()
     {
@@ -140,6 +152,11 @@ public abstract class Creature extends RealWorldObject
         return effectiveScores;
     }
 
+    protected void setEffectiveAbilityScores(final AbilityScoreSet scores)
+    {
+        effectiveScores = scores;
+    }
+
     public List<Language> getLanguagesKnown()
     {
         return Collections.unmodifiableList(knownLanguages);
@@ -147,7 +164,7 @@ public abstract class Creature extends RealWorldObject
 
     public int getLevel()
     {
-        return creatureType.getLevel();
+        return classManager.getTotalLevels();
     }
 
     public int getTempHP()
@@ -320,6 +337,11 @@ public abstract class Creature extends RealWorldObject
         return getWeight() + inventory.getTotalWeight();
     }
 
+    public List<CreatureClass> getClasses()
+    {
+        return classManager.getClasses();
+    }
+
     /*****************************************************
      *************** Calculation Functions ***************
      *****************************************************/
@@ -348,10 +370,13 @@ public abstract class Creature extends RealWorldObject
         return getMaxHP() + tempHP + buffManager.getBonusByTarget(BonusTarget.CurrentHp);
     }
 
-    public int calcMaxHealthPointsRandom()
+    public int calcMaxHealthPoints()
     {
-        final DiceSet dice = new DiceSet(creatureType.getHitDieType(), getLevel());
-        return getLevel() * effectiveScores.getConstitutionModifier() + dice.getRolledTotal() + buffManager.getBonusByTarget(BonusTarget.MaxHp);
+        final int totalHealthByLevel = classManager.getHealth();
+        final int healthByCon = getLevel() * effectiveScores.getConstitutionModifier();
+        final int bonusHealth = buffManager.getBonusByTarget(BonusTarget.MaxHp);
+
+        return totalHealthByLevel + healthByCon + bonusHealth;
     }
 
     public int calcInitiative()
@@ -361,7 +386,7 @@ public abstract class Creature extends RealWorldObject
 
     public int calcBaseAttackBonus()
     {
-        return creatureType.getBaseAttackBonusProgression().getBAB(creatureType.getLevel());
+        return classManager.getBaseAttackBonus();
     }
 
     public int calcCombatManueverBonus()
@@ -424,7 +449,7 @@ public abstract class Creature extends RealWorldObject
     public int calcFortitude()
     {
         final int conMod = effectiveScores.getConstitutionModifier();
-        final int baseFort = creatureType.getSavingThrowSet().getBaseFortitude(getLevel());
+        final int baseFort = classManager.getFortitude();
         final int fortBonus = buffManager.getBonusByTarget(BonusTarget.Fortitude);
         return conMod + baseFort + fortBonus;
     }
@@ -432,7 +457,7 @@ public abstract class Creature extends RealWorldObject
     public int calcReflex()
     {
         final int dexMod = effectiveScores.getDexterityModifier();
-        final int baseReflex = creatureType.getSavingThrowSet().getBaseReflex(getLevel());
+        final int baseReflex = classManager.getReflex();
         final int reflexBonus = buffManager.getBonusByTarget(BonusTarget.Reflex);
         return dexMod + baseReflex + reflexBonus;
     }
@@ -440,7 +465,7 @@ public abstract class Creature extends RealWorldObject
     public int calcWill()
     {
         final int wisMod = effectiveScores.getWisdomModifier();
-        final int baseWill = creatureType.getSavingThrowSet().getBaseWill(getLevel());
+        final int baseWill = classManager.getWill();
         final int willBonus = buffManager.getBonusByTarget(BonusTarget.Will);
         return wisMod + baseWill + willBonus;
     }
@@ -462,30 +487,194 @@ public abstract class Creature extends RealWorldObject
 
         // reduce move speed amounts due to load
         // this may not actually reduce the base any if this is a light load
-        toReturn.setBase(inventory.getLoad().getReducedSpeed(baseSpeed));
+        toReturn.setBase(inventory.getLoad().getReducedSpeed(baseSpeed) + buffManager.getBonusByTarget(BonusTarget.LandSpeed));
+        toReturn.setFly(toReturn.getFly() + buffManager.getBonusByTarget(BonusTarget.FlySpeed));
+        toReturn.setFly(toReturn.getBurrow() + buffManager.getBonusByTarget(BonusTarget.BurrowSpeed));
+        toReturn.setFly(toReturn.getClimb() + buffManager.getBonusByTarget(BonusTarget.ClimbSpeed));
+        toReturn.setFly(toReturn.getSwim() + buffManager.getBonusByTarget(BonusTarget.SwimSpeed));
         return toReturn;
+    }
+
+    private void loadChange()
+    {
+        // only recalculate stats if the load changed
+        final Load prev = inventory.previousLoad();
+        if (prev != null)
+        {
+            // remove the previous load and add the new one so calculations are correct
+            buffManager.removeDexLimiting(prev);
+            buffManager.addDexLimiting(inventory.getLoad());
+
+            maxDexBonus = calcMaxDexBonus();
+            effectiveMovement = calcEffectiveMovement();
+        }
+    }
+
+    public void calcBasedOnTargetChange(final BonusTarget target)
+    {
+        /*
+         * TODO think of a better way to manage recalculations
+         *
+         * We could probably think of some better object oriented way to do this instead of a giant
+         * switch case. I was thinking what if we had CreatureBuffs take a creature object and each
+         * buff knows exactly what to apply to the creature object. For example, there could be a
+         * strength buff which takes a creature object and add's to its strength. Because the
+         * CreatureBuff has access to a Creature object this would also allow for more advanced
+         * buffs to be made with logic inside them instead of a simple plus to the value. The only
+         * problem would be that we would need to account for how typed bonuses stack. Maybe we
+         * should keep this how it is because we can manage simple bonuses like this and make sure
+         * they stack correctly with the buff manager and instead we can use the idea of a more
+         * advanced effect that takes in a creature object, like a spell or feat or other more
+         * complicated things. This would mean that there must be a class for every spell and for
+         * every feat. Though it would work and it would probably be quick and work quite well. Just
+         * a lot of classes.
+         */
+        switch (target)
+        {
+            case AcidRes:
+            case ElectRes:
+            case FireRes:
+            case ColdRes:
+            case SonicRes:
+                // TODO
+                break;
+            case ArcaneSpellFailure:
+                // TODO
+                break;
+            case BurrowSpeed:
+            case ClimbSpeed:
+            case FlySpeed:
+            case LandSpeed:
+            case SwimSpeed:
+                effectiveMovement = calcEffectiveMovement();
+                break;
+            case ArmorClass:
+                armorClass = calcArmorClass();
+                break;
+            case CMB:
+                combatManueverBonus = calcCombatManueverBonus();
+                break;
+            case CMD:
+                combatManueverDefense = calcCombatManueverDefense();
+                break;
+            case Charisma:
+                effectiveScores = calcAbilityScores();
+                break;
+            case Constitution:
+                effectiveScores = calcAbilityScores();
+                fortitude = calcFortitude();
+                super.setMaxHP(calcMaxHealthPoints());
+                // TODO change current health
+                break;
+            case Dexterity:
+                effectiveScores = calcAbilityScores();
+                initiative = calcInitiative();
+                reflex = calcReflex();
+                break;
+            case Intelligence:
+                effectiveScores = calcAbilityScores();
+                break;
+            case Strength:
+                effectiveScores = calcAbilityScores();
+                inventory.setStrength(effectiveScores.getStrengthScore());
+                loadChange();
+                break;
+            case Wisdom:
+                effectiveScores = calcAbilityScores();
+                will = calcWill();
+                break;
+            case CurrentHp:
+                // TODO change current health
+                break;
+            case DR:
+                damageReduction = calcDamageReduction();
+                break;
+            case FlatFooted:
+                flatfooted = calcFlatFooted();
+                break;
+            case Fortitude:
+                fortitude = calcFortitude();
+                break;
+            case Initiative:
+                initiative = calcInitiative();
+                break;
+            case Level:
+                super.setMaxHP(calcMaxHealthPoints());
+                baseAttackBonus = calcBaseAttackBonus();
+                fortitude = calcFortitude();
+                reflex = calcReflex();
+                will = calcWill();
+                break;
+            case MaxDexBonus:
+                maxDexBonus = calcMaxDexBonus();
+                armorClass = calcArmorClass();
+                touch = calcTouch();
+                break;
+            case MaxHp:
+                super.setMaxHP(calcMaxHealthPoints());
+                // TODO change current health
+                break;
+            case Melee:
+                break;
+            case Ranged:
+                break;
+            case Reflex:
+                reflex = calcReflex();
+                break;
+            case SR:
+                spellResistance = calcSpellResistance();
+                break;
+            case Size:
+                // TODO
+                break;
+            case Skills:
+                // TODO
+                break;
+            case TempHp:
+                // TODO
+                break;
+            case Touch:
+                touch = calcTouch();
+                break;
+            case Will:
+                will = calcWill();
+                break;
+            default:
+                break;
+        }
     }
 
     /*****************************************************
      ****************** Action Functions *****************
      *****************************************************/
 
+    public void addLevel(final CreatureClass creatureClass)
+    {
+        classManager.addLevel(creatureClass);
+        calcBasedOnTargetChange(BonusTarget.Level);
+    }
+
+    public void addLevels(final List<CreatureClass> classes)
+    {
+        for (final CreatureClass crClass : classes)
+        {
+            addLevel(crClass);
+        }
+    }
+
+    public void addLevels(CreatureClass creatureClass, int numLevels)
+    {
+        for (int i = 0; i < numLevels; i++)
+        {
+            addLevel(creatureClass);
+        }
+    }
+
     public boolean removeFromInventory(final RealWorldObject rwo)
     {
-        // if the load changes we need to know what the load used to be
-        final Load preLoad = inventory.getLoad();
         if (inventory.removeItem(rwo))
         {
-            // only recalculate stats if the load changed
-            if (inventory.loadHasChanged())
-            {
-                // remove the previous load and add the new one so calculations are correct
-                buffManager.removeDexLimiting(preLoad);
-                buffManager.addDexLimiting(inventory.getLoad());
-
-                maxDexBonus = calcMaxDexBonus();
-                effectiveMovement = calcEffectiveMovement();
-            }
+            loadChange();
             return true;
         }
         return false;
@@ -500,20 +689,9 @@ public abstract class Creature extends RealWorldObject
      */
     public boolean addToInventory(final RealWorldObject rwo)
     {
-        // if the load changes we need to know what the load used to be
-        final Load preLoad = inventory.getLoad();
         if (inventory.addItem(rwo))
         {
-            // only recalculate stats if the load changed
-            if (inventory.loadHasChanged())
-            {
-                // remove the previous load and add the new one so calculations are correct
-                buffManager.removeDexLimiting(preLoad);
-                buffManager.addDexLimiting(inventory.getLoad());
-
-                maxDexBonus = calcMaxDexBonus();
-                effectiveMovement = calcEffectiveMovement();
-            }
+            loadChange();
             return true;
         }
         return false;
@@ -536,7 +714,7 @@ public abstract class Creature extends RealWorldObject
     public void addBuff(final CreatureBuff buff)
     {
         buffManager.addBuff(buff);
-        // TODO recalculate things based on the target of the buff
+        calcBasedOnTargetChange(buff.getBonusTarget());
     }
 
     /**
@@ -560,7 +738,7 @@ public abstract class Creature extends RealWorldObject
     public void removeBuff(final CreatureBuff buff)
     {
         buffManager.removeBuff(buff);
-        // TODO recalculate things based on the target of the buff
+        calcBasedOnTargetChange(buff.getBonusTarget());
     }
 
     /**

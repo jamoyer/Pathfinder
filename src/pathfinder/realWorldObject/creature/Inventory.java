@@ -23,7 +23,7 @@ public class Inventory
     private SizeCategory size;
     private long maxLoad;
     private Load load;
-    private boolean loadHasChanged;
+    private Load previousLoad;
 
     /*
      * Table holding the maximum carry weights with the index of the array being strength score.
@@ -38,7 +38,7 @@ public class Inventory
         strength = strengthScore;
         this.size = size;
         bipedal = isBipedal;
-        loadHasChanged = false;
+        previousLoad = null;
         calcMaxLoad();
         calcLoad();
     }
@@ -67,12 +67,12 @@ public class Inventory
         // set the loadHasChanged flag if the load changes
         if (!temp.equals(load))
         {
+            previousLoad = load;
             load = temp;
-            loadHasChanged = true;
         }
         else
         {
-            loadHasChanged = false;
+            previousLoad = null;
         }
     }
 
@@ -160,9 +160,9 @@ public class Inventory
      *
      * @return
      */
-    public boolean loadHasChanged()
+    public Load previousLoad()
     {
-        return loadHasChanged;
+        return previousLoad;
     }
 
     /*****************************************************

@@ -45,13 +45,11 @@ public class Paladin extends CharacterClass
 
     // needs to be unmodifiable so that when this list is passed it is not
     // accidentally modified, which could be disastrous
-    private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Craft.NAME, Diplomacy.NAME,
-            HandleAnimal.NAME, Heal.NAME, Nobility.NAME, Religion.NAME, Profession.NAME, Ride.NAME, SenseMotive.NAME,
-            Spellcraft.NAME));
+    private static final List<String> SKILLS = Collections.unmodifiableList(Arrays.asList(Craft.NAME, Diplomacy.NAME, HandleAnimal.NAME, Heal.NAME, Nobility.NAME, Religion.NAME,
+            Profession.NAME, Ride.NAME, SenseMotive.NAME, Spellcraft.NAME));
 
-    private static final List<Proficiency> PROFICIENCIES = Collections.unmodifiableList(Arrays.asList(
-            Proficiency.SimpleWeapon, Proficiency.MartialWeapon, Proficiency.LightArmor, Proficiency.MediumArmor,
-            Proficiency.HeavyArmor, Proficiency.Shield));
+    private static final List<Proficiency> PROFICIENCIES = Collections.unmodifiableList(Arrays.asList(Proficiency.SimpleWeapon, Proficiency.MartialWeapon, Proficiency.LightArmor,
+            Proficiency.MediumArmor, Proficiency.HeavyArmor, Proficiency.Shield));
 
     @Override
     public int getHitDieType()

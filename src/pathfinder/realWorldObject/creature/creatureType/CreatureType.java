@@ -1,6 +1,6 @@
 package pathfinder.realWorldObject.creature.creatureType;
 
-import pathfinder.characters.classes.ClassInterface;
+import pathfinder.characters.classes.CreatureClass;
 import pathfinder.realWorldObject.SizeCategory;
 import pathfinder.realWorldObject.creature.Movement;
 
@@ -11,7 +11,7 @@ import pathfinder.realWorldObject.creature.Movement;
  * @author jacob
  *
  */
-public abstract class CreatureType extends ClassInterface
+public abstract class CreatureType extends CreatureClass
 {
     public abstract SizeCategory getSizeCategory();
 

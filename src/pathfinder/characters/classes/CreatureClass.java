@@ -14,16 +14,16 @@ import pathfinder.realWorldObject.item.equipment.Proficiency;
  * @author jacob
  *
  */
-public abstract class ClassInterface
+public abstract class CreatureClass
 {
     private int level;
 
-    public ClassInterface()
+    public CreatureClass()
     {
         level = 0;
     }
 
-    public ClassInterface(int level)
+    public CreatureClass(int level)
     {
         this.level = level;
     }

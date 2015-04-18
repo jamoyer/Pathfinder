@@ -99,7 +99,12 @@ public class BuffManager
         final CreatureBuff previousTopBuff = individualBonuses.get(targetIndex).get(typeIndex).peek();
 
         // if the queue is not empty, we might need to recalculate the bonuses
-        if (previousTopBuff != null)
+        if (previousTopBuff == null)
+        {
+            // recalculate the net for this target
+            netBonuses[targetIndex] += buff.getValue();
+        }
+        else
         {
             final int previousMaxBonus = previousTopBuff.getValue();
 
@@ -145,26 +150,35 @@ public class BuffManager
             // remove the buff from the queue if it exists
             if (individualBonuses.get(targetIndex).get(typeIndex).remove(buff))
             {
-                final int newMaxBonus = individualBonuses.get(targetIndex).get(typeIndex).peek().getValue();
-
-                // check if the type stacks with itself
-                if (buff.getBonusType().equals(BonusType.Untyped))
+                final CreatureBuff newTopBuff = individualBonuses.get(targetIndex).get(typeIndex).peek();
+                if (newTopBuff == null)
                 {
-                    untypedTotals[targetIndex] -= buff.getValue();
-                    netBonuses[targetIndex] -= buff.getValue();
+                    netBonuses[targetIndex] -= previousMaxBonus;
                 }
-
-                // check if the type stacks with itself
-                else if (buff.getBonusType().equals(BonusType.Dodge))
+                else
                 {
-                    dodgeTotals[targetIndex] -= buff.getValue();
-                    netBonuses[targetIndex] -= buff.getValue();
-                }
+                    final int newMaxBonus = newTopBuff.getValue();
 
-                // if the maximum bonus has changed, update the net by subtracting the difference
-                else if (previousMaxBonus > newMaxBonus)
-                {
-                    netBonuses[targetIndex] -= previousMaxBonus - newMaxBonus;
+                    // check if the type stacks with itself
+                    if (buff.getBonusType().equals(BonusType.Untyped))
+                    {
+                        untypedTotals[targetIndex] -= buff.getValue();
+                        netBonuses[targetIndex] -= buff.getValue();
+                    }
+
+                    // check if the type stacks with itself
+                    else if (buff.getBonusType().equals(BonusType.Dodge))
+                    {
+                        dodgeTotals[targetIndex] -= buff.getValue();
+                        netBonuses[targetIndex] -= buff.getValue();
+                    }
+
+                    // if the maximum bonus has changed, update the net by subtracting the
+                    // difference
+                    else if (previousMaxBonus > newMaxBonus)
+                    {
+                        netBonuses[targetIndex] -= previousMaxBonus - newMaxBonus;
+                    }
                 }
             }
             else

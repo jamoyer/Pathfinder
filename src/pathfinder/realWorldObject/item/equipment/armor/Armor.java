@@ -1,6 +1,11 @@
 package pathfinder.realWorldObject.item.equipment.armor;
 
+import java.util.Arrays;
+import java.util.Collections;
+
+import pathfinder.characters.buffs.BonusTarget;
 import pathfinder.characters.buffs.BonusType;
+import pathfinder.characters.buffs.CreatureBuff;
 import pathfinder.realWorldObject.SizeCategory;
 import pathfinder.realWorldObject.creature.DexLimiting;
 import pathfinder.realWorldObject.creature.EquipmentSlotType;
@@ -22,7 +27,8 @@ public class Armor extends EquippableItem implements DexLimiting
     public Armor(EquipmentSlotType slot, SizeCategory size, Proficiency armorProficiency, BonusType bonusType, int cost, int armorValue, int maxDexBonus, int armorCheckPenalty,
             double arcaneSpellFailureChance, ArmorSpeedPenalty speedPenalty, int weight)
     {
-        super(slot, size, cost);
+        super(slot, size, cost, Collections.unmodifiableList(Arrays.asList(new CreatureBuff("", "", 0, true, 0, BonusTarget.ArmorClass, bonusType, armorValue), new CreatureBuff(
+                "", "", 0, true, 0, BonusTarget.FlatFooted, bonusType, armorValue))));
         this.armorProficiency = armorProficiency;
         this.bonusType = bonusType;
         this.armorValue = armorValue;
@@ -35,7 +41,9 @@ public class Armor extends EquippableItem implements DexLimiting
 
     public Armor(SizeCategory size, ArmorName armorName)
     {
-        super(armorName.getEquipmentSlotType(), size, armorName.getCost());
+        super(armorName.getEquipmentSlotType(), size, armorName.getCost(), Collections.unmodifiableList(Arrays.asList(new CreatureBuff(armorName.name(), "", 0, true, 0,
+                BonusTarget.ArmorClass, BonusType.Armor, armorName.getArmorValue()), new CreatureBuff(armorName.name(), "", 0, true, 0, BonusTarget.FlatFooted, BonusType.Armor,
+                armorName.getArmorValue()))));
         this.armorProficiency = armorName.getArmorProficiency();
         this.bonusType = armorName.getBonusType();
         this.armorValue = armorName.getArmorValue();

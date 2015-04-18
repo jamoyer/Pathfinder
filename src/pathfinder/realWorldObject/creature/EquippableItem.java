@@ -28,7 +28,7 @@ public class EquippableItem extends Item
         buffs = new LinkedList<CreatureBuff>();
     }
 
-    public EquippableItem(EquipmentSlotType slot, SizeCategory sizeCategory, List<CreatureBuff> buffs)
+    public EquippableItem(EquipmentSlotType slot, SizeCategory sizeCategory, int cost, List<CreatureBuff> buffs)
     {
         this.slot = slot;
         this.sizeCategory = sizeCategory;

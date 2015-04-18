@@ -1,6 +1,5 @@
 package pathfinder.main;
 
-import pathfinder.characters.classes.CharacterClass;
 import pathfinder.characters.classes.coreClasses.Paladin;
 import pathfinder.realWorldObject.SizeCategory;
 import pathfinder.realWorldObject.creature.AbilityScoreSet;
@@ -19,7 +18,7 @@ public class Main
     {
         final AbilityScoreSet baseScores = AbilityScoreSet.roll4d6AbilityScoreSet();
         final Humanoid dwarf = new Dwarf();
-        final CharacterClass pally = new Paladin(5);
+        final Paladin pally = new Paladin(10);
         final CharacterCreature grom = new CharacterCreature(baseScores, dwarf, pally);
         System.out.println("Successfully created Grom!");
 
@@ -53,6 +52,7 @@ public class Main
         {
             System.out.println("Added stoneplate!");
         }
+        grom.unequipItem(stonePlate);
         System.out.println("Successfully equipped Grom for battle!");
     }
 
