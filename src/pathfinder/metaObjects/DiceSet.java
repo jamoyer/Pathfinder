@@ -59,14 +59,7 @@ public class DiceSet
      */
     public int getRolledTotal()
     {
-        int sum = 0;
-        for (int i = 0; i < count; i++)
-        {
-            sum += _random.nextInt(numSides);
-        }
-
-        // add count because minimum for dice is 1 but nextInt minimum is 0
-        return sum + count;
+        return DiceSet.getRolledTotal(numSides, count);
     }
 
     /**
@@ -76,12 +69,29 @@ public class DiceSet
      */
     public int[] getRolledSet()
     {
+        return DiceSet.getRolledSet(numSides, count);
+    }
+
+    public static int[] getRolledSet(int numSides, int count)
+    {
         final int[] set = new int[count];
         for (int i = 0; i < count; i++)
         {
             set[i] = _random.nextInt(numSides) + 1;
         }
         return set;
+    }
+
+    public static int getRolledTotal(int numSides, int count)
+    {
+        int sum = 0;
+        for (int i = 0; i < count; i++)
+        {
+            sum += _random.nextInt(numSides);
+        }
+
+        // add count because minimum for dice is 1 but nextInt minimum is 0
+        return sum + count;
     }
 
     // TODO Make table for damage calculation

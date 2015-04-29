@@ -10,6 +10,7 @@ import pathfinder.characters.buffs.CreatureBuff;
 import pathfinder.characters.classes.CreatureClass;
 import pathfinder.characters.classes.CreatureClassManager;
 import pathfinder.characters.skill.Skill;
+import pathfinder.metaObjects.DiceSet;
 import pathfinder.realWorldObject.RealWorldObject;
 import pathfinder.realWorldObject.creature.creatureType.CreatureType;
 
@@ -76,7 +77,9 @@ public abstract class Creature extends RealWorldObject
     private int damageReduction;
     private int spellResistance;
     private int combatManueverDefense;
-    protected static final int BASE_DEFENSE = 10;
+    private static final int BASE_DEFENSE = 10;
+
+    private int AOOPerRound;
 
     public Creature(final AbilityScoreSet baseStats, final CreatureType creatureType)
     {
@@ -340,6 +343,11 @@ public abstract class Creature extends RealWorldObject
     public List<CreatureClass> getClasses()
     {
         return classManager.getClasses();
+    }
+
+    public int getNumAttacksOfOpportunity()
+    {
+        return AOOPerRound;
     }
 
     /*****************************************************
@@ -752,6 +760,11 @@ public abstract class Creature extends RealWorldObject
         {
             removeBuff(buff);
         }
+    }
+
+    public int rollInitiative()
+    {
+        return DiceSet.getRolledTotal(20, 1) + initiative;
     }
 
 }
