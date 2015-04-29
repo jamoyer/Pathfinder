@@ -88,4 +88,33 @@ public class ManufacturedWeapon extends EquippableItem implements Cloneable
     {
         return description;
     }
+
+    /**
+     * Returns the size of creature this weapon is intended for. Light Weapons are intended for
+     * creatures two sizes larger and one-handed are for one size larger.
+     *
+     * @param actualWeaponSize
+     * @param category
+     * @return
+     */
+    public static SizeCategory getCreatureSizeForWeapon(final SizeCategory actualWeaponSize, final WeaponCategory category)
+    {
+        int sizeIndex = actualWeaponSize.ordinal();
+        switch (category)
+        {
+            case LightMelee:
+                sizeIndex += 2;
+                break;
+            case OneHandedMelee:
+                sizeIndex += 1;
+                break;
+            case Ranged:
+            case TwoHandedMelee:
+            case Ammunition:
+            case Unarmed:
+            default:
+                break;
+        }
+        return SizeCategory.getSizeCategoryByOrdinal(sizeIndex);
+    }
 }

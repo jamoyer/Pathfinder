@@ -19,6 +19,8 @@ public enum SizeCategory
     private final double bipedCarryCapacityMultiplier;
     private final double quadrupedCarryCapacityMultiplier;
 
+    private static final SizeCategory[] categories = new SizeCategory[] { Fine, Diminutive, Tiny, Small, Medium, Large, Huge, Gargantuan, Colossal };
+
     // TODO add the other static information about size categories in here.
 
     private SizeCategory(int sizeModifier, int flyModifier, double bipedCarryCapacityMultiplier, double quadrupedCarryCapacityMultiplier)
@@ -59,5 +61,20 @@ public enum SizeCategory
     public double getQuadrupedCarryCapacityMultiplier()
     {
         return quadrupedCarryCapacityMultiplier;
+    }
+
+    public static SizeCategory getSizeCategoryByOrdinal(int ordinal)
+    {
+        // restrict size categories to be no smaller than fine and no larger than colossal
+        if (ordinal < 0)
+        {
+            ordinal = 0;
+        }
+        else if (ordinal >= categories.length)
+        {
+            ordinal = categories.length - 1;
+        }
+
+        return categories[ordinal];
     }
 }
