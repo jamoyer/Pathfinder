@@ -22,7 +22,7 @@ import pathfinder.realWorldObject.creature.creatureType.CreatureType;
  * @author jacob
  *
  */
-public abstract class Creature extends RealWorldObject
+public class Creature extends RealWorldObject
 {
     private int nonlethalDamage;
     private int tempHP;
@@ -79,7 +79,7 @@ public abstract class Creature extends RealWorldObject
     private int combatManueverDefense;
     private static final int BASE_DEFENSE = 10;
 
-    private int AOOPerRound;
+    private final int AOOPerRound = 1;
 
     public Creature(final AbilityScoreSet baseStats, final CreatureType creatureType)
     {

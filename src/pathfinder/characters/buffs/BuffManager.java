@@ -12,8 +12,6 @@ import pathfinder.realWorldObject.item.equipment.armor.Armor;
 public class BuffManager
 {
     private final int[] netBonuses = new int[BonusTarget.values().length];
-    private final int[] untypedTotals = new int[BonusTarget.values().length];
-    private final int[] dodgeTotals = new int[BonusTarget.values().length];
 
     // a grid of priority queued buffs, the first list is indexed by targets, the second lists are
     // indexed by types, each value in the grid is a priority queue of buffs, sorted to give the
@@ -92,7 +90,7 @@ public class BuffManager
      *
      * @param buff
      */
-    public void addBuff(final CreatureBuff buff)
+    public boolean addBuff(final CreatureBuff buff)
     {
         final int targetIndex = buff.getBonusTarget().ordinal();
         final int typeIndex = buff.getBonusType().ordinal();
@@ -111,13 +109,11 @@ public class BuffManager
             // check if the type stacks with itself
             if (buff.getBonusType().equals(BonusType.Untyped))
             {
-                untypedTotals[targetIndex] += buff.getValue();
                 netBonuses[targetIndex] += buff.getValue();
             }
             // check if the type stacks with itself
             else if (buff.getBonusType().equals(BonusType.Dodge))
             {
-                dodgeTotals[targetIndex] += buff.getValue();
                 netBonuses[targetIndex] += buff.getValue();
             }
             // if this new buff exceeds the existing buff, update the netBonus
@@ -129,15 +125,16 @@ public class BuffManager
         }
 
         // add the buff to the appropriate queue
-        individualBonuses.get(targetIndex).get(typeIndex).add(buff);
+        return individualBonuses.get(targetIndex).get(typeIndex).add(buff);
     }
 
     /**
      * Removes the buff from the manager if it exists and recalculates the bonuses if necessary.
      *
      * @param buff
+     * @return true if and only if a buff was removed.
      */
-    public void removeBuff(final CreatureBuff buff)
+    public boolean removeBuff(final CreatureBuff buff)
     {
         final int targetIndex = buff.getBonusTarget().ordinal();
         final int typeIndex = buff.getBonusType().ordinal();
@@ -162,14 +159,12 @@ public class BuffManager
                     // check if the type stacks with itself
                     if (buff.getBonusType().equals(BonusType.Untyped))
                     {
-                        untypedTotals[targetIndex] -= buff.getValue();
                         netBonuses[targetIndex] -= buff.getValue();
                     }
 
                     // check if the type stacks with itself
                     else if (buff.getBonusType().equals(BonusType.Dodge))
                     {
-                        dodgeTotals[targetIndex] -= buff.getValue();
                         netBonuses[targetIndex] -= buff.getValue();
                     }
 
@@ -180,18 +175,10 @@ public class BuffManager
                         netBonuses[targetIndex] -= previousMaxBonus - newMaxBonus;
                     }
                 }
-            }
-            else
-            {
-                // TODO what happens when the buff does not exist in the queue? nothing? a warning
-                // message?
+                return true;
             }
         }
-        else
-        {
-            // TODO what happens when the buff does not exist in the queue? nothing? a warning
-            // message?
-        }
+        return false;
     }
 
     /**
