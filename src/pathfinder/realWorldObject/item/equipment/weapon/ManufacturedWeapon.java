@@ -115,6 +115,6 @@ public class ManufacturedWeapon extends EquippableItem implements Cloneable
             default:
                 break;
         }
-        return SizeCategory.getSizeCategoryByOrdinal(sizeIndex);
+        return SizeCategory.values()[sizeIndex];
     }
 }

@@ -60,16 +60,6 @@ public class BuffManager
                 return -1;
             }
         });
-
-        // just adding an object so we don't get null all the time from the maxDexTracker
-        maxDexTracker.add(new DexLimiting()
-        {
-            @Override
-            public int getMaxDexBonus()
-            {
-                return Armor.UNLIMITED_DEX_BONUS;
-            }
-        });
     }
 
     public void addDexLimiting(final DexLimiting dexLimiter)
@@ -82,9 +72,19 @@ public class BuffManager
         maxDexTracker.remove(dexLimiter);
     }
 
+    public void clearDexLimiting()
+    {
+        maxDexTracker.clear();
+    }
+
     public int getMaxDexBonus()
     {
-        return maxDexTracker.peek().getMaxDexBonus();
+        final DexLimiting limit = maxDexTracker.peek();
+        if (limit == null)
+        {
+            return Armor.UNLIMITED_DEX_BONUS;
+        }
+        return limit.getMaxDexBonus();
     }
 
     /**

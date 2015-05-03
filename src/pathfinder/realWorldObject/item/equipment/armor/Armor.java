@@ -22,7 +22,7 @@ public class Armor extends EquippableItem implements DexLimiting
     private final double arcaneSpellFailureChance;
     private final ArmorSpeedPenalty speedPenalty;
 
-    public static final int UNLIMITED_DEX_BONUS = 9999;
+    public static final int UNLIMITED_DEX_BONUS = Integer.MAX_VALUE;
 
     public Armor(EquipmentSlotType slot, SizeCategory size, Proficiency armorProficiency, BonusType bonusType, int cost, int armorValue, int maxDexBonus, int armorCheckPenalty,
             double arcaneSpellFailureChance, ArmorSpeedPenalty speedPenalty, int weight)

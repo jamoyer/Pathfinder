@@ -426,11 +426,7 @@ public abstract class Creature extends RealWorldObject
         final int maxDexPossible = loadMax + bonusToMaxDexBonus;
 
         // return the maximum usable dexterity
-        if (maxDexPossible > totalDex)
-        {
-            return totalDex;
-        }
-        return maxDexPossible;
+        return Math.min(maxDexPossible, totalDex);
     }
 
     public int calcTouch()
