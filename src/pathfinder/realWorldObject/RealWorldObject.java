@@ -27,8 +27,6 @@ public abstract class RealWorldObject
     public RealWorldObject()
     {
         id = idCounter++;
-        // TODO create a system for making unique id's, possibly a
-        // idmaker class that has an id counter
     }
 
     public int getWeight()
@@ -96,11 +94,7 @@ public abstract class RealWorldObject
 
         final RealWorldObject rwo = (RealWorldObject) o;
 
-        if (hashCode() != rwo.hashCode())
-        {
-            return false;
-        }
-        return true;
+        return hashCode() == rwo.hashCode();
     }
 
     @Override

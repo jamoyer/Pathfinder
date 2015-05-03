@@ -158,7 +158,7 @@ public class Inventory
      * Whether or not the load changed the last time it was calculated such as changing the
      * strength, size, or items.
      *
-     * @return
+     * @return The previous load if it has changed or null if it has not changed.
      */
     public Load previousLoad()
     {

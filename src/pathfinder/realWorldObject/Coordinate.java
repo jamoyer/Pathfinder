@@ -1,63 +1,43 @@
 package pathfinder.realWorldObject;
 
 /**
- * If our game world is laid out in an imaginary 3-dimensional grid broken into
- * chunks, then this object represents a location in the world.
- * 
+ * If our game world is laid out in an imaginary 3-dimensional grid broken into chunks, then this
+ * object represents a location in the world.
+ *
  * @author jacob
  *
  */
 public class Coordinate implements Cloneable
 {
-    private int x;
-    private int y;
-    private int z;
+    private final int width;
+    private final int height;
+    private final int depth;
 
-    public Coordinate()
+    public Coordinate(int width, int height, int depth)
     {
-
+        this.width = width;
+        this.height = height;
+        this.depth = depth;
     }
 
-    public Coordinate(int x, int y, int z)
+    public int getWidth()
     {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        return width;
     }
 
-    public int getX()
+    public int getHeight()
     {
-        return x;
+        return height;
     }
 
-    public int getY()
+    public int getDepth()
     {
-        return y;
-    }
-
-    public int getZ()
-    {
-        return z;
-    }
-
-    public void setX(int x)
-    {
-        this.x = x;
-    }
-
-    public void setY(int y)
-    {
-        this.y = y;
-    }
-
-    public void setZ(int z)
-    {
-        this.z = z;
+        return depth;
     }
 
     @Override
     public Object clone()
     {
-        return new Coordinate(x, y, z);
+        return new Coordinate(width, height, depth);
     }
 }
