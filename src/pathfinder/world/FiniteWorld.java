@@ -3,6 +3,12 @@ package pathfinder.world;
 import pathfinder.realWorldObject.Cell;
 import pathfinder.realWorldObject.Coordinate;
 
+/**
+ * A world that has a set size that does not change.
+ *
+ * @author jacob
+ *
+ */
 public class FiniteWorld extends BaseWorld
 {
     private final int maxWidth;
@@ -11,6 +17,15 @@ public class FiniteWorld extends BaseWorld
 
     private final Cell[/* width */][/* height */][/* depth */] worldArray;
 
+    /**
+     * Initializes a world with the given parameters as the maximum dimensions of the world.
+     *
+     * To make a 2-d world, make height = 1
+     *
+     * @param width
+     * @param height
+     * @param depth
+     */
     public FiniteWorld(int width, int height, int depth)
     {
         maxWidth = width;

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import pathfinder.metaObjects.DiceSet;
 import pathfinder.realWorldObject.SizeCategory;
 import pathfinder.realWorldObject.creature.AbilityScore;
 import pathfinder.realWorldObject.creature.AbilityScoreSet;
@@ -18,8 +19,7 @@ public class HalfElf extends Humanoid
 
     private final AbilityScoreSet abilityScoreModifiers;
     private final static Movement movement = new Movement(30, 0, 0, 0, 0, 0);
-    private final static List<Language> languages = Collections.unmodifiableList(Arrays.asList(Language.Common,
-            Language.Elven));
+    private final static List<Language> languages = Collections.unmodifiableList(Arrays.asList(Language.Common, Language.Elven));
     private final static int racePoints = 0;
     private final static SizeCategory sizeCategory = SizeCategory.Medium;
 
@@ -49,6 +49,14 @@ public class HalfElf extends Humanoid
                 abilityScoreModifiers = new AbilityScoreSet(0, 0, 0, 0, 0, 0);
                 break;
         }
+    }
+
+    /**
+     * Overloaded constructor for when there is no preferred ability score.
+     */
+    public HalfElf()
+    {
+        this(DiceSet.rollRandomAbilityScore());
     }
 
     @Override

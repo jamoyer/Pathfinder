@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import pathfinder.metaObjects.DiceSet;
 import pathfinder.realWorldObject.SizeCategory;
 import pathfinder.realWorldObject.creature.AbilityScore;
 import pathfinder.realWorldObject.creature.AbilityScoreSet;
@@ -18,8 +19,7 @@ public class HalfOrc extends Humanoid
 
     private final AbilityScoreSet abilityScoreModifiers;
     private final static Movement movement = new Movement(30, 0, 0, 0, 0, 0);
-    private final static List<Language> languages = Collections.unmodifiableList(Arrays.asList(Language.Common,
-            Language.Orc));
+    private final static List<Language> languages = Collections.unmodifiableList(Arrays.asList(Language.Common, Language.Orc));
     private final static int racePoints = 0;
     private final static SizeCategory sizeCategory = SizeCategory.Medium;
 
@@ -49,6 +49,14 @@ public class HalfOrc extends Humanoid
                 abilityScoreModifiers = new AbilityScoreSet(0, 0, 0, 0, 0, 0);
                 break;
         }
+    }
+
+    /**
+     * Overloaded constructor for when there is no preferred ability score.
+     */
+    public HalfOrc()
+    {
+        this(DiceSet.rollRandomAbilityScore());
     }
 
     @Override

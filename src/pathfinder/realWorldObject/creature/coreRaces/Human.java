@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import pathfinder.metaObjects.DiceSet;
 import pathfinder.realWorldObject.SizeCategory;
 import pathfinder.realWorldObject.creature.AbilityScore;
 import pathfinder.realWorldObject.creature.AbilityScoreSet;
@@ -48,6 +49,14 @@ public class Human extends Humanoid
                 abilityScoreModifiers = new AbilityScoreSet(0, 0, 0, 0, 0, 0);
                 break;
         }
+    }
+
+    /**
+     * Overloaded constructor for when there is no preferred ability score.
+     */
+    public Human()
+    {
+        this(DiceSet.rollRandomAbilityScore());
     }
 
     @Override
