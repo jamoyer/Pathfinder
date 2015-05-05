@@ -1,16 +1,11 @@
 package pathfinder.metaObjects;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
 import pathfinder.realWorldObject.SizeCategory;
-import pathfinder.realWorldObject.creature.AbilityScore;
 
 public class DiceSet
 {
-    private static final List<AbilityScore> ABILITY_SCORES = Collections.unmodifiableList(Arrays.asList(AbilityScore.values()));
     private static final Random _random = new Random();
     private int numSides;
     private int count;
@@ -103,10 +98,5 @@ public class DiceSet
     public static DiceSet getDieForDamage(SizeCategory sizeCategory, int damageProgressionIndex)
     {
         return new DiceSet(1, 1);
-    }
-
-    public static AbilityScore rollRandomAbilityScore()
-    {
-        return ABILITY_SCORES.get(_random.nextInt(ABILITY_SCORES.size()));
     }
 }

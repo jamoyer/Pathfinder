@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import pathfinder.metaObjects.DiceSet;
 import pathfinder.realWorldObject.SizeCategory;
 import pathfinder.realWorldObject.creature.AbilityScore;
 import pathfinder.realWorldObject.creature.AbilityScoreSet;
@@ -56,7 +55,7 @@ public class HalfOrc extends Humanoid
      */
     public HalfOrc()
     {
-        this(DiceSet.rollRandomAbilityScore());
+        this(AbilityScoreSet.rollRandomAbilityScore());
     }
 
     @Override

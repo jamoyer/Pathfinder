@@ -1,5 +1,10 @@
 package pathfinder.realWorldObject.creature;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
 import pathfinder.metaObjects.DiceSet;
 
 public class AbilityScoreSet
@@ -11,6 +16,9 @@ public class AbilityScoreSet
     private final AbilityScoreInstance intelligence;
     private final AbilityScoreInstance wisdom;
     private final AbilityScoreInstance charisma;
+
+    private static final List<AbilityScore> ABILITY_SCORES = Collections.unmodifiableList(Arrays.asList(AbilityScore.values()));
+    private static final Random RANDOM_INSTANCE = new Random();
 
     public AbilityScoreSet(int str, int dex, int con, int intel, int wis, int cha)
     {
@@ -34,8 +42,8 @@ public class AbilityScoreSet
     }
 
     /**
-     * Creates a new ability score set using the standard 4d6 drop lowest die
-     * rolling system with no preference on particular abilities.
+     * Creates a new ability score set using the standard 4d6 drop lowest die rolling system with no
+     * preference on particular abilities.
      *
      * @return
      */
@@ -62,6 +70,11 @@ public class AbilityScoreSet
             scores[i] = sum;
         }
         return new AbilityScoreSet(scores[0], scores[1], scores[3], scores[3], scores[4], scores[5]);
+    }
+
+    public static AbilityScore rollRandomAbilityScore()
+    {
+        return ABILITY_SCORES.get(RANDOM_INSTANCE.nextInt(ABILITY_SCORES.size()));
     }
 
     public int getStrengthScore()

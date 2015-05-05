@@ -89,4 +89,14 @@ public class Armor extends EquippableItem implements DexLimiting
     {
         return this.speedPenalty;
     }
+
+    public static boolean isArmor(Proficiency prof)
+    {
+        return prof == Proficiency.LightArmor || prof == Proficiency.MediumArmor || prof == Proficiency.HeavyArmor;
+    }
+
+    public static boolean isShield(Proficiency prof)
+    {
+        return prof == Proficiency.Shield || prof == Proficiency.TowerShield;
+    }
 }
