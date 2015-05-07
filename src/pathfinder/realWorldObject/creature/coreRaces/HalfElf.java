@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import pathfinder.metaObjects.DiceSet;
 import pathfinder.realWorldObject.SizeCategory;
 import pathfinder.realWorldObject.creature.AbilityScore;
 import pathfinder.realWorldObject.creature.AbilityScoreSet;
@@ -21,6 +22,11 @@ public class HalfElf extends Humanoid
     private final static List<Language> languages = Collections.unmodifiableList(Arrays.asList(Language.Common, Language.Elven));
     private final static int racePoints = 0;
     private final static SizeCategory sizeCategory = SizeCategory.Medium;
+
+    private final static int maleBaseWeight = 100;
+    private final static int femaleBaseWeight = 90;
+    private final static DiceSet weightModifier = new DiceSet(8, 2);
+    private final static int weightModifierMultiplier = 5;
 
     public HalfElf(AbilityScore abilityScoreBonus)
     {
@@ -92,6 +98,30 @@ public class HalfElf extends Humanoid
     public List<Proficiency> getProficiencies()
     {
         return Collections.unmodifiableList(new LinkedList<Proficiency>());
+    }
+
+    @Override
+    public int getMaleWeight()
+    {
+        return maleBaseWeight;
+    }
+
+    @Override
+    public int getFemaleWeight()
+    {
+        return femaleBaseWeight;
+    }
+
+    @Override
+    public DiceSet getWeightModifier()
+    {
+        return weightModifier;
+    }
+
+    @Override
+    public int getWeightModifierMultiplier()
+    {
+        return weightModifierMultiplier;
     }
 
 }

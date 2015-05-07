@@ -28,10 +28,11 @@ public class Creature extends RealWorldObject
     private int tempHP;
 
     private final CreatureType creatureType;
+    private final int baseWeight;
     private final CreatureClassManager classManager = new CreatureClassManager();
     private final BuffManager buffManager;
 
-    private CreatureDescription description;
+    private final CreatureDescription description;
 
     // base scores are what a creature inherently has for scores
     private final AbilityScoreSet baseScores;
@@ -75,7 +76,7 @@ public class Creature extends RealWorldObject
 
     private final int AOOPerRound = 1;
 
-    public Creature(final AbilityScoreSet baseStats, final CreatureType creatureType)
+    public Creature(final AbilityScoreSet baseStats, final CreatureType creatureType, boolean isMale)
     {
         /*
          * Make sure to calculate things in the order that they are depended on.
@@ -86,8 +87,12 @@ public class Creature extends RealWorldObject
         this.baseScores = baseStats;
         classManager.addLevel(creatureType);
         this.creatureType = creatureType;
+        description = new CreatureDescription();
+        description.setGender(isMale);
 
         // these need to be calculated next as most things depend on them
+        baseWeight = creatureType.calcWeight(isMale);
+        super.setWeight(baseWeight);
         effectiveScores = calcAbilityScores();
         inventory = new Inventory(effectiveScores.getStrengthScore(), creatureType.getSizeCategory(), creatureType.isBipedal());
         baseAttackBonus = calcBaseAttackBonus();
@@ -114,6 +119,11 @@ public class Creature extends RealWorldObject
         effectiveMovement = calcEffectiveMovement();
     }
 
+    public Creature(final AbilityScoreSet baseStats, final CreatureType creatureType)
+    {
+        this(baseStats, creatureType, DiceSet.flipCoin());
+    }
+
     @Override
     public List<String> getProperties()
     {
@@ -128,6 +138,7 @@ public class Creature extends RealWorldObject
         }
         // TODO CreatureBuffs
         // TODO CreatureDescriptions
+        properties.add("Is male: " + description.isMale());
         for (final AbilityScoreInstance score : baseScores)
         {
             properties.add("Base " + score.getType() + " Score: " + score.getScore());
@@ -380,9 +391,9 @@ public class Creature extends RealWorldObject
         return buffManager;
     }
 
-    public long getTotalWeight()
+    public int getTotalWeight()
     {
-        return getWeight() + inventory.getTotalWeight();
+        return baseWeight + inventory.getTotalWeight();
     }
 
     public Collection<CreatureClass> getClasses()
@@ -561,6 +572,8 @@ public class Creature extends RealWorldObject
             maxDexBonus = calcMaxDexBonus();
             effectiveMovement = calcEffectiveMovement();
         }
+
+        super.setWeight(getTotalWeight());
     }
 
     public void calcBasedOnTargetChange(final BonusTarget target)

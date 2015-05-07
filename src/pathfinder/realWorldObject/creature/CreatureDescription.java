@@ -3,9 +3,8 @@ package pathfinder.realWorldObject.creature;
 import java.util.List;
 
 /**
- * A list of the most common creature descriptions with the ability to add more
- * descriptors.
- * 
+ * A list of the most common creature descriptions with the ability to add more descriptors.
+ *
  * @author jacob
  *
  */
@@ -15,7 +14,7 @@ public class CreatureDescription
     private String eyeColor;
     private String skinColor;
     private String hairColor;
-    private String gender;
+    private boolean isMale;
     private int age;
     private String height;
     private String weight;
@@ -65,14 +64,14 @@ public class CreatureDescription
         this.hairColor = hairColor;
     }
 
-    public String getGender()
+    public boolean isMale()
     {
-        return gender;
+        return isMale;
     }
 
-    public void setGender(String gender)
+    public void setGender(boolean isMale)
     {
-        this.gender = gender;
+        this.isMale = isMale;
     }
 
     public int getAge()

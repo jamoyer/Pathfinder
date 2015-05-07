@@ -148,4 +148,14 @@ public class DiceSet
         return count + "d" + numSides;
     }
 
+    /**
+     * Returns a random boolean.
+     *
+     * @return
+     */
+    public static boolean flipCoin()
+    {
+        return _random.nextBoolean();
+    }
+
 }

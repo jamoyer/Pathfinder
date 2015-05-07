@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import pathfinder.metaObjects.DiceSet;
 import pathfinder.realWorldObject.SizeCategory;
 import pathfinder.realWorldObject.creature.AbilityScoreSet;
 import pathfinder.realWorldObject.creature.Language;
@@ -21,6 +22,11 @@ public class Halfling extends Humanoid
             Language.Halfling));
     private final static int racePoints = 0;
     private final static SizeCategory sizeCategory = SizeCategory.Small;
+
+    private final static int maleBaseWeight = 30;
+    private final static int femaleBaseWeight = 25;
+    private final static DiceSet weightModifier = new DiceSet(4, 2);
+    private final static int weightModifierMultiplier = 1;
 
     @Override
     public AbilityScoreSet getAbilityScoreModifiers()
@@ -56,5 +62,29 @@ public class Halfling extends Humanoid
     public List<Proficiency> getProficiencies()
     {
         return Collections.unmodifiableList(new LinkedList<Proficiency>());
+    }
+
+    @Override
+    public int getMaleWeight()
+    {
+        return maleBaseWeight;
+    }
+
+    @Override
+    public int getFemaleWeight()
+    {
+        return femaleBaseWeight;
+    }
+
+    @Override
+    public DiceSet getWeightModifier()
+    {
+        return weightModifier;
+    }
+
+    @Override
+    public int getWeightModifierMultiplier()
+    {
+        return weightModifierMultiplier;
     }
 }

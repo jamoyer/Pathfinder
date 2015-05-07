@@ -17,7 +17,7 @@ import pathfinder.realWorldObject.SizeCategory;
 public class Inventory
 {
     private final HashSet<RealWorldObject> contents = new HashSet<RealWorldObject>();
-    private long totalWeight;
+    private int totalWeight;
     private int strength;
     private final boolean bipedal;
     private SizeCategory size;
@@ -149,7 +149,7 @@ public class Inventory
         return load;
     }
 
-    public long getTotalWeight()
+    public int getTotalWeight()
     {
         return totalWeight;
     }

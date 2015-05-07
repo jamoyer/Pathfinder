@@ -38,7 +38,6 @@ public class StatusMenu extends JPanel
 
         final JLabel lblleftClickTo = new JLabel("*left click to view the contents of a tile");
         add(lblleftClickTo, "cell 0 0");
-
     }
 
     public void setStatus(final GridTile tile)
