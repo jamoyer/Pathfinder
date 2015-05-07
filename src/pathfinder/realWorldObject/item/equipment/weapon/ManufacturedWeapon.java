@@ -18,7 +18,8 @@ public class ManufacturedWeapon extends EquippableItem implements Cloneable
     private final int critRange;
     private final int range;
     private final List<DamageType> damageTypes;
-    private String description;
+    private final String description;
+    private final String commonName;
 
     public ManufacturedWeapon(EquipmentSlotType slot, SizeCategory sizeCategory, Proficiency weaponProficiency, WeaponCategory weaponCategory, int cost,
             int damageProgressionIndex, int critMultiplier, int critRange, int range, List<DamageType> damageTypes, String decription, int weight)
@@ -33,6 +34,8 @@ public class ManufacturedWeapon extends EquippableItem implements Cloneable
         this.range = range;
         this.damageTypes = damageTypes;
         super.setWeight(weight);
+        this.commonName = null;
+        this.description = decription;
     }
 
     public ManufacturedWeapon(SizeCategory sizeCategory, ManufacturedWeaponName weaponName)
@@ -47,6 +50,29 @@ public class ManufacturedWeapon extends EquippableItem implements Cloneable
         this.range = weaponName.getRange();
         this.damageTypes = weaponName.getDamageTypes();
         super.setWeight(weaponName.getWeight());
+        this.commonName = weaponName.name();
+        this.description = weaponName.getDescription();
+    }
+
+    @Override
+    public List<String> getProperties()
+    {
+        final List<String> properties = super.getProperties();
+        properties.add("Common Name: " + commonName);
+        properties.add("Proficiency: " + weaponProficiency.name());
+        properties.add("Category: " + weaponCategory);
+        properties.add("Damage: " + damage.getCommonDiceFormat());
+        properties.add("Crit Multiplier: " + critMultiplier);
+        properties.add("Crit Range: " + critRange);
+        properties.add("Range: " + range);
+        String damageType = "";
+        for (final DamageType type : damageTypes)
+        {
+            damageType += type + " ";
+        }
+        properties.add("Damage Type: " + damageType);
+        properties.add("Description: " + description);
+        return properties;
     }
 
     public Proficiency getWeaponProficiency()
@@ -107,6 +133,35 @@ public class ManufacturedWeapon extends EquippableItem implements Cloneable
                 break;
             case OneHandedMelee:
                 sizeIndex += 1;
+                break;
+            case Ranged:
+            case TwoHandedMelee:
+            case Ammunition:
+            case Unarmed:
+            default:
+                break;
+        }
+        return SizeCategory.values()[sizeIndex];
+    }
+
+    /**
+     * Returns the size of weapon this creature would need for the given category. Light Weapons are
+     * intended for creatures two sizes larger and one-handed are for one size larger.
+     *
+     * @param creatureSize
+     * @param category
+     * @return
+     */
+    public static SizeCategory getWeaponSizeForCreature(final SizeCategory creatureSize, final WeaponCategory category)
+    {
+        int sizeIndex = creatureSize.ordinal();
+        switch (category)
+        {
+            case LightMelee:
+                sizeIndex -= 2;
+                break;
+            case OneHandedMelee:
+                sizeIndex -= 1;
                 break;
             case Ranged:
             case TwoHandedMelee:

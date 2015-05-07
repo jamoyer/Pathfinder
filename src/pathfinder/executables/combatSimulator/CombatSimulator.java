@@ -6,20 +6,20 @@ import java.awt.event.MouseEvent;
 
 import pathfinder.characters.classes.CharacterClass;
 import pathfinder.characters.classes.CharacterClassFactory;
-import pathfinder.executables.combatSimulator.BattleGrid.BattleGridModel;
-import pathfinder.executables.combatSimulator.BattleGrid.GridTile;
 import pathfinder.realWorldObject.RealWorldObject;
+import pathfinder.realWorldObject.SizeCategory;
 import pathfinder.realWorldObject.creature.AbilityScoreSet;
 import pathfinder.realWorldObject.creature.CharacterCreature;
 import pathfinder.realWorldObject.creature.coreRaces.HumanoidFactory;
 import pathfinder.realWorldObject.creature.creatureType.Humanoid;
 import pathfinder.realWorldObject.item.equipment.armor.Armor;
 import pathfinder.realWorldObject.item.equipment.weapon.ManufacturedWeapon;
+import pathfinder.realWorldObject.item.equipment.weapon.WeaponCategory;
 
-public class CombatSimulator
+public class CombatSimulator implements NewSimulationListener
 {
-    private final BattleGridModel model;
-    private final CombatSimulatorView view;
+    private BattleGridModel model;
+    private CombatSimulatorView view;
 
     private static final int DEFAULT_WIDTH = 20;
     private static final int DEFAULT_DEPTH = 20;
@@ -42,10 +42,33 @@ public class CombatSimulator
      */
     public CombatSimulator()
     {
+        initNewSimulation();
+    }
+
+    /**
+     * Ends the old simulation if there was one and begins a new simulation.
+     */
+    private void initNewSimulation()
+    {
+        /*
+         * Destroy the old simulation in whatever way we can. Seems to work but theres got to be a
+         * better way than restarting the whole frame.
+         */
+        if (view != null)
+        {
+            //
+            //
+            view.removeAll();
+            view.validate();
+            view.dispose();
+        }
+
+        // build everything from the ground up
         model = new BattleGridModel(DEFAULT_WIDTH, DEFAULT_DEPTH);
         view = new CombatSimulatorView(model);
         view.setVisible(true);
         view.getBattleGridView().addMouseListener(new BattleGridMouseAdapter());
+        view.registerNewSimulationListener(this);
     }
 
     /*
@@ -86,7 +109,7 @@ public class CombatSimulator
             final int pressed = e.getButton();
             if (pressed == LEFT_CLICK)
             {
-
+                view.getStatusMenu().setStatus(tile);
             }
             else if (pressed == RIGHT_CLICK)
             {
@@ -96,27 +119,49 @@ public class CombatSimulator
                 switch (menu.getSpawnType())
                 {
                     case Armor:
-                        rwo = new Armor(menu.getSizeCategory(), menu.getCreatureArmor());
+                        rwo = new Armor(menu.getSizeCategory(), menu.getSelectedArmor());
                         break;
                     case Creature:
                         final AbilityScoreSet scores = AbilityScoreSet.roll4d6AbilityScoreSet();
                         final Humanoid race = HumanoidFactory.buildCoreRace(menu.getSelectedRace());
                         final CharacterClass charClass = CharacterClassFactory.buildCharacterClass(menu.getSelectedClass(), menu.getClassLevel());
-                        rwo = new CharacterCreature(scores, race, charClass);
+                        final CharacterCreature creature = new CharacterCreature(scores, race, charClass);
+                        if (menu.creatureHasArmor())
+                        {
+                            creature.equipItem(new Armor(creature.getCreatureType().getSizeCategory(), menu.getCreatureArmor()));
+                        }
+                        if (menu.creatureHasShield())
+                        {
+                            creature.equipItem(new Armor(creature.getCreatureType().getSizeCategory(), menu.getCreatureShield()));
+                        }
+                        if (menu.creatureHasWeapon())
+                        {
+                            final SizeCategory creatureSize = creature.getCreatureType().getSizeCategory();
+                            final WeaponCategory weaponCategory = menu.getCreatureWeapon().getWeaponCategory();
+                            final SizeCategory weaponSize = ManufacturedWeapon.getWeaponSizeForCreature(creatureSize, weaponCategory);
+                            creature.equipItem(new ManufacturedWeapon(weaponSize, menu.getCreatureWeapon()));
+                        }
+                        rwo = creature;
                         break;
                     case Shield:
-                        rwo = new Armor(menu.getSizeCategory(), menu.getCreatureShield());
+                        rwo = new Armor(menu.getSizeCategory(), menu.getSelectedShield());
                         break;
                     case Weapon:
-                        rwo = new ManufacturedWeapon(menu.getSizeCategory(), menu.getCreatureWeapon());
+                        rwo = new ManufacturedWeapon(menu.getSizeCategory(), menu.getSelectedWeapon());
                         break;
                     default:
                         throw new IllegalStateException("No chosen spawn type.");
                 }
                 tile.addRWO(rwo);
+                // update the view
+                model.fireTableCellUpdated(width, depth);
             }
-            // update the view
-            model.fireTableCellUpdated(width, depth);
         }
+    }
+
+    @Override
+    public void newSimulation()
+    {
+        initNewSimulation();
     }
 }

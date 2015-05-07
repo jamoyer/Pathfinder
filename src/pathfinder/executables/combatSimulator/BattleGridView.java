@@ -1,4 +1,4 @@
-package pathfinder.executables.combatSimulator.BattleGrid;
+package pathfinder.executables.combatSimulator;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -8,6 +8,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableModel;
 
 public class BattleGridView extends JTable
 {
@@ -23,6 +24,18 @@ public class BattleGridView extends JTable
     public BattleGridView(final BattleGridModel model)
     {
         super(model);
+        initBattleGridView();
+    }
+
+    @Override
+    public void setModel(TableModel model)
+    {
+        super.setModel(model);
+        initBattleGridView();
+    }
+
+    private void initBattleGridView()
+    {
         setBorder(new MatteBorder(1, 1, 0, 0, Color.BLACK));
         setRowHeight(MAX_ROW_HEIGHT_PIXELS);
         setFillsViewportHeight(true);

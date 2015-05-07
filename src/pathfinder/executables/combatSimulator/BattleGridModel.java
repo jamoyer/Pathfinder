@@ -1,4 +1,4 @@
-package pathfinder.executables.combatSimulator.BattleGrid;
+package pathfinder.executables.combatSimulator;
 
 import javax.swing.table.AbstractTableModel;
 

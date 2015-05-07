@@ -2,6 +2,7 @@ package pathfinder.realWorldObject.item.equipment.armor;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import pathfinder.characters.buffs.BonusTarget;
 import pathfinder.characters.buffs.BonusType;
@@ -21,6 +22,7 @@ public class Armor extends EquippableItem implements DexLimiting
     private final int armorCheckPenalty;
     private final double arcaneSpellFailureChance;
     private final ArmorSpeedPenalty speedPenalty;
+    private final String commonName;
 
     public static final int UNLIMITED_DEX_BONUS = Integer.MAX_VALUE;
 
@@ -37,6 +39,7 @@ public class Armor extends EquippableItem implements DexLimiting
         this.arcaneSpellFailureChance = arcaneSpellFailureChance;
         this.speedPenalty = speedPenalty;
         super.setWeight(weight);
+        this.commonName = null;
     }
 
     public Armor(SizeCategory size, ArmorName armorName)
@@ -52,6 +55,22 @@ public class Armor extends EquippableItem implements DexLimiting
         this.arcaneSpellFailureChance = armorName.getArcaneSpellFailureChance();
         this.speedPenalty = armorName.getSpeedPenalty();
         super.setWeight(armorName.getWeight());
+        this.commonName = armorName.name();
+    }
+
+    @Override
+    public List<String> getProperties()
+    {
+        final List<String> properties = super.getProperties();
+        properties.add("Common Name: " + commonName);
+        properties.add("Proficiency: " + armorProficiency.name());
+        properties.add("Bonus Type: " + bonusType.name());
+        properties.add("AC Bonus: " + armorValue);
+        properties.add("Max Dex Bonus: " + maxDexBonus);
+        properties.add("Armor Check Penalty: " + armorCheckPenalty);
+        properties.add("Arcane Spell Failure Chance: " + arcaneSpellFailureChance);
+        properties.add("Armor Speed Penalty: " + speedPenalty.name());
+        return properties;
     }
 
     public Proficiency getArmorProficiency()
@@ -88,6 +107,16 @@ public class Armor extends EquippableItem implements DexLimiting
     public ArmorSpeedPenalty getSpeedPenalty()
     {
         return this.speedPenalty;
+    }
+
+    public boolean isArmor()
+    {
+        return Armor.isArmor(armorProficiency);
+    }
+
+    public boolean isShield()
+    {
+        return Armor.isShield(armorProficiency);
     }
 
     public static boolean isArmor(Proficiency prof)

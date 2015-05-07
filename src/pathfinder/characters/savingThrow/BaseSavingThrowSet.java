@@ -1,10 +1,9 @@
 package pathfinder.characters.savingThrow;
 
 /**
- * Allows good and bad saves to be grouped together into a coherent saving throw
- * set. Should be used in PC and NPC classes and also in Creature Type
- * implementations.
- * 
+ * Allows good and bad saves to be grouped together into a coherent saving throw set. Should be used
+ * in PC and NPC classes and also in Creature Type implementations.
+ *
  * @author jacob
  *
  */
@@ -35,5 +34,4 @@ public class BaseSavingThrowSet
     {
         return will.getBaseSave(level);
     }
-
 }

@@ -1,14 +1,16 @@
-package pathfinder.realWorldObject;
+package pathfinder.world;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import pathfinder.realWorldObject.RealWorldObject;
+
 /**
  * If our game world is laid out in an imaginary 3-dimensional grid broken into chunks, then this
- * object represents a single unit of space, a 1 meter cube. We can have infinite RealWorldObjects
- * stacked inside this cube.
+ * object represents a single unit of space, 1 cube. We can have infinite RealWorldObjects stacked
+ * inside this cube.
  *
  * @author jacob
  *
@@ -17,7 +19,7 @@ public class Cell
 {
     // hopefully a map isn't too much memory for every cell to have one. We may need to build our
     // own implementation.
-    private final Map<Long, RealWorldObject> stackedObjects = new HashMap<Long, RealWorldObject>();
+    private final Map<Long, RealWorldObject> stackedObjects = new HashMap<Long, RealWorldObject>(3);
     private final Coordinate coordinate;
 
     public Cell(final Coordinate coordinate)
@@ -35,6 +37,16 @@ public class Cell
         return stackedObjects.remove(id);
     }
 
+    public RealWorldObject removeRWO(final RealWorldObject rwo)
+    {
+        return removeRWO(rwo.getId());
+    }
+
+    /**
+     * Returns an unmodifiable Collection of all the Real World Objects in this cell.
+     *
+     * @return
+     */
     public Collection<RealWorldObject> viewAllRWO()
     {
         return Collections.unmodifiableCollection(stackedObjects.values());

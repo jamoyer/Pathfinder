@@ -221,9 +221,7 @@ public class Inventory
 
     public List<RealWorldObject> viewAll()
     {
-        final ArrayList<RealWorldObject> returnList = new ArrayList<RealWorldObject>(contents.size());
-        contents.addAll(returnList);
-        return Collections.unmodifiableList(returnList);
+        return Collections.unmodifiableList(new ArrayList<RealWorldObject>(contents));
     }
 
     public boolean contains(final RealWorldObject rwo)

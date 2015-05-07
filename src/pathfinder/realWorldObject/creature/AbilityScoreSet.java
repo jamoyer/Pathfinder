@@ -2,42 +2,35 @@ package pathfinder.realWorldObject.creature;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Random;
 
 import pathfinder.metaObjects.DiceSet;
 
-public class AbilityScoreSet
+public class AbilityScoreSet implements Iterable<AbilityScoreInstance>
 {
+    private final AbilityScoreInstance[] scores = new AbilityScoreInstance[AbilityScore.values().length];
 
-    private final AbilityScoreInstance strength;
-    private final AbilityScoreInstance dexterity;
-    private final AbilityScoreInstance constitution;
-    private final AbilityScoreInstance intelligence;
-    private final AbilityScoreInstance wisdom;
-    private final AbilityScoreInstance charisma;
-
-    private static final List<AbilityScore> ABILITY_SCORES = Collections.unmodifiableList(Arrays.asList(AbilityScore.values()));
     private static final Random RANDOM_INSTANCE = new Random();
 
     public AbilityScoreSet(int str, int dex, int con, int intel, int wis, int cha)
     {
-        strength = new AbilityScoreInstance(AbilityScore.Strength, str);
-        dexterity = new AbilityScoreInstance(AbilityScore.Dexterity, dex);
-        constitution = new AbilityScoreInstance(AbilityScore.Constitution, con);
-        intelligence = new AbilityScoreInstance(AbilityScore.Intelligence, intel);
-        wisdom = new AbilityScoreInstance(AbilityScore.Wisdom, wis);
-        charisma = new AbilityScoreInstance(AbilityScore.Charisma, cha);
+        scores[AbilityScore.Strength.ordinal()] = new AbilityScoreInstance(AbilityScore.Strength, str);
+        scores[AbilityScore.Dexterity.ordinal()] = new AbilityScoreInstance(AbilityScore.Dexterity, dex);
+        scores[AbilityScore.Constitution.ordinal()] = new AbilityScoreInstance(AbilityScore.Constitution, con);
+        scores[AbilityScore.Intelligence.ordinal()] = new AbilityScoreInstance(AbilityScore.Intelligence, intel);
+        scores[AbilityScore.Wisdom.ordinal()] = new AbilityScoreInstance(AbilityScore.Wisdom, wis);
+        scores[AbilityScore.Charisma.ordinal()] = new AbilityScoreInstance(AbilityScore.Charisma, cha);
     }
 
     public AbilityScoreSet addScores(final AbilityScoreSet scoresToAdd)
     {
-        final int totalStr = strength.getScore() + scoresToAdd.getStrengthScore();
-        final int totalDex = dexterity.getScore() + scoresToAdd.getDexterityScore();
-        final int totalCon = constitution.getScore() + scoresToAdd.getConstitutionScore();
-        final int totalInt = intelligence.getScore() + scoresToAdd.getIntelligenceScore();
-        final int totalWis = wisdom.getScore() + scoresToAdd.getWisdomScore();
-        final int totalCha = charisma.getScore() + scoresToAdd.getCharismaScore();
+        final int totalStr = scores[AbilityScore.Strength.ordinal()].getScore() + scoresToAdd.getStrengthScore();
+        final int totalDex = scores[AbilityScore.Dexterity.ordinal()].getScore() + scoresToAdd.getDexterityScore();
+        final int totalCon = scores[AbilityScore.Constitution.ordinal()].getScore() + scoresToAdd.getConstitutionScore();
+        final int totalInt = scores[AbilityScore.Intelligence.ordinal()].getScore() + scoresToAdd.getIntelligenceScore();
+        final int totalWis = scores[AbilityScore.Wisdom.ordinal()].getScore() + scoresToAdd.getWisdomScore();
+        final int totalCha = scores[AbilityScore.Charisma.ordinal()].getScore() + scoresToAdd.getCharismaScore();
         return new AbilityScoreSet(totalStr, totalDex, totalCon, totalInt, totalWis, totalCha);
     }
 
@@ -74,96 +67,106 @@ public class AbilityScoreSet
 
     public static AbilityScore rollRandomAbilityScore()
     {
-        return ABILITY_SCORES.get(RANDOM_INSTANCE.nextInt(ABILITY_SCORES.size()));
+        return AbilityScore.values()[RANDOM_INSTANCE.nextInt(AbilityScore.values().length)];
     }
 
     public int getStrengthScore()
     {
-        return strength.getScore();
+        return scores[AbilityScore.Strength.ordinal()].getScore();
     }
 
     public void setStrengthScore(final int score)
     {
-        strength.setScore(score);
+        scores[AbilityScore.Strength.ordinal()].setScore(score);
     }
 
     public int getStrengthModifier()
     {
-        return strength.getModifier();
+        return scores[AbilityScore.Strength.ordinal()].getModifier();
     }
 
     public int getDexterityScore()
     {
-        return dexterity.getScore();
+        return scores[AbilityScore.Dexterity.ordinal()].getScore();
     }
 
     public void setDexterityScore(final int score)
     {
-        dexterity.setScore(score);
+        scores[AbilityScore.Dexterity.ordinal()].setScore(score);
     }
 
     public int getDexterityModifier()
     {
-        return dexterity.getModifier();
+        return scores[AbilityScore.Dexterity.ordinal()].getModifier();
     }
 
     public int getConstitutionScore()
     {
-        return constitution.getScore();
+        return scores[AbilityScore.Constitution.ordinal()].getScore();
     }
 
     public void setConstitutionScore(final int score)
     {
-        constitution.setScore(score);
+        scores[AbilityScore.Constitution.ordinal()].setScore(score);
     }
 
     public int getConstitutionModifier()
     {
-        return constitution.getModifier();
+        return scores[AbilityScore.Constitution.ordinal()].getModifier();
     }
 
     public int getIntelligenceScore()
     {
-        return intelligence.getScore();
+        return scores[AbilityScore.Intelligence.ordinal()].getScore();
     }
 
     public void setIntelligenceScore(final int score)
     {
-        intelligence.setScore(score);
+        scores[AbilityScore.Intelligence.ordinal()].setScore(score);
     }
 
     public int getIntelligenceModifier()
     {
-        return intelligence.getModifier();
+        return scores[AbilityScore.Intelligence.ordinal()].getModifier();
     }
 
     public int getWisdomScore()
     {
-        return wisdom.getScore();
+        return scores[AbilityScore.Wisdom.ordinal()].getScore();
     }
 
     public void setWisdomScore(final int score)
     {
-        wisdom.setScore(score);
+        scores[AbilityScore.Wisdom.ordinal()].setScore(score);
     }
 
     public int getWisdomModifier()
     {
-        return wisdom.getModifier();
+        return scores[AbilityScore.Wisdom.ordinal()].getModifier();
     }
 
     public int getCharismaScore()
     {
-        return charisma.getScore();
+        return scores[AbilityScore.Charisma.ordinal()].getScore();
     }
 
     public void setCharismaScore(final int score)
     {
-        charisma.setScore(score);
+        scores[AbilityScore.Charisma.ordinal()].setScore(score);
     }
 
     public int getCharismaModifier()
     {
-        return charisma.getModifier();
+        return scores[AbilityScore.Charisma.ordinal()].getModifier();
+    }
+
+    /*
+     * Allows the ability scores to be iterated over in a foreach loop without being modifiable from
+     * such a loop.
+     */
+    @Override
+    public Iterator<AbilityScoreInstance> iterator()
+    {
+        return Collections.unmodifiableCollection(Arrays.asList(scores)).iterator();
     }
 }

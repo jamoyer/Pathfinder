@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.Window;
+import java.util.Collection;
+import java.util.LinkedList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -13,16 +15,16 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import pathfinder.executables.combatSimulator.BattleGrid.BattleGridModel;
-import pathfinder.executables.combatSimulator.BattleGrid.BattleGridView;
-
 public class CombatSimulatorView extends JFrame
 {
     private static final long serialVersionUID = -4040020361830908122L;
     private static final String DEFAULT_TITLE = "Pathfinder Combat Simulator";
 
+    private final StatusMenu statusView;
     private final BattleGridView gridView;
     private final SpawnMenu spawnMenuView;
+
+    private final Collection<NewSimulationListener> newSimulationListeners = new LinkedList<NewSimulationListener>();
 
     public CombatSimulatorView(final BattleGridModel gridModel)
     {
@@ -32,6 +34,7 @@ public class CombatSimulatorView extends JFrame
     public CombatSimulatorView(String title, final BattleGridModel gridModel)
     {
         super(title);
+        this.statusView = new StatusMenu();
         this.gridView = new BattleGridView(gridModel);
         this.spawnMenuView = new SpawnMenu();
 
@@ -40,13 +43,12 @@ public class CombatSimulatorView extends JFrame
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.add(menuPanel());
 
-        // bodyPanel consists most of the program, containing the controlMenu, battlegrid, and
-        // spawnmenu
         final JPanel bodyPanel = new JPanel();
         // body.add(controlMenuView);
         bodyPanel.add(fieldPanel(gridView));
         bodyPanel.add(spawnMenuView);
         contentPanel.add(bodyPanel);
+        contentPanel.add(statusView);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
@@ -64,8 +66,8 @@ public class CombatSimulatorView extends JFrame
         final JMenuItem newSimulationItem = new JMenuItem("New Simulation");
         newSimulationItem.addActionListener((event) ->
         {
-            // TODO do something for clicking this button
-            });
+            fireNewSimulationListeners();
+        });
         simulationMenu.add(newSimulationItem);
         final JMenuItem exitItem = new JMenuItem("Exit");
         exitItem.addActionListener((event) ->
@@ -108,6 +110,11 @@ public class CombatSimulatorView extends JFrame
         return gridView;
     }
 
+    public StatusMenu getStatusMenu()
+    {
+        return statusView;
+    }
+
     /**
      * Centers the window on the screen.
      *
@@ -119,6 +126,19 @@ public class CombatSimulatorView extends JFrame
         final int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
         final int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
         frame.setLocation(x, y);
+    }
+
+    public void registerNewSimulationListener(final NewSimulationListener listener)
+    {
+        newSimulationListeners.add(listener);
+    }
+
+    private void fireNewSimulationListeners()
+    {
+        for (final NewSimulationListener listener : newSimulationListeners)
+        {
+            listener.newSimulation();
+        }
     }
 
 }

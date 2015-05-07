@@ -3,6 +3,8 @@ package pathfinder.realWorldObject;
 import java.util.LinkedList;
 import java.util.List;
 
+import pathfinder.world.Coordinate;
+
 /**
  * This object is a template for anything that is real and can exist in the game world. Does not
  * include things like Quests, bounties, things that cannot be sensed by one of the 5 senses, etc.
@@ -69,6 +71,38 @@ public abstract class RealWorldObject
         hitPoints = hp;
     }
 
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (int) (id ^ id >>> 32);
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
+            return true;
+        }
+        if (obj == null)
+        {
+            return false;
+        }
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final RealWorldObject other = (RealWorldObject) obj;
+        if (id != other.id)
+        {
+            return false;
+        }
+        return true;
+    }
+
     public void addModifier(final RWOModifier modifier)
     {
         modifiers.add(modifier);
@@ -79,27 +113,20 @@ public abstract class RealWorldObject
         return modifiers;
     }
 
-    @Override
-    public boolean equals(Object o)
+    /**
+     * Returns a list of this Real World Object's properties as Strings. Each property is of the
+     * form "name: value"
+     *
+     * @return
+     */
+    public List<String> getProperties()
     {
-        if (o == null)
-        {
-            return false;
-        }
-
-        if (!(o instanceof RealWorldObject))
-        {
-            return false;
-        }
-
-        final RealWorldObject rwo = (RealWorldObject) o;
-
-        return hashCode() == rwo.hashCode();
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return (int) id;
+        final List<String> properties = new LinkedList<String>();
+        //properties.add("RWOType: " + this.getClass().getSimpleName());
+        properties.add("ID: " + id);
+        properties.add("Weight: " + weight);
+        properties.add("Max HP: " + maxHitPoints);
+        properties.add("HP: " + hitPoints);
+        return properties;
     }
 }

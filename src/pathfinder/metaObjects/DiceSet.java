@@ -99,4 +99,53 @@ public class DiceSet
     {
         return new DiceSet(1, 1);
     }
+
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + count;
+        result = prime * result + numSides;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
+            return true;
+        }
+        if (obj == null)
+        {
+            return false;
+        }
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final DiceSet other = (DiceSet) obj;
+        if (count != other.count)
+        {
+            return false;
+        }
+        if (numSides != other.numSides)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "DiceSet [numSides=" + numSides + ", count=" + count + "]";
+    }
+
+    public String getCommonDiceFormat()
+    {
+        return count + "d" + numSides;
+    }
+
 }

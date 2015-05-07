@@ -29,10 +29,9 @@ public class CharacterCreature extends Creature
         equipment = new SlotManager(race.getSizeCategory());
         super.setBaseAttackBonus(calcBaseAttackBonus());
 
-        super.setCombatManueverDefense(calcCombatManueverDefense());
+        super.setCombatManeuverDefense(calcCombatManueverDefense());
         super.setCombatManueverBonus(calcCombatManueverBonus());
 
-        super.getHealthRolls().clear();
         super.setMaxHP(calcMaxHealthPoints());
         super.setHP(calcCurrentHP());
 

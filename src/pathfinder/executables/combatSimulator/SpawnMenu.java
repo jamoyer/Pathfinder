@@ -11,12 +11,14 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
 import pathfinder.characters.classes.CharacterClassEnum;
+import pathfinder.metaObjects.EnumUtil;
 import pathfinder.realWorldObject.SizeCategory;
 import pathfinder.realWorldObject.creature.coreRaces.CoreRace;
 import pathfinder.realWorldObject.item.equipment.armor.Armor;
@@ -54,17 +56,17 @@ public class SpawnMenu extends JPanel
     /*
      * Specifications to spawn a weapon.
      */
-    private ManufacturedWeaponName selectedWeapon;
+    private ManufacturedWeaponName selectedWeapon = ManufacturedWeaponName.Aklys;
 
     /*
      * Specifications to spawn an armor.
      */
-    private ArmorName selectedArmor;
+    private ArmorName selectedArmor = ArmorName.ArmoredCoat;
 
     /*
      * Specifications to spawn a shield.
      */
-    private ArmorName selectedShield;
+    private ArmorName selectedShield = ArmorName.Buckler;
 
     /*
      * Getters
@@ -145,7 +147,7 @@ public class SpawnMenu extends JPanel
     @SuppressWarnings("unchecked")
     public SpawnMenu()
     {
-        setLayout(new MigLayout("", "[132px,grow][20px][97px][19px][100px][237px]", "[25px][164px][grow][27px][27px][27px][]"));
+        setLayout(new MigLayout("", "[132px,grow][-7.00px]", "[25px][164px][grow][27px][27px][27px][]"));
 
         final JLabel lblSpawnObjects = new JLabel("Spawn Objects");
         lblSpawnObjects.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -171,11 +173,14 @@ public class SpawnMenu extends JPanel
                 shieldlist.add(armor);
             }
         }
-        final ArmorName[] armorArray = armorlist.toArray(new ArmorName[armorlist.size()]);
-        final ArmorName[] shieldArray = shieldlist.toArray(new ArmorName[shieldlist.size()]);
+        final CoreRace[] raceArray = (CoreRace[]) EnumUtil.sortAlphabetically(CoreRace.values());
+        final CharacterClassEnum[] classArray = (CharacterClassEnum[]) EnumUtil.sortAlphabetically(CharacterClassEnum.values());
+        final ManufacturedWeaponName[] weaponArray = (ManufacturedWeaponName[]) EnumUtil.sortAlphabetically(ManufacturedWeaponName.values());
+        final ArmorName[] armorArray = (ArmorName[]) EnumUtil.sortAlphabetically(armorlist.toArray(new ArmorName[armorlist.size()]));
+        final ArmorName[] shieldArray = (ArmorName[]) EnumUtil.sortAlphabetically(shieldlist.toArray(new ArmorName[shieldlist.size()]));
 
         final JPanel creaturePanel = new JPanel();
-        add(creaturePanel, "cell 0 1,alignx left,growy");
+        add(creaturePanel, "cell 0 1,grow");
         creaturePanel.setLayout(new MigLayout("", "[][][][215px,grow]", "[][30px][30px][30px][30px][]"));
 
         /*
@@ -204,7 +209,7 @@ public class SpawnMenu extends JPanel
 
         final JComboBox<CoreRace> raceComboBox = new JComboBox<CoreRace>();
         creaturePanel.add(raceComboBox, "cell 3 1,growx");
-        raceComboBox.setModel(new DefaultComboBoxModel<CoreRace>(CoreRace.values()));
+        raceComboBox.setModel(new DefaultComboBoxModel<CoreRace>(raceArray));
         raceComboBox.setSelectedIndex(0);
         raceComboBox.setEditable(false);
         raceComboBox.addActionListener((event) ->
@@ -217,7 +222,7 @@ public class SpawnMenu extends JPanel
 
         final JComboBox<CharacterClassEnum> classComboBox = new JComboBox<CharacterClassEnum>();
         creaturePanel.add(classComboBox, "flowx,cell 3 2,growx");
-        classComboBox.setModel(new DefaultComboBoxModel<CharacterClassEnum>(CharacterClassEnum.values()));
+        classComboBox.setModel(new DefaultComboBoxModel<CharacterClassEnum>(classArray));
         classComboBox.setSelectedIndex(0);
         classComboBox.addActionListener((event) ->
         {
@@ -247,7 +252,7 @@ public class SpawnMenu extends JPanel
 
         final JComboBox<ManufacturedWeaponName> creatureWeaponComboBox = new JComboBox<ManufacturedWeaponName>();
         creaturePanel.add(creatureWeaponComboBox, "cell 3 3,growx");
-        creatureWeaponComboBox.setModel(new DefaultComboBoxModel<ManufacturedWeaponName>(ManufacturedWeaponName.values()));
+        creatureWeaponComboBox.setModel(new DefaultComboBoxModel<ManufacturedWeaponName>(weaponArray));
         creatureWeaponComboBox.setSelectedIndex(0);
         creatureWeaponComboBox.addActionListener((event) ->
         {
@@ -292,13 +297,13 @@ public class SpawnMenu extends JPanel
             creatureShield = (ArmorName) ((JComboBox<ArmorName>) event.getSource()).getSelectedItem();
         });
 
-        final JPanel seperatorBar = new JPanel();
-        seperatorBar.setBackground(Color.BLACK);
-        add(seperatorBar, "cell 0 2,grow");
-
         /*
          * Spawn weapon section.
          */
+
+        final JSeparator separator = new JSeparator();
+        separator.setBackground(Color.BLACK);
+        add(separator, "cell 0 2,grow");
         final JRadioButton weaponRadioButton = new JRadioButton("Weapon");
         add(weaponRadioButton, "flowx,cell 0 3,alignx left,aligny center");
         weaponRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -314,7 +319,7 @@ public class SpawnMenu extends JPanel
 
         final JComboBox<ManufacturedWeaponName> weaponComboBox = new JComboBox<ManufacturedWeaponName>();
         add(weaponComboBox, "cell 0 3,growx,aligny center");
-        weaponComboBox.setModel(new DefaultComboBoxModel<ManufacturedWeaponName>(ManufacturedWeaponName.values()));
+        weaponComboBox.setModel(new DefaultComboBoxModel<ManufacturedWeaponName>(weaponArray));
         weaponComboBox.setSelectedIndex(0);
         weaponComboBox.addActionListener((event) ->
         {

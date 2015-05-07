@@ -1,7 +1,5 @@
 package pathfinder.world;
 
-import pathfinder.realWorldObject.Cell;
-import pathfinder.realWorldObject.Coordinate;
 
 /**
  * A world that has a set size that does not change.

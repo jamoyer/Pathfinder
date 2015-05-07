@@ -1,6 +1,6 @@
 package pathfinder.realWorldObject.creature;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,12 +26,6 @@ public class Creature extends RealWorldObject
 {
     private int nonlethalDamage;
     private int tempHP;
-    // stores all the rolls for health for this creature
-    private final List<Integer> healthByLevel;
-
-    /*
-     * TODO we need something similar to the SlotManager for things that are not just equipment.
-     */
 
     private final CreatureType creatureType;
     private final CreatureClassManager classManager = new CreatureClassManager();
@@ -76,7 +70,7 @@ public class Creature extends RealWorldObject
     private int will;
     private int damageReduction;
     private int spellResistance;
-    private int combatManueverDefense;
+    private int combatManeuverDefense;
     private static final int BASE_DEFENSE = 10;
 
     private final int AOOPerRound = 1;
@@ -99,7 +93,6 @@ public class Creature extends RealWorldObject
         baseAttackBonus = calcBaseAttackBonus();
 
         // now calculate things in groups, the order of the groups don't really matter
-        healthByLevel = new ArrayList<Integer>(creatureType.getLevel());
         super.setMaxHP(calcMaxHealthPoints());
         super.setHP(calcCurrentHP());
         nonlethalDamage = 0;
@@ -111,7 +104,7 @@ public class Creature extends RealWorldObject
         armorClass = calcArmorClass();
         touch = calcTouch();
         flatfooted = calcFlatFooted();
-        combatManueverDefense = calcCombatManueverDefense();
+        combatManeuverDefense = calcCombatManueverDefense();
 
         reflex = calcReflex();
         fortitude = calcFortitude();
@@ -121,13 +114,65 @@ public class Creature extends RealWorldObject
         effectiveMovement = calcEffectiveMovement();
     }
 
+    @Override
+    public List<String> getProperties()
+    {
+        final List<String> properties = super.getProperties();
+        properties.add("Non-Lethal Damage: " + nonlethalDamage);
+        properties.add("Temporary HP: " + tempHP);
+        properties.add("Creature Type: " + creatureType.getClass().getSimpleName());
+        for (final CreatureClass classs : classManager.getClasses())
+        {
+            properties.add("Class: " + classs.getClass().getSimpleName());
+            properties.add(classs.getClass().getSimpleName() + " Levels: " + classs.getLevel());
+        }
+        // TODO CreatureBuffs
+        // TODO CreatureDescriptions
+        for (final AbilityScoreInstance score : baseScores)
+        {
+            properties.add("Base " + score.getType() + " Score: " + score.getScore());
+            properties.add("Base " + score.getType() + " Modifier: " + score.getModifier());
+        }
+        for (final AbilityScoreInstance score : effectiveScores)
+        {
+            properties.add("Effective " + score.getType() + " Score: " + score.getScore());
+            properties.add("Effective " + score.getType() + " Modifier: " + score.getModifier());
+        }
+        properties.add("Max Dex Bonus: " + maxDexBonus);
+        // TODO skills
+        // TODO movement
+        properties.add("Inventory: ");
+        for (final RealWorldObject rwo : inventory.viewAll())
+        {
+            properties.addAll(rwo.getProperties());
+        }
+        // TODO spells
+        // TODO feats and such
+        // TODO abilities and such
+        // TODO knownLanguages
+        properties.add("Base Initiative: " + initiative);
+        properties.add("Base Attack Bonus: " + baseAttackBonus);
+        properties.add("Combat Maneuver Bonus: " + combatManueverBonus);
+        properties.add("Armor Class: " + armorClass);
+        properties.add("Touch: " + touch);
+        properties.add("Flat-footed: " + flatfooted);
+        properties.add("Combat Maneuver Defense: " + combatManeuverDefense);
+        properties.add("Reflex: " + reflex);
+        properties.add("Fortitude: " + fortitude);
+        properties.add("Will: " + will);
+        properties.add("Damage Reduction: " + damageReduction);
+        properties.add("Attacks of Opportunity per round: " + AOOPerRound);
+
+        return properties;
+    }
+
     /*****************************************************
      **************** Getters and Setters ****************
      *****************************************************/
 
-    public List<Integer> getHealthRolls()
+    public CreatureType getCreatureType()
     {
-        return healthByLevel;
+        return creatureType;
     }
 
     public Movement getEffectiveMovement()
@@ -320,14 +365,14 @@ public class Creature extends RealWorldObject
         this.spellResistance = spellResistance;
     }
 
-    public int getCombatManueverDefense()
+    public int getCombatManeuverDefense()
     {
-        return combatManueverDefense;
+        return combatManeuverDefense;
     }
 
-    public void setCombatManueverDefense(int combatManueverDefense)
+    public void setCombatManeuverDefense(int combatManeuverDefense)
     {
-        this.combatManueverDefense = combatManueverDefense;
+        this.combatManeuverDefense = combatManeuverDefense;
     }
 
     public BuffManager getBuffManager()
@@ -340,7 +385,7 @@ public class Creature extends RealWorldObject
         return getWeight() + inventory.getTotalWeight();
     }
 
-    public List<CreatureClass> getClasses()
+    public Collection<CreatureClass> getClasses()
     {
         return classManager.getClasses();
     }
@@ -499,6 +544,10 @@ public class Creature extends RealWorldObject
         return toReturn;
     }
 
+    /**
+     * Call this whenever there might be a load change. Whenever something is added or removed from
+     * the inventory, strength changed ...
+     */
     private void loadChange()
     {
         // only recalculate stats if the load changed
@@ -559,7 +608,7 @@ public class Creature extends RealWorldObject
                 combatManueverBonus = calcCombatManueverBonus();
                 break;
             case CMD:
-                combatManueverDefense = calcCombatManueverDefense();
+                combatManeuverDefense = calcCombatManueverDefense();
                 break;
             case Charisma:
                 effectiveScores = calcAbilityScores();
@@ -658,19 +707,11 @@ public class Creature extends RealWorldObject
         calcBasedOnTargetChange(BonusTarget.Level);
     }
 
-    public void addLevels(final List<CreatureClass> classes)
+    public void addLevels(final Collection<CreatureClass> classes)
     {
         for (final CreatureClass crClass : classes)
         {
             addLevel(crClass);
-        }
-    }
-
-    public void addLevels(CreatureClass creatureClass, int numLevels)
-    {
-        for (int i = 0; i < numLevels; i++)
-        {
-            addLevel(creatureClass);
         }
     }
 

@@ -209,7 +209,7 @@ public class SlotManager
      */
     public void setSlotAndItemSize(final SizeCategory size)
     {
-
+        throw new UnsupportedOperationException();
     }
 
 }

@@ -1,5 +1,6 @@
 package pathfinder.characters.classes;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -34,14 +35,6 @@ public class CreatureClassManager
         addLevels(classes);
     }
 
-    public void addLevels(final CreatureClass creatureClass, int numLevels)
-    {
-        for (int i = 0; i < numLevels; i++)
-        {
-            addLevel(creatureClass);
-        }
-    }
-
     public void addLevels(final List<? extends CreatureClass> classes)
     {
         for (final CreatureClass creatureClass : classes)
@@ -50,33 +43,50 @@ public class CreatureClassManager
         }
     }
 
+    /**
+     * Levels up in the given class by the number of levels in it.
+     *
+     * @param creatureClass
+     */
     public void addLevel(final CreatureClass creatureClass)
     {
+        // if the creature already has levels in this class, add the new levels to it.
         if (classMap.containsKey(creatureClass.hashCode()))
         {
             final CreatureClass c = classMap.get(creatureClass.hashCode());
             final int totalLevels = c.getLevel() + creatureClass.getLevel();
             c.setLevel(totalLevels);
         }
+        // add class to class map if it isn't already there
         else
         {
             classMap.put(creatureClass.hashCode(), creatureClass);
         }
-        addHealthForLevel(creatureClass);
+        addHealthForClass(creatureClass);
         calcSaves();
         calcBaseAttackBonus();
         totalLevel++;
     }
 
-    private void addHealthForLevel(final CreatureClass creatureClass)
+    /**
+     * Adds one level of health using the given class's hit die.
+     *
+     * @param creatureClass
+     */
+    private void addHealthForClass(final CreatureClass creatureClass)
     {
-        if (rolledHealth == 0)
+        int i = 0;
+        if (i < creatureClass.getLevel())
         {
-            rolledHealth += creatureClass.getHitDieType();
-        }
-        else
-        {
-            final DiceSet dice = new DiceSet(creatureClass.getHitDieType(), 1);
+            if (rolledHealth == 0)
+            {
+                // take full die roll on first level
+                rolledHealth += creatureClass.getHitDieType();
+                i++;
+            }
+
+            // roll health randomly for this level
+            final DiceSet dice = new DiceSet(creatureClass.getHitDieType(), creatureClass.getLevel() - i);
             rolledHealth += dice.getRolledTotal();
         }
     }
@@ -135,8 +145,8 @@ public class CreatureClassManager
         return baseAttackBonus;
     }
 
-    public List<CreatureClass> getClasses()
+    public Collection<CreatureClass> getClasses()
     {
-        return Collections.unmodifiableList((List<CreatureClass>) classMap.values());
+        return Collections.unmodifiableCollection(classMap.values());
     }
 }
