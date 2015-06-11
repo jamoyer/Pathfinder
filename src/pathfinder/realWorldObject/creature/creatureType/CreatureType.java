@@ -3,7 +3,7 @@ package pathfinder.realWorldObject.creature.creatureType;
 import pathfinder.characters.classes.CreatureClass;
 import pathfinder.metaObjects.DiceSet;
 import pathfinder.realWorldObject.SizeCategory;
-import pathfinder.realWorldObject.creature.Movement;
+import pathfinder.realWorldObject.creature.MovementSpeeds;
 
 /**
  * A super class meant for things like animals, fey, dragons, aberrations, constructs, magical
@@ -16,7 +16,7 @@ public abstract class CreatureType extends CreatureClass
 {
     public abstract SizeCategory getSizeCategory();
 
-    public abstract Movement getMoveSpeeds();
+    public abstract MovementSpeeds getMoveSpeeds();
 
     public abstract boolean isBipedal();
 

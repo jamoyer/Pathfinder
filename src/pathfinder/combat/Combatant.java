@@ -1,12 +1,13 @@
 package pathfinder.combat;
 
+import pathfinder.action.ActionType;
 import pathfinder.realWorldObject.creature.Creature;
 
 /**
  * Represents a creature in combat. This class keeps track of every type of action the creature has
  * done in a round and is also comparable by their initiative.
  *
- * @author Jamoyer
+ * @author Jacob Moyer
  *
  */
 public class Combatant implements Comparable<Combatant>
@@ -106,7 +107,7 @@ public class Combatant implements Comparable<Combatant>
      * @param action
      * @return True if the action is taken. False if the action cannot and is not taken.
      */
-    public boolean attemptActionType(final CombatActionType action)
+    public boolean attemptActionType(final ActionType action)
     {
         switch (action)
         {

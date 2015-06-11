@@ -44,8 +44,8 @@ public class Creature extends RealWorldObject
 
     private List<Skill> skills;
 
-    private final Movement baseMovement;
-    private Movement effectiveMovement;
+    private final MovementSpeeds baseMovement;
+    private MovementSpeeds effectiveMovement;
 
     private final Inventory inventory;
     private List<Spell> spells;
@@ -186,7 +186,7 @@ public class Creature extends RealWorldObject
         return creatureType;
     }
 
-    public Movement getEffectiveMovement()
+    public MovementSpeeds getEffectiveMovement()
     {
         return effectiveMovement;
     }
@@ -540,18 +540,19 @@ public class Creature extends RealWorldObject
         return buffManager.getBonusByTarget(BonusTarget.SR);
     }
 
-    public Movement calcEffectiveMovement()
+    public MovementSpeeds calcEffectiveMovement()
     {
         final int baseSpeed = baseMovement.getBase();
-        final Movement toReturn = baseMovement.clone();
+        final MovementSpeeds toReturn = baseMovement.clone();
 
         // reduce move speed amounts due to load
         // this may not actually reduce the base any if this is a light load
         toReturn.setBase(inventory.getLoad().getReducedSpeed(baseSpeed) + buffManager.getBonusByTarget(BonusTarget.LandSpeed));
+        // TODO: calculate movement with armor for character creatures
         toReturn.setFly(toReturn.getFly() + buffManager.getBonusByTarget(BonusTarget.FlySpeed));
-        toReturn.setFly(toReturn.getBurrow() + buffManager.getBonusByTarget(BonusTarget.BurrowSpeed));
-        toReturn.setFly(toReturn.getClimb() + buffManager.getBonusByTarget(BonusTarget.ClimbSpeed));
-        toReturn.setFly(toReturn.getSwim() + buffManager.getBonusByTarget(BonusTarget.SwimSpeed));
+        toReturn.setBurrow(toReturn.getBurrow() + buffManager.getBonusByTarget(BonusTarget.BurrowSpeed));
+        toReturn.setClimb(toReturn.getClimb() + buffManager.getBonusByTarget(BonusTarget.ClimbSpeed));
+        toReturn.setSwim(toReturn.getSwim() + buffManager.getBonusByTarget(BonusTarget.SwimSpeed));
         return toReturn;
     }
 

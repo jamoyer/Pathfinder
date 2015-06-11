@@ -1,5 +1,6 @@
 package pathfinder.world;
 
+import pathfinder.metaObjects.FastMathUtil;
 
 /**
  * A world that has a set size that does not change.
@@ -43,9 +44,9 @@ public class FiniteWorld extends BaseWorld
         }
     }
 
-    public Cell getCellAt(int width, int height, int depth)
+    public Cell getCellAt(final Coordinate coord)
     {
-        return worldArray[width][height][depth];
+        return worldArray[coord.getWidth()][coord.getHeight()][coord.getDepth()];
     }
 
     public int getMaxWidth()
@@ -61,5 +62,47 @@ public class FiniteWorld extends BaseWorld
     public int getMaxDepth()
     {
         return maxDepth;
+    }
+
+    public boolean isInWorld(final Coordinate coord)
+    {
+        if (coord == null)
+        {
+            return false;
+        }
+        if (coord.getWidth() < 0 || coord.getWidth() >= maxWidth)
+        {
+            return false;
+        }
+        if (coord.getHeight() < 0 || coord.getHeight() >= maxHeight)
+        {
+            return false;
+        }
+        if (coord.getDepth() < 0 || coord.getDepth() >= maxDepth)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Gets the number of cells between the two coordinates.
+     *
+     * @param coord1
+     * @param coord2
+     * @return
+     * @throws IllegalArgumentException
+     */
+    public int getDistance(final Coordinate coord1, final Coordinate coord2) throws IllegalArgumentException
+    {
+        if (!isInWorld(coord1) || !isInWorld(coord2))
+        {
+            throw new IllegalArgumentException("Coordinates do not exist in this world.");
+        }
+        final int widthDiff = coord1.getWidth() - coord2.getWidth();
+        final int heightDiff = coord1.getHeight() - coord2.getHeight();
+        final int depthDiff = coord1.getDepth() - coord2.getDepth();
+        final float distance = (float) Math.sqrt(FastMathUtil.ipow(widthDiff, 2) + FastMathUtil.ipow(heightDiff, 2) + FastMathUtil.ipow(depthDiff, 2));
+        return Math.round(distance);
     }
 }

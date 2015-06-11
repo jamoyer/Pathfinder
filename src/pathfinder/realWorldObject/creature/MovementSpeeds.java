@@ -6,7 +6,7 @@ package pathfinder.realWorldObject.creature;
  * @author jacob
  *
  */
-public class Movement implements Cloneable
+public class MovementSpeeds implements Cloneable
 {
     private int base;
     private int withArmor;
@@ -15,7 +15,7 @@ public class Movement implements Cloneable
     private int burrow;
     private int climb;
 
-    public Movement(int base, int withArmor, int fly, int swim, int burrow, int climb)
+    public MovementSpeeds(int base, int withArmor, int fly, int swim, int burrow, int climb)
     {
         this.base = base;
         this.withArmor = withArmor;
@@ -86,8 +86,8 @@ public class Movement implements Cloneable
     }
 
     @Override
-    public Movement clone()
+    public MovementSpeeds clone()
     {
-        return new Movement(base, withArmor, fly, swim, burrow, climb);
+        return new MovementSpeeds(base, withArmor, fly, swim, burrow, climb);
     }
 }

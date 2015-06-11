@@ -2,6 +2,7 @@ package pathfinder.executables.combatSimulator;
 
 import javax.swing.table.AbstractTableModel;
 
+import pathfinder.world.Coordinate;
 import pathfinder.world.FiniteWorld;
 
 /**
@@ -33,7 +34,7 @@ public class BattleGridModel extends AbstractTableModel
         {
             for (int d = 0; d < world.getMaxDepth(); d++)
             {
-                grid[w][d] = new GridTile(world.getCellAt(w, 0, d));
+                grid[w][d] = new GridTile(world.getCellAt(new Coordinate(w, 0, d)));
             }
         }
     }

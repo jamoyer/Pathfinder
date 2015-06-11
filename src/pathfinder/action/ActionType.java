@@ -1,6 +1,6 @@
-package pathfinder.combat;
+package pathfinder.action;
 
-public enum CombatActionType
+public enum ActionType
 {
     Standard,
     Move,

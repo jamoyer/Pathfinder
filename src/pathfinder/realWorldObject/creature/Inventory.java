@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+import pathfinder.metaObjects.FastMathUtil;
 import pathfinder.realWorldObject.RealWorldObject;
 import pathfinder.realWorldObject.SizeCategory;
 
@@ -105,7 +106,7 @@ public class Inventory
                      * numbers in that row by 4 for every 10 points the creature's Strength is above
                      * the score for that row.
                      */
-                    tempArray[i] = (int) (carryWeightMaximums[i % 10 + 20] * Math.pow(4, i / 10 - 2));
+                    tempArray[i] = carryWeightMaximums[i % 10 + 20] * FastMathUtil.ipow(4, i / 10 - 2);
                 }
             }
             carryWeightMaximums = tempArray;

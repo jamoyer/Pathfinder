@@ -10,7 +10,7 @@ import pathfinder.realWorldObject.SizeCategory;
 import pathfinder.realWorldObject.creature.AbilityScore;
 import pathfinder.realWorldObject.creature.AbilityScoreSet;
 import pathfinder.realWorldObject.creature.Language;
-import pathfinder.realWorldObject.creature.Movement;
+import pathfinder.realWorldObject.creature.MovementSpeeds;
 import pathfinder.realWorldObject.creature.creatureType.Humanoid;
 import pathfinder.realWorldObject.item.equipment.Proficiency;
 
@@ -18,7 +18,7 @@ public class HalfOrc extends Humanoid
 {
 
     private final AbilityScoreSet abilityScoreModifiers;
-    private final static Movement movement = new Movement(30, 0, 0, 0, 0, 0);
+    private final static MovementSpeeds movement = new MovementSpeeds(30, 0, 0, 0, 0, 0);
     private final static List<Language> languages = Collections.unmodifiableList(Arrays.asList(Language.Common, Language.Orc));
     private final static int racePoints = 0;
     private final static SizeCategory sizeCategory = SizeCategory.Medium;
@@ -89,7 +89,7 @@ public class HalfOrc extends Humanoid
     }
 
     @Override
-    public Movement getMoveSpeeds()
+    public MovementSpeeds getMoveSpeeds()
     {
         return movement;
     }

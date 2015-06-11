@@ -49,6 +49,8 @@ public class CharacterCreature extends Creature
      *************** Calculation Functions ***************
      *****************************************************/
 
+    // TODO: calculate movement with armor for character creatures
+
     /*****************************************************
      ****************** Action Functions *****************
      *****************************************************/
