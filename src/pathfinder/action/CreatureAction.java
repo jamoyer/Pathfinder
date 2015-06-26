@@ -1,6 +1,7 @@
 package pathfinder.action;
 
 import pathfinder.realWorldObject.creature.Creature;
+import pathfinder.time.TickCount;
 
 /**
  * Represents anything that a creature can actively do. To do any skill, attack, active feat, spell,
@@ -41,6 +42,8 @@ public abstract class CreatureAction
      * @return
      */
     public abstract ActionType getActionType();
+
+    public abstract TickCount getNumTicks();
 
     /**
      * Gets the title or name of this action. Useful for displaying in menu's.

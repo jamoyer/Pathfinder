@@ -3,6 +3,7 @@ package pathfinder.action.move;
 import pathfinder.action.ActionType;
 import pathfinder.action.CreatureAction;
 import pathfinder.realWorldObject.creature.Creature;
+import pathfinder.time.TickCount;
 import pathfinder.world.Coordinate;
 import pathfinder.world.FiniteWorld;
 
@@ -22,6 +23,12 @@ public class MoveAction extends CreatureAction
     public ActionType getActionType()
     {
         return ActionType.Move;
+    }
+
+    @Override
+    public TickCount getNumTicks()
+    {
+        return ActionType.Move.getNumTicks();
     }
 
     @Override
@@ -73,4 +80,5 @@ public class MoveAction extends CreatureAction
         // if(world.getDistance(actor.getCoordinate(), newPos) <= actor.getEffectiveMovement().)
         return false;
     }
+
 }
