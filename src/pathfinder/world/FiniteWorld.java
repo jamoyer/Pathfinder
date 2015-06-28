@@ -1,6 +1,7 @@
 package pathfinder.world;
 
 import pathfinder.metaObjects.FastMathUtil;
+import pathfinder.time.TimeKeeper;
 
 /**
  * A world that has a set size that does not change.
@@ -10,6 +11,8 @@ import pathfinder.metaObjects.FastMathUtil;
  */
 public class FiniteWorld extends BaseWorld
 {
+    private final TimeKeeper time;
+
     private final int maxWidth;
     private final int maxHeight;
     private final int maxDepth;
@@ -27,6 +30,7 @@ public class FiniteWorld extends BaseWorld
      */
     public FiniteWorld(int width, int height, int depth)
     {
+        time = new TimeKeeper();
         maxWidth = width;
         maxHeight = height;
         maxDepth = depth;
@@ -42,6 +46,11 @@ public class FiniteWorld extends BaseWorld
                 }
             }
         }
+    }
+
+    public TimeKeeper getTime()
+    {
+        return time;
     }
 
     public Cell getCellAt(final Coordinate coord)
