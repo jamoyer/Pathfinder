@@ -3,7 +3,9 @@ package pathfinder.world;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import pathfinder.realWorldObject.RealWorldObject;
 
@@ -20,6 +22,7 @@ public class Cell
     // hopefully a map isn't too much memory for every cell to have one. We may need to build our
     // own implementation.
     private final Map<Long, RealWorldObject> stackedObjects = new HashMap<Long, RealWorldObject>(3);
+    private final Set<CellObserver> observers = new HashSet<CellObserver>();
     private final Coordinate coordinate;
 
     public Cell(final Coordinate coordinate)
@@ -30,11 +33,20 @@ public class Cell
     public void addRWO(final RealWorldObject rwo)
     {
         stackedObjects.put(rwo.getId(), rwo);
+        for(final CellObserver ob : observers)
+        {
+            ob.rwoEntersCellAction(this, rwo);
+        }
     }
 
     public RealWorldObject removeRWO(final long id)
     {
-        return stackedObjects.remove(id);
+        final RealWorldObject rwo = stackedObjects.remove(id);
+        for(final CellObserver ob : observers)
+        {
+            ob.rwoLeavesCellAction(this, rwo);
+        }
+        return rwo;
     }
 
     public RealWorldObject removeRWO(final RealWorldObject rwo)
@@ -60,5 +72,15 @@ public class Cell
     public Coordinate getCoordinate()
     {
         return (Coordinate) coordinate.clone();
+    }
+
+    public void registerObserver(final CellObserver observer)
+    {
+        observers.add(observer);
+    }
+
+    public void unregisterObserver(final CellObserver observer)
+    {
+        observers.remove(observer);
     }
 }
