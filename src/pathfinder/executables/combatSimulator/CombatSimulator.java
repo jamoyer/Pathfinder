@@ -1,6 +1,8 @@
 package pathfinder.executables.combatSimulator;
 
 import java.awt.EventQueue;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -68,7 +70,26 @@ public class CombatSimulator implements NewSimulationListener
         view = new CombatSimulatorView(model);
         view.setVisible(true);
         view.getBattleGridView().addMouseListener(new BattleGridMouseAdapter());
+        view.getBattleGridView().addKeyListener(new BattleGridKeyAdapter());
         view.registerNewSimulationListener(this);
+    }
+
+    /*
+     * This private key adapter handles what happens when you press a key on the BattleGrid.
+     */
+    private class BattleGridKeyAdapter extends KeyAdapter
+    {
+        @Override
+        public void keyPressed(KeyEvent event)
+        {
+
+        }
+
+        @Override
+        public void keyReleased(KeyEvent event)
+        {
+
+        }
     }
 
     /*

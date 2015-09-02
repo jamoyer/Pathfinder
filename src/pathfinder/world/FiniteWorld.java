@@ -95,7 +95,7 @@ public class FiniteWorld extends BaseWorld
     }
 
     /**
-     * Gets the number of cells between the two coordinates.
+     * Gets the number of cells in a straight line between the two coordinates.
      *
      * @param coord1
      * @param coord2

@@ -25,15 +25,24 @@ public class Cell
     private final Set<CellObserver> observers = new HashSet<CellObserver>();
     private final Coordinate coordinate;
 
+    // percent of space used up in this cell
+    private final double usedSpace = 0;
+
     public Cell(final Coordinate coordinate)
     {
         this.coordinate = coordinate;
     }
 
+    public double getUsedSpace()
+    {
+        return usedSpace;
+    }
+
+    // TODO add check to make sure you cannot add rwos that make the usedSpace greater than 1
     public void addRWO(final RealWorldObject rwo)
     {
         stackedObjects.put(rwo.getId(), rwo);
-        for(final CellObserver ob : observers)
+        for (final CellObserver ob : observers)
         {
             ob.rwoEntersCellAction(this, rwo);
         }
@@ -42,7 +51,7 @@ public class Cell
     public RealWorldObject removeRWO(final long id)
     {
         final RealWorldObject rwo = stackedObjects.remove(id);
-        for(final CellObserver ob : observers)
+        for (final CellObserver ob : observers)
         {
             ob.rwoLeavesCellAction(this, rwo);
         }

@@ -13,6 +13,8 @@ import pathfinder.characters.skill.Skill;
 import pathfinder.metaObjects.DiceSet;
 import pathfinder.realWorldObject.RealWorldObject;
 import pathfinder.realWorldObject.creature.creatureType.CreatureType;
+import pathfinder.world.Coordinate;
+import pathfinder.world.FiniteWorld;
 
 /**
  * This is a template for any creature to implement. A creature would be anything that is considered
@@ -816,6 +818,29 @@ public class Creature extends RealWorldObject
     public int rollInitiative()
     {
         return DiceSet.getRolledTotal(20, 1) + initiative;
+    }
+
+    public boolean isValidMove(final FiniteWorld world, final Coordinate newPos)
+    {
+        return false;
+    }
+
+    /**
+     * Checks if there is space at the coordinate for the creature to occupy. If the creature is
+     * larger than one cell, it will check for space in all the cells it would occupy, with the
+     * given coordinate being the smallest valued coordinate it occupies.
+     *
+     * @param world
+     * @param newPos
+     * @return
+     */
+    public boolean canFitAt(final FiniteWorld world, final Coordinate newPos)
+    {
+        return false;
+        // if(this.creatureType.getSizeCategory().getDimensions() <= 1)
+        // {
+        //
+        // }
     }
 
 }

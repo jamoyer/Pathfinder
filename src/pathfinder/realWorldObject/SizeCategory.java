@@ -2,15 +2,15 @@ package pathfinder.realWorldObject;
 
 public enum SizeCategory
 {
-    Fine(8, 8, .125, .25, .01, 0, 0),
-    Diminutive(4, 6, .25, .5, .04, 0, 0),
-    Tiny(2, 4, .5, .75, .25, 0, 0),
-    Small(1, 2, .75, 1, 1, 1, 1),
-    Medium(0, 0, 1, 1.5, 1, 1, 1),
-    Large(-1, -2, 2, 3, 4, 2, 1),
-    Huge(-2, -4, 4, 6, 9, 3, 2),
-    Gargantuan(-4, -6, 8, 12, 16, 4, 3),
-    Colossal(-8, -8, 16, 24, 36, 6, 4);
+    Fine(8, 8, .125, .25, new RWODimension(.125, .125, .125), 0, 0),
+    Diminutive(4, 6, .25, .5, new RWODimension(.25, .25, .25), 0, 0),
+    Tiny(2, 4, .5, .75, new RWODimension(.5, .5, .5), 0, 0),
+    Small(1, 2, .75, 1, new RWODimension(1, .5, 1), 1, 1),
+    Medium(0, 0, 1, 1.5, new RWODimension(1, 1, 1), 1, 1),
+    Large(-1, -2, 2, 3, new RWODimension(2, 2, 2), 2, 1),
+    Huge(-2, -4, 4, 6, new RWODimension(3, 3, 3), 3, 2),
+    Gargantuan(-4, -6, 8, 12, new RWODimension(4, 6, 4), 4, 3),
+    Colossal(-8, -8, 16, 24, new RWODimension(6, 13, 6), 6, 4);
 
     private final int sizeModifier;
     private final int flyModifier;
@@ -18,14 +18,12 @@ public enum SizeCategory
     private final int stealthModifier;
     private final double bipedCarryCapacityMultiplier;
     private final double quadrupedCarryCapacityMultiplier;
-    private final double spaceInCells;
+    private final RWODimension dimensions;
     private final int naturalReach;
     private final int longReach;
 
-    // TODO add the other static information about size categories in here.
-
-    private SizeCategory(int sizeModifier, int flyModifier, double bipedCarryCapacityMultiplier, double quadrupedCarryCapacityMultiplier, double spaceInCells, int naturalReach,
-            int longReach)
+    private SizeCategory(int sizeModifier, int flyModifier, double bipedCarryCapacityMultiplier, double quadrupedCarryCapacityMultiplier, RWODimension dimensions,
+            int naturalReach, int longReach)
     {
         this.sizeModifier = sizeModifier;
         this.flyModifier = flyModifier;
@@ -33,7 +31,7 @@ public enum SizeCategory
         this.stealthModifier = 2 * flyModifier;
         this.bipedCarryCapacityMultiplier = bipedCarryCapacityMultiplier;
         this.quadrupedCarryCapacityMultiplier = quadrupedCarryCapacityMultiplier;
-        this.spaceInCells = spaceInCells;
+        this.dimensions = dimensions;
         this.naturalReach = naturalReach;
         this.longReach = longReach;
     }
@@ -69,15 +67,13 @@ public enum SizeCategory
     }
 
     /**
-     * Gets the number of cells this creature takes up (2-dimensionally). Can and should be used to
-     * calculate how many cells this creature takes up or how many creatures of this size can fit
-     * into a cell.
+     * Gets the dimensions of a creature of this size category.
      *
      * @return
      */
-    public double getSpaceInCells()
+    public RWODimension getDimensions()
     {
-        return spaceInCells;
+        return dimensions;
     }
 
     /**

@@ -15,6 +15,7 @@ import pathfinder.world.Coordinate;
 public abstract class RealWorldObject
 {
     private Coordinate coordinate;
+    private RWODimension dimensions;
     private int weight;
     private final long id;
 
@@ -46,6 +47,11 @@ public abstract class RealWorldObject
         return id;
     }
 
+    /**
+     * Returns the coordinate this Real World Object is positioned at in its world. If an object is
+     * larger than one cell, it occupies multiple coordinates and is considered to be at the
+     * coordinate it occupies with the lowest width, height, and depth values.
+     */
     public Coordinate getCoordinate()
     {
         return coordinate;
@@ -122,11 +128,21 @@ public abstract class RealWorldObject
     public List<String> getProperties()
     {
         final List<String> properties = new LinkedList<String>();
-        //properties.add("RWOType: " + this.getClass().getSimpleName());
+        // properties.add("RWOType: " + this.getClass().getSimpleName());
         properties.add("ID: " + id);
         properties.add("Weight: " + weight);
         properties.add("Max HP: " + maxHitPoints);
         properties.add("HP: " + hitPoints);
         return properties;
+    }
+
+    public RWODimension getDimensions()
+    {
+        return dimensions;
+    }
+
+    public void setDimensions(final RWODimension dimensions)
+    {
+        this.dimensions = dimensions;
     }
 }
