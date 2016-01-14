@@ -53,13 +53,11 @@ public class CombatSimulator implements NewSimulationListener
     private void initNewSimulation()
     {
         /*
-         * Destroy the old simulation in whatever way we can. Seems to work but theres got to be a
-         * better way than restarting the whole frame.
+         * Destroy the old simulation in whatever way we can. Seems to work but there has got to be a better way
+         * than restarting the whole frame.
          */
         if (view != null)
         {
-            //
-            //
             view.removeAll();
             view.validate();
             view.dispose();
@@ -143,26 +141,7 @@ public class CombatSimulator implements NewSimulationListener
                         rwo = new Armor(menu.getSizeCategory(), menu.getSelectedArmor());
                         break;
                     case Creature:
-                        final AbilityScoreSet scores = AbilityScoreSet.roll4d6AbilityScoreSet();
-                        final Humanoid race = HumanoidFactory.buildCoreRace(menu.getSelectedRace());
-                        final CharacterClass charClass = CharacterClassFactory.buildCharacterClass(menu.getSelectedClass(), menu.getClassLevel());
-                        final CharacterCreature creature = new CharacterCreature(scores, race, charClass);
-                        if (menu.creatureHasArmor())
-                        {
-                            creature.equipItem(new Armor(creature.getCreatureType().getSizeCategory(), menu.getCreatureArmor()));
-                        }
-                        if (menu.creatureHasShield())
-                        {
-                            creature.equipItem(new Armor(creature.getCreatureType().getSizeCategory(), menu.getCreatureShield()));
-                        }
-                        if (menu.creatureHasWeapon())
-                        {
-                            final SizeCategory creatureSize = creature.getCreatureType().getSizeCategory();
-                            final WeaponCategory weaponCategory = menu.getCreatureWeapon().getWeaponCategory();
-                            final SizeCategory weaponSize = ManufacturedWeapon.getWeaponSizeForCreature(creatureSize, weaponCategory);
-                            creature.equipItem(new ManufacturedWeapon(weaponSize, menu.getCreatureWeapon()));
-                        }
-                        rwo = creature;
+                        rwo = createCharacterCreature(menu, tile);
                         break;
                     case Shield:
                         rwo = new Armor(menu.getSizeCategory(), menu.getSelectedShield());
@@ -178,6 +157,34 @@ public class CombatSimulator implements NewSimulationListener
                 model.fireTableCellUpdated(width, depth);
             }
         }
+    }
+
+    private CharacterCreature createCharacterCreature(SpawnMenu menu, GridTile tile)
+    {
+        final AbilityScoreSet scores = AbilityScoreSet.roll4d6AbilityScoreSet();
+        final Humanoid race = HumanoidFactory.buildCoreRace(menu.getSelectedRace());
+        final CharacterClass charClass = CharacterClassFactory.buildCharacterClass(menu.getSelectedClass(),
+                menu.getClassLevel());
+        final CharacterCreature creature = new CharacterCreature(scores, race, charClass);
+        if (menu.creatureHasArmor())
+        {
+            creature.equipItem(new Armor(creature.getCreatureType().getSizeCategory(), menu.getCreatureArmor()));
+        }
+        if (menu.creatureHasShield())
+        {
+            creature.equipItem(new Armor(creature.getCreatureType().getSizeCategory(), menu.getCreatureShield()));
+        }
+        if (menu.creatureHasWeapon())
+        {
+            final SizeCategory creatureSize = creature.getCreatureType().getSizeCategory();
+            final WeaponCategory weaponCategory = menu.getCreatureWeapon().getWeaponCategory();
+            final SizeCategory weaponSize = ManufacturedWeapon.getWeaponSizeForCreature(creatureSize,
+                    weaponCategory);
+            creature.equipItem(new ManufacturedWeapon(weaponSize, menu.getCreatureWeapon()));
+        }
+        view.getRoundCounter().getCombatRoundTracker().addCombatant(creature);
+        view.getRoundCounter().updateView();
+        return creature;
     }
 
     @Override

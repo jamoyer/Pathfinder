@@ -23,6 +23,7 @@ public class CombatSimulatorView extends JFrame
     private final StatusMenu statusView;
     private final BattleGridView gridView;
     private final SpawnMenu spawnMenuView;
+    private final CombatRoundTrackerPanel roundCounter;
 
     private final Collection<NewSimulationListener> newSimulationListeners = new LinkedList<NewSimulationListener>();
 
@@ -37,14 +38,20 @@ public class CombatSimulatorView extends JFrame
         this.statusView = new StatusMenu();
         this.gridView = new BattleGridView(gridModel);
         this.spawnMenuView = new SpawnMenu();
+        this.roundCounter = new CombatRoundTrackerPanel();
 
         // contentPanel consists of everything on the JFrame
         final JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.add(menuPanel());
 
+        final JPanel combatInfoPanel = new JPanel();
+        combatInfoPanel.setLayout(new BoxLayout(combatInfoPanel, BoxLayout.Y_AXIS));
+        combatInfoPanel.add(roundCounter);
+        // TODO: add panel showing available actions for the selected creature
+
         final JPanel bodyPanel = new JPanel();
-        // body.add(controlMenuView);
+        bodyPanel.add(combatInfoPanel);
         bodyPanel.add(fieldPanel(gridView));
         bodyPanel.add(spawnMenuView);
         contentPanel.add(bodyPanel);
@@ -113,6 +120,10 @@ public class CombatSimulatorView extends JFrame
     public StatusMenu getStatusMenu()
     {
         return statusView;
+    }
+    public CombatRoundTrackerPanel getRoundCounter()
+    {
+        return roundCounter;
     }
 
     /**

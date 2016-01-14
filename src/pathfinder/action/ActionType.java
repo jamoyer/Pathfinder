@@ -1,7 +1,6 @@
 package pathfinder.action;
 
 import pathfinder.time.TickCount;
-import pathfinder.time.TimeKeeper;
 
 public enum ActionType
 {
@@ -19,7 +18,9 @@ public enum ActionType
     private ActionType(final double seconds)
     {
         // convert from number of seconds to number of ticks
-        this.numTicks = new TickCount((int) (seconds * TimeKeeper.getTicksPerSecond()));
+        // TODO: implement this class more completely
+        //this.numTicks = new TickCount((int) (seconds * TimeKeeper.getTicksPerSecond()));
+        this.numTicks = new TickCount(0);
     }
 
     public TickCount getNumTicks()

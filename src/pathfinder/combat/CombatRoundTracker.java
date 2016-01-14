@@ -1,5 +1,6 @@
 package pathfinder.combat;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -7,32 +8,38 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
+import java.util.stream.Collectors;
 
 import pathfinder.realWorldObject.creature.Creature;
 
 /**
- * Tracks a combat session. Creatures are added and then calling next() advances the round and
- * returns the creature that goes next. This class is an iterator over the creatures in combat,
- * meaning that the methods next() and hasNext() go to the next creature's turn. The remove() method
- * is not implemented and will throw an exception if its usage is attempted. If creatures are added
- * and combat has already begun, they will get their turn on the next round.
+ * Tracks a combat session. Creatures are added and then calling next() advances the round and returns the creature
+ * that goes next. This class is an iterator over the creatures in combat, meaning that the methods next() and
+ * hasNext() go to the next creature's turn. The remove() method is not implemented and will throw an exception if
+ * its usage is attempted. If creatures are added and combat has already begun, they will get their turn on the
+ * next round.
  *
  * @author Jamoyer
  *
  */
 public class CombatRoundTracker implements Iterator<Creature>
 {
-    private final List<Combatant> _combatantList;
+    private final List<Combatant> combatantList;
 
+    /*
+     * NOTE: the getCombatantTurnOrder method works very well without the use of this additional priorityqueue.
+     * This class should integrate that method further into its internals or it should use this priority queue but
+     * there should not be the two separate methods of keeping turn order.
+     */
     // will keep track of the current round's turns, max heap that is sorted by initiative
-    private final PriorityQueue<Combatant> _turnQueue = new PriorityQueue<Combatant>(2, Collections.reverseOrder());
+    private final PriorityQueue<Combatant> turnQueue = new PriorityQueue<Combatant>(2, Collections.reverseOrder());
 
-    private int _currentRound = 0;
-    private Combatant _currentCombatant = null;
+    private int currentRound = 0;
+    private Combatant currentCombatant = null;
 
     public CombatRoundTracker()
     {
-        _combatantList = new LinkedList<Combatant>();
+        combatantList = new LinkedList<Combatant>();
     }
 
     public CombatRoundTracker(final Collection<Creature> creatures)
@@ -48,7 +55,7 @@ public class CombatRoundTracker implements Iterator<Creature>
      */
     public int getCurrentRound()
     {
-        return _currentRound;
+        return currentRound;
     }
 
     /**
@@ -58,7 +65,7 @@ public class CombatRoundTracker implements Iterator<Creature>
      */
     public void addCombatant(final Creature creature)
     {
-        _combatantList.add(new Combatant(creature));
+        combatantList.add(new Combatant(creature));
     }
 
     /**
@@ -70,7 +77,7 @@ public class CombatRoundTracker implements Iterator<Creature>
     {
         for (final Creature c : creatures)
         {
-            _combatantList.add(new Combatant(c));
+            combatantList.add(new Combatant(c));
         }
     }
 
@@ -81,65 +88,112 @@ public class CombatRoundTracker implements Iterator<Creature>
      */
     public void removeCombatant(final Creature creature)
     {
-        _turnQueue.remove(creature);
-        _combatantList.remove(creature);
+        turnQueue.remove(creature);
+        combatantList.remove(creature);
     }
 
     /**
-     * Removes all the creatures from combat.
+     * Removes all the creatures in the given collection from combat.
      *
      * @param creatures
      */
     public void removeCombatants(final Collection<Creature> creatures)
     {
-        _turnQueue.removeAll(creatures);
-        _combatantList.removeAll(creatures);
+        turnQueue.removeAll(creatures);
+        combatantList.removeAll(creatures);
     }
 
     /**
-     * Returns the creature that is currently taking its turn in combat. If next() has not been
-     * called yet, there will be no active combatant and this method will throw an exception.
+     * Returns a list of the combatants as they occur in the turn order. The first combatant is one who is
+     * currently taking their turn.
      *
      * @return
-     * @throws IllegalStateException
-     *             If there is no active combatant.
+     */
+    public List<Combatant> getCombatantTurnOrder()
+    {
+        List<Combatant> turnOrder = new ArrayList<>(combatantList);
+
+        // sort by initiative
+        Collections.sort(turnOrder, Collections.reverseOrder());
+
+        // get a list of combatants that have already gone this turn
+        List<Combatant> alreadyWent = new LinkedList<>();
+        for (int i = 0; i < turnOrder.size(); i++)
+        {
+            Combatant combatant = turnOrder.get(i);
+            if (combatant.equals(currentCombatant))
+            {
+                break;
+            }
+
+            // remove this combatant from the list, we will add it to the end of the turn order
+            turnOrder.set(i, null);
+            alreadyWent.add(combatant);
+        }
+
+        // add all that already went this round to the end of the turn order
+        turnOrder.addAll(alreadyWent);
+
+        return Collections.unmodifiableList(turnOrder);
+    }
+
+    /**
+     * Returns an unmodifiable list of all the creatures in combat.
+     *
+     * @return
+     */
+    public List<Creature> getCombatants()
+    {
+        // get the creature object from each combatant object and return as an unmodifiable list
+        return Collections.unmodifiableList(combatantList.stream().map((c) ->
+        {
+            return c.getCreature();
+        }).collect(Collectors.toList()));
+    }
+
+    /**
+     * Returns the creature that is currently taking its turn in combat. If next() has not been called yet, there
+     * will be no active combatant and this method will throw an exception.
+     *
+     * @return
+     * @throws IllegalStateException If there is no active combatant.
      */
     public Creature getCurrentCombatant() throws IllegalStateException
     {
-        if (_currentCombatant == null)
+        if (currentCombatant == null)
         {
             throw new IllegalStateException("No currently active combatant.");
         }
-        return _currentCombatant.getCreature();
+        return currentCombatant.getCreature();
     }
 
     @Override
     public boolean hasNext()
     {
-        return !_combatantList.isEmpty();
+        return !combatantList.isEmpty();
     }
 
     @Override
     public Creature next()
     {
-        if (_currentCombatant != null)
+        if (currentCombatant != null)
         {
-            _currentCombatant.endRound();
+            currentCombatant.endRound();
         }
 
-        _currentCombatant = _turnQueue.poll();
-        if (_currentCombatant == null)
+        currentCombatant = turnQueue.poll();
+        if (currentCombatant == null)
         {
-            if (_combatantList.isEmpty())
+            if (combatantList.isEmpty())
             {
                 throw new NoSuchElementException("There are no combatants in combat.");
             }
-            _currentRound++;
-            _turnQueue.addAll(_combatantList);
-            _currentCombatant = _turnQueue.poll();
+            currentRound++;
+            turnQueue.addAll(combatantList);
+            currentCombatant = turnQueue.poll();
         }
 
-        _currentCombatant.beginRound();
-        return _currentCombatant.getCreature();
+        currentCombatant.beginRound();
+        return currentCombatant.getCreature();
     }
 }

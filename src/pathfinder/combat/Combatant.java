@@ -4,8 +4,8 @@ import pathfinder.action.ActionType;
 import pathfinder.realWorldObject.creature.Creature;
 
 /**
- * Represents a creature in combat. This class keeps track of every type of action the creature has
- * done in a round and is also comparable by their initiative.
+ * Represents a creature in combat. This class keeps track of every type of action the creature has done in a round
+ * and is also comparable by their initiative.
  *
  * @author Jacob Moyer
  *
@@ -86,23 +86,22 @@ public class Combatant implements Comparable<Combatant>
     public void endRound()
     {
         /*
-         * From http://www.d20pfsrd.com/gamemastering/combat#TOC-Immediate-Actions: You cannot use
-         * another immediate action or a swift action until after your next turn if you have used an
-         * immediate action when it is not currently your turn (effectively, using an immediate
-         * action before your turn is equivalent to using your swift action for the coming turn).
+         * From http://www.d20pfsrd.com/gamemastering/combat#TOC-Immediate-Actions: You cannot use another
+         * immediate action or a swift action until after your next turn if you have used an immediate action when
+         * it is not currently your turn (effectively, using an immediate action before your turn is equivalent to
+         * using your swift action for the coming turn).
          */
         swiftUsed = false;
     }
 
     /**
-     * Makes the creature attempt to take the action. Returns true if the action can be taken this
-     * round according to all actions that this creature has taken this round and records that the
-     * action was taken. Returns false if the action cannot be taken.
+     * Makes the creature attempt to take the action. Returns true if the action can be taken this round according
+     * to all actions that this creature has taken this round and records that the action was taken. Returns false
+     * if the action cannot be taken.
      *
-     * From http://www.d20pfsrd.com/gamemastering/combat#TOC-Action-Types: In a normal round, you
-     * can perform a standard action and a move action, or you can perform a full-round action. You
-     * can also perform one swift action and one or more free actions. You can always take a move
-     * action in place of a standard action.
+     * From http://www.d20pfsrd.com/gamemastering/combat#TOC-Action-Types: In a normal round, you can perform a
+     * standard action and a move action, or you can perform a full-round action. You can also perform one swift
+     * action and one or more free actions. You can always take a move action in place of a standard action.
      *
      * @param action
      * @return True if the action is taken. False if the action cannot and is not taken.
@@ -152,9 +151,9 @@ public class Combatant implements Comparable<Combatant>
             case Swift:
             case Immediate:
                 /*
-                 * From http://www.d20pfsrd.com/gamemastering/combat#TOC-Immediate-Actions: Using an
-                 * immediate action on your turn is the same as using a swift action and counts as
-                 * your swift action for that turn.
+                 * From http://www.d20pfsrd.com/gamemastering/combat#TOC-Immediate-Actions: Using an immediate
+                 * action on your turn is the same as using a swift action and counts as your swift action for that
+                 * turn.
                  */
                 if (!swiftUsed)
                 {
@@ -172,14 +171,34 @@ public class Combatant implements Comparable<Combatant>
     @Override
     public int compareTo(Combatant arg0)
     {
-        return Integer.compare(initiative, arg0.initiative);
+        int compare = Integer.compare(initiative, arg0.initiative);
+        if (compare != 0)
+        {
+            return compare;
+        }
+
+        // initiative is equal, compare initiative modifiers
+        return Integer.compare(this.creature.getInitiative(), arg0.getCreature().getInitiative());
     }
 
     @Override
     public boolean equals(Object o)
     {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null)
+        {
+            return false;
+        }
+        if (getClass() != o.getClass())
+        {
+            return false;
+        }
+        final Combatant other = (Combatant) o;
         // combatants are only equal if the creatures are equal
-        return creature.equals(o);
+        return creature.equals(other.creature);
     }
 
     @Override
